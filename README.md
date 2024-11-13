@@ -1,2 +1,2 @@
 # LNCollectionView
-‌Equivalent‌ to UICollectionView. More Feature.
+‌Equivalent‌ to UICollectionView.
