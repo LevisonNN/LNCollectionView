@@ -8,7 +8,7 @@
 #import "ViewController.h"
 #import "LNScrollView.h"
 
-@interface ViewController ()
+@interface ViewController () <LNScrollViewDelegate>
 
 @property (nonatomic, strong) LNScrollView *scrollView;
 @property (nonatomic, strong) UIView *redView;
@@ -61,12 +61,38 @@
     
 }
 
+- (void)ln_scrollViewDidScroll:(LNScrollView *)scrollView
+{
+    //NSLog(@"ln_scrollViewDidScroll: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+}
+
+- (void)ln_scrollViewWillEndDragging:(LNScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    NSLog(@"ln_scrollViewWillEndDragging: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+}
+
+- (void)ln_scrollViewDidEndDragging:(LNScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    NSLog(@"ln_scrollViewDidEndDragging: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+}
+
+- (void)ln_scrollViewWillBeginDecelerating:(LNScrollView *)scrollView
+{
+    NSLog(@"ln_scrollViewWillBeginDecelerating: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+}
+
+- (void)ln_scrollViewDidEndDecelerating:(LNScrollView *)scrollView
+{
+    NSLog(@"ln_scrollViewDidEndDecelerating: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+}
+
 - (LNScrollView *)scrollView
 {
     if (!_scrollView) {
         _scrollView = [[LNScrollView alloc] init];
         _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width * 2, self.view.bounds.size.height * 3);
         _scrollView.pageEnable = YES;
+        _scrollView.delegate = self;
     }
     return _scrollView;
 }

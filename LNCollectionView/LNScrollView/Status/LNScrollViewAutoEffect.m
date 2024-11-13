@@ -208,6 +208,9 @@
 {
     if ([self hasFinished]) {
         [self finish];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(autoEffectStatusHasFinished:)]) {
+            [self.delegate autoEffectStatusHasFinished:self];
+        }
     }
 }
 

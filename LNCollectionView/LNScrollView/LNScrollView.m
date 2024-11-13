@@ -38,6 +38,21 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     return self;
 }
 
+- (void)setContentOffset:(CGPoint)contentOffset
+{
+    if (self.bounds.origin.x != contentOffset.x || self.bounds.origin.y != contentOffset.y) {
+        self.bounds = CGRectMake(contentOffset.x, contentOffset.y, self.bounds.size.width, self.bounds.size.height);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewDidScroll:)]) {
+            [self.delegate ln_scrollViewDidScroll:self];
+        }
+    }
+}
+
+- (CGPoint)contentOffset
+{
+    return self.bounds.origin;
+}
+
 - (void)setPageEnable:(BOOL)pageEnable
 {
     _pageEnable = pageEnable;
@@ -68,6 +83,9 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
                                                 contentSize:self.contentSize
                                               currentOffset:self.bounds.origin
                                             gesturePosition:location];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewWillBeginDragging:)]) {
+            [self.delegate ln_scrollViewWillBeginDragging:self];
+        }
     } else if (panGesture.state == UIGestureRecognizerStateChanged) {
         [self.autoEffect finishForcely];
         CGPoint location = [self convertedRealLocation];
@@ -76,6 +94,15 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
         [self.gestureEffect finish];
         CGPoint gestureVelocity = [panGesture velocityInView:self];
         CGPoint viewVelocity = CGPointMake(-gestureVelocity.x, -gestureVelocity.y);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewWillEndDragging:withVelocity:targetContentOffset:)]) {
+            //TODO: 这个targetContentOffset一般不用，需要再处理，需要从Effect中拿到一个预估值，并支持修改这个预估值
+            CGPoint targetViewOffset = CGPointZero;
+            [self.delegate ln_scrollViewWillEndDragging:self withVelocity:viewVelocity targetContentOffset:&targetViewOffset];
+        }
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewWillBeginDecelerating:)]) {
+            [self.delegate ln_scrollViewWillBeginDecelerating:self];
+        }
         if ([self.autoEffect startWithContentSize:self.contentSize
                                         frameSize:self.bounds.size
                                          velocity:viewVelocity
@@ -84,6 +111,11 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
         } else {
             self.mode = LNScrollViewModeDefault;
         }
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewDidEndDragging:willDecelerate:)]) {
+            //TODO: 这个回调的特性需要确认一下是只有减速的时候有回调，还是page/bounce也有回调
+            [self.delegate ln_scrollViewDidEndDragging:self willDecelerate:YES];
+        }
+
     }
 }
 
@@ -98,10 +130,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 
 - (void)gestureEffectStatusDidChange:(LNScrollViewGestureStatus *)status
 {
-    self.bounds = CGRectMake(status.convertedOffset.x,
-                             status.convertedOffset.y,
-                             self.bounds.size.width,
-                             self.bounds.size.height);
+    self.contentOffset = status.convertedOffset;
 }
 
 - (LNScrollViewAutoEffect *)autoEffect
@@ -115,10 +144,14 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 
 - (void)autoEffectStatusDidChange:(LNScrollViewRestStatus *)status
 {
-    self.bounds = CGRectMake(status.offset.x,
-                             status.offset.y,
-                             self.bounds.size.width,
-                             self.bounds.size.height);
+    self.contentOffset = status.offset;
+}
+
+- (void)autoEffectStatusHasFinished:(LNScrollViewAutoEffect *)effect
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewDidEndDecelerating:)]) {
+        [self.delegate ln_scrollViewDidEndDecelerating:self];
+    }
 }
 
 @end

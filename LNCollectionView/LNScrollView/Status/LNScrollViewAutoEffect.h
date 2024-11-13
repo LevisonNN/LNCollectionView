@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class LNScrollViewAutoEffect;
+
 @interface LNScrollViewRestStatus: NSObject
 @property (nonatomic, assign, readonly) CGPoint leadingPoint;
 @property (nonatomic, assign, readonly) CGPoint trailingPoint;
@@ -18,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol LNScrollViewAutoEffectProtocol
 - (void)autoEffectStatusDidChange:(LNScrollViewRestStatus *)status;
+- (void)autoEffectStatusHasFinished:(LNScrollViewAutoEffect *)effect;
 @end
 
 @interface LNScrollViewAutoEffect : NSObject
