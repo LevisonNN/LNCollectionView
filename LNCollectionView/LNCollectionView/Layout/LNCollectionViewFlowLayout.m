@@ -35,13 +35,13 @@
             lineWidth = 0;
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex ++) {
                 CGSize itemSize = [(id<LNCollectionViewDelegateFlowLayout>)self.collectionView.delegate ln_collectionView:self.collectionView layout:self sizeForItemAtIndexPath:[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]];
-                if (lineWidth < itemSize.width) {
-                    lineWidth = itemSize.width;
-                }
                 if (cursorY > 0 && cursorY + itemSize.height > height) {
                     cursorX = cursorX + lineWidth;
                     lineWidth = 0;
                     cursorY = 0;
+                }
+                if (lineWidth < itemSize.width) {
+                    lineWidth = itemSize.width;
                 }
                 CGRect itemRect = CGRectMake(cursorX, cursorY, itemSize.width, itemSize.height);
                 cursorY = CGRectGetMaxY(itemRect);
@@ -51,7 +51,7 @@
             }
         }
         self.indexPathArr = [NSArray arrayWithArray:indexPathMArr];
-        self.collectionViewContentSize = CGSizeMake(self.collectionView.bounds.size.width, cursorY);
+        self.collectionViewContentSize = CGSizeMake(cursorX + lineWidth, self.collectionView.bounds.size.height);
         return [NSDictionary dictionaryWithDictionary:mDic];
     } else {
         CGFloat width = self.collectionView.frame.size.width;
@@ -67,13 +67,13 @@
             lineHeight = 0;
             for (int itemIndex = 0; itemIndex < itemCount ; itemIndex++) {
                 CGSize itemSize = [(id<LNCollectionViewDelegateFlowLayout>)self.collectionView.delegate ln_collectionView:self.collectionView layout:self sizeForItemAtIndexPath:[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]];
-                if (lineHeight < itemSize.height) {
-                    lineHeight = itemSize.height;
-                }
                 if (cursorX > 0 && cursorX + itemSize.width > width) {
                     cursorY = cursorY + lineHeight;
                     lineHeight = 0;
                     cursorX = 0;
+                }
+                if (lineHeight < itemSize.height) {
+                    lineHeight = itemSize.height;
                 }
                 CGRect itemRect = CGRectMake(cursorX, cursorY, itemSize.width, itemSize.height);
                 cursorX = CGRectGetMaxX(itemRect);
@@ -83,7 +83,7 @@
             }
         }
         self.indexPathArr = [NSArray arrayWithArray:indexPathMArr];
-        self.collectionViewContentSize = CGSizeMake(self.collectionView.bounds.size.width, cursorY);
+        self.collectionViewContentSize = CGSizeMake(self.collectionView.bounds.size.width, cursorY + lineHeight);
         return [NSDictionary dictionaryWithDictionary:mDic];
     }
 }
