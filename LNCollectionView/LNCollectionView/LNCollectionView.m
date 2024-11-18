@@ -6,6 +6,9 @@
 //
 
 #import "LNCollectionView.h"
+#import "LNCollectionViewCell.h"
+#import "LNCollectionViewReusePool.h"
+
 @interface LNCollectionViewLayout (UICollectionViewNeed)
 
 @property (nullable, nonatomic) LNCollectionView *collectionView;
@@ -20,6 +23,8 @@
 @property (nonatomic, strong) NSMutableDictionary<NSIndexPath *, LNCollectionViewCell *> *currentCells;
 
 @property (nonatomic, assign) BOOL hasInitialized;
+
+@property (nonatomic, strong) LNCollectionViewReusePool *pool;
 
 @end
 
@@ -64,6 +69,7 @@
     for (LNCollectionViewLayoutAttributes *attributes in newlyVisibleAttributesMSet) {
         //willDisplay
         LNCollectionViewCell *cell = [self.dataSource ln_collectionView:self cellForItemAtIndexPath:attributes.indexPath];
+        [self.currentCells setObject:cell forKey:attributes.indexPath];
         [self addSubview:cell];
         cell.frame = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:attributes.indexPath].frame;
     }
@@ -72,9 +78,21 @@
         //willDisappear
         LNCollectionViewCell *cell = [self.currentCells objectForKey:attributes.indexPath];
         [cell removeFromSuperview];
+        [self.currentCells removeObjectForKey:attributes.indexPath];
+        [self.pool addReusableCell:cell];
     }
     self.currentAttributesArr = newAttributesSet.allObjects;
     self.contentSize = self.collectionViewLayout.collectionViewContentSize;
+}
+
+- (void)registerClass:(Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier
+{
+    [self.pool registerClass:cellClass forCellWithReuseIdentifier:identifier];
+}
+
+- (__kindof LNCollectionViewCell *)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.pool dequeueReusableCellWithIdentifier:identifier];
 }
 
 - (NSMutableDictionary<NSIndexPath *, LNCollectionViewCell *> *)currentCells
@@ -83,6 +101,14 @@
         _currentCells = [[NSMutableDictionary alloc] init];
     }
     return _currentCells;
+}
+
+- (LNCollectionViewReusePool *)pool
+{
+    if (!_pool) {
+        _pool = [[LNCollectionViewReusePool alloc] init];
+    }
+    return _pool;
 }
 
 @end

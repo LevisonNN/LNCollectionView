@@ -11,6 +11,39 @@
 #import "LNCollectionViewLayout.h"
 #import "LNCollectionViewFlowLayout.h"
 
+
+@interface TestCell : LNCollectionViewCell
+
+@property (nonatomic, strong) UILabel *label;
+
+@end
+
+@implementation TestCell
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self addSubview:self.label];
+    }
+    return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.label.frame = self.bounds;
+}
+
+- (UILabel *)label {
+    if (!_label) {
+        _label = [[UILabel alloc] init];
+    }
+    return _label;
+}
+
+@end
+
 @interface ViewController ()
 <LNCollectionViewDelegate,
 LNCollectionViewDataSource,
@@ -67,8 +100,8 @@ LNCollectionViewDelegateFlowLayout>
 
 - (__kindof LNCollectionViewCell *)ln_collectionView:(LNCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    LNCollectionViewCell *cell = [[LNCollectionViewCell alloc] init];
-    cell.backgroundColor = [UIColor colorWithRed:(random()%255)/255.f green:(random()%255)/255.f blue:(random()%255)/255.f alpha:1.f];
+    TestCell *cell = (TestCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"kTestCell" forIndexPath:indexPath];
+    cell.label.text = [NSString stringWithFormat:@"%@-%@", @(indexPath.section), @(indexPath.item)];
     return cell;
 }
 
@@ -83,6 +116,7 @@ LNCollectionViewDelegateFlowLayout>
         _collectionView = [[LNCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        [_collectionView registerClass:TestCell.class forCellWithReuseIdentifier:@"kTestCell"];
     }
     return _collectionView;
 }

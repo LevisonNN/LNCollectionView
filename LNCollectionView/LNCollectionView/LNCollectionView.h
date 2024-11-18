@@ -43,6 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, nullable) id <UICollectionViewDelegate> delegate;
 @property (nonatomic, weak, nullable) id <LNCollectionViewDataSource> dataSource;
 
+- (void)registerClass:(nullable Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier;
+- (__kindof LNCollectionViewCell *)dequeueReusableCellWithReuseIdentifier:(NSString *)identifier forIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 NS_ASSUME_NONNULL_END

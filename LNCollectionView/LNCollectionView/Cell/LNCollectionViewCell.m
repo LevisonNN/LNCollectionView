@@ -7,13 +7,18 @@
 
 #import "LNCollectionViewCell.h"
 
+@interface LNCollectionViewCell ()
+
+@property (nonatomic, copy, nullable) NSString *identifier;
+
+@end
+
 @implementation LNCollectionViewCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithRed:(random()%255)/255.f green:(random()%255)/255.f blue:(random()%255)/255.f alpha:(random()%255)/255.f];
     }
     return self;
 }
