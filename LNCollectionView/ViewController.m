@@ -7,17 +7,17 @@
 
 #import "ViewController.h"
 #import "LNScrollView.h"
+#import "LNCollectionView.h"
+#import "LNCollectionViewLayout.h"
+#import "LNCollectionViewFlowLayout.h"
 
-@interface ViewController () <LNScrollViewDelegate>
+@interface ViewController ()
+<LNCollectionViewDelegate,
+LNCollectionViewDataSource,
+LNCollectionViewDelegateFlowLayout>
 
-@property (nonatomic, strong) LNScrollView *scrollView;
-@property (nonatomic, strong) UIView *redView;
-@property (nonatomic, strong) UIView *greenView;
-@property (nonatomic, strong) UIView *blueView;
-
-@property (nonatomic, strong) UIView *purpleView;
-@property (nonatomic, strong) UIView *pinkView;
-@property (nonatomic, strong) UIView *yellowView;
+@property (nonatomic, strong) LNCollectionView *collectionView;
+@property (nonatomic, strong) LNCollectionViewFlowLayout *layout;
 
 @end
 
@@ -25,39 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view addSubview:self.scrollView];
-    self.scrollView.frame = self.view.bounds;
-    [self.scrollView addSubview:self.redView];
-    [self.scrollView addSubview:self.greenView];
-    [self.scrollView addSubview:self.blueView];
-    [self.scrollView addSubview:self.purpleView];
-    [self.scrollView addSubview:self.pinkView];
-    [self.scrollView addSubview:self.yellowView];
-    self.redView.frame = CGRectMake(0,
-                                    0,
-                                    self.scrollView.bounds.size.width,
-                                    self.scrollView.bounds.size.height - 100);
-    self.greenView.frame = CGRectMake(0,
-                                      self.scrollView.bounds.size.height - 100,
-                                      self.scrollView.bounds.size.width,
-                                      self.scrollView.bounds.size.height);
-    self.blueView.frame = CGRectMake(0,
-                                     self.scrollView.bounds.size.height * 2 - 100,
-                                     self.scrollView.bounds.size.width,
-                                     self.scrollView.bounds.size.height);
-    
-    self.purpleView.frame = CGRectMake(self.scrollView.bounds.size.width,
-                                       0,
-                                       self.scrollView.bounds.size.width,
-                                       self.scrollView.bounds.size.height - 100);
-    self.pinkView.frame = CGRectMake(self.scrollView.bounds.size.width,
-                                     self.scrollView.bounds.size.height - 100,
-                                     self.scrollView.bounds.size.width,
-                                     self.scrollView.bounds.size.height);
-    self.yellowView.frame = CGRectMake(self.scrollView.bounds.size.width,
-                                       self.scrollView.bounds.size.height * 2 - 100,
-                                       self.scrollView.bounds.size.width,
-                                       self.scrollView.bounds.size.height);
+    [self.view addSubview:self.collectionView];
+    self.collectionView.frame = self.view.bounds;
     
 }
 
@@ -68,87 +37,63 @@
 
 - (void)ln_scrollViewWillEndDragging:(LNScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    NSLog(@"ln_scrollViewWillEndDragging: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+    //NSLog(@"ln_scrollViewWillEndDragging: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
 }
 
 - (void)ln_scrollViewDidEndDragging:(LNScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    NSLog(@"ln_scrollViewDidEndDragging: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+    //NSLog(@"ln_scrollViewDidEndDragging: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
 }
 
 - (void)ln_scrollViewWillBeginDecelerating:(LNScrollView *)scrollView
 {
-    NSLog(@"ln_scrollViewWillBeginDecelerating: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+    //NSLog(@"ln_scrollViewWillBeginDecelerating: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
 }
 
 - (void)ln_scrollViewDidEndDecelerating:(LNScrollView *)scrollView
 {
-    NSLog(@"ln_scrollViewDidEndDecelerating: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+    //NSLog(@"ln_scrollViewDidEndDecelerating: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
 }
 
-- (LNScrollView *)scrollView
+- (NSInteger)ln_numberOfSectionsInCollectionView:(LNCollectionView *)collectionView
 {
-    if (!_scrollView) {
-        _scrollView = [[LNScrollView alloc] init];
-        _scrollView.contentSize = CGSizeMake(self.view.bounds.size.width * 2, self.view.bounds.size.height * 3);
-        _scrollView.pageEnable = YES;
-        _scrollView.delegate = self;
-    }
-    return _scrollView;
+    return 1;
 }
 
-- (UIView *)redView
+- (NSInteger)ln_collectionView:(LNCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (!_redView) {
-        _redView = [[UIView alloc] init];
-        _redView.backgroundColor = [UIColor redColor];
-    }
-    return _redView;
+    return 100;
 }
 
-- (UIView *)greenView
+- (__kindof LNCollectionViewCell *)ln_collectionView:(LNCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!_greenView) {
-        _greenView = [[UIView alloc] init];
-        _greenView.backgroundColor = [UIColor greenColor];
-    }
-    return _greenView;
+    LNCollectionViewCell *cell = [[LNCollectionViewCell alloc] init];
+    cell.backgroundColor = [UIColor colorWithRed:(random()%255)/255.f green:(random()%255)/255.f blue:(random()%255)/255.f alpha:1.f];
+    return cell;
 }
 
-- (UIView *)blueView
+- (CGSize)ln_collectionView:(LNCollectionView *)collectionView layout:(LNCollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!_blueView) {
-        _blueView = [[UIView alloc] init];
-        _blueView.backgroundColor = [UIColor blueColor];
-    }
-    return _blueView;
+    return CGSizeMake(100.f, 100.f);
 }
 
-- (UIView *)purpleView
+- (LNCollectionView *)collectionView
 {
-    if (!_purpleView) {
-        _purpleView = [[UIView alloc] init];
-        _purpleView.backgroundColor = [UIColor purpleColor];
+    if (!_collectionView) {
+        _collectionView = [[LNCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
     }
-    return _purpleView;
+    return _collectionView;
 }
 
-- (UIView *)pinkView
+- (LNCollectionViewFlowLayout *)layout
 {
-    if (!_pinkView) {
-        _pinkView = [[UIView alloc] init];
-        _pinkView.backgroundColor = [UIColor systemPinkColor];
+    if (!_layout) {
+        _layout = [[LNCollectionViewFlowLayout alloc] init];
+        _layout.scrollDirection = LNCollectionViewScrollDirectionVertical;
     }
-    return _pinkView;
-}
-
-- (UIView *)yellowView
-{
-    if (!_yellowView) {
-        _yellowView = [[UIView alloc] init];
-        _yellowView.backgroundColor = [UIColor yellowColor];
-    }
-    return _yellowView;
+    return _layout;
 }
 
 @end

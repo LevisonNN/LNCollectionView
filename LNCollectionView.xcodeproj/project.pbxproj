@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		A53076242CE4F1BC00C37840 /* LNCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A53076232CE4F1BC00C37840 /* LNCollectionView.m */; };
 		A53076282CE4F42100C37840 /* LNCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A53076272CE4F42100C37840 /* LNCollectionViewLayout.m */; };
+		A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3B72CE6049F0029386F /* LNCollectionViewCell.m */; };
+		A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */; };
+		A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */; };
 		A58BE4382CDCAE12005A24C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE4372CDCAE12005A24C4 /* AppDelegate.m */; };
 		A58BE43B2CDCAE12005A24C4 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE43A2CDCAE12005A24C4 /* SceneDelegate.m */; };
 		A58BE43E2CDCAE12005A24C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE43D2CDCAE12005A24C4 /* ViewController.m */; };
@@ -52,6 +55,12 @@
 		A53076232CE4F1BC00C37840 /* LNCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionView.m; sourceTree = "<group>"; };
 		A53076262CE4F42100C37840 /* LNCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewLayout.h; sourceTree = "<group>"; };
 		A53076272CE4F42100C37840 /* LNCollectionViewLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewLayout.m; sourceTree = "<group>"; };
+		A56DA3B62CE6049F0029386F /* LNCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewCell.h; sourceTree = "<group>"; };
+		A56DA3B72CE6049F0029386F /* LNCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewCell.m; sourceTree = "<group>"; };
+		A56DA3B92CE86F420029386F /* LNCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		A57F69B82CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
+		A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		A58BE4332CDCAE12005A24C4 /* LNCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LNCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A58BE4362CDCAE12005A24C4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A58BE4372CDCAE12005A24C4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -117,6 +126,7 @@
 		A53076212CE4F1A000C37840 /* LNCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				A56DA3B52CE6048A0029386F /* Cell */,
 				A53076252CE4F40E00C37840 /* Layout */,
 				A53076222CE4F1BC00C37840 /* LNCollectionView.h */,
 				A53076232CE4F1BC00C37840 /* LNCollectionView.m */,
@@ -129,8 +139,21 @@
 			children = (
 				A53076262CE4F42100C37840 /* LNCollectionViewLayout.h */,
 				A53076272CE4F42100C37840 /* LNCollectionViewLayout.m */,
+				A57F69B82CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.h */,
+				A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */,
+				A56DA3B92CE86F420029386F /* LNCollectionViewFlowLayout.h */,
+				A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */,
 			);
 			path = Layout;
+			sourceTree = "<group>";
+		};
+		A56DA3B52CE6048A0029386F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA3B62CE6049F0029386F /* LNCollectionViewCell.h */,
+				A56DA3B72CE6049F0029386F /* LNCollectionViewCell.m */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		A58BE42A2CDCAE12005A24C4 = {
@@ -374,6 +397,8 @@
 				A58BE43E2CDCAE12005A24C4 /* ViewController.m in Sources */,
 				A58BE4382CDCAE12005A24C4 /* AppDelegate.m in Sources */,
 				A58BE4822CDCCB26005A24C4 /* LNScrollViewDecelerateSimulator.m in Sources */,
+				A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */,
+				A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */,
 				A58BE4752CDCBD18005A24C4 /* LNScrollViewClock.m in Sources */,
 				A53076242CE4F1BC00C37840 /* LNCollectionView.m in Sources */,
 				A58BE4782CDCBD27005A24C4 /* LNScrollViewClockProxy.m in Sources */,
@@ -384,6 +409,7 @@
 				A58BE4882CDF7771005A24C4 /* LNScrollView.m in Sources */,
 				A58BE43B2CDCAE12005A24C4 /* SceneDelegate.m in Sources */,
 				A58BE47F2CDCCB09005A24C4 /* LNScrollViewBounceSimulator.m in Sources */,
+				A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
