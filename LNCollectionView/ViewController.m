@@ -125,7 +125,10 @@ LNCollectionViewDelegateFlowLayout>
 {
     if (!_layout) {
         _layout = [[LNCollectionViewFlowLayout alloc] init];
-        _layout.scrollDirection = LNCollectionViewScrollDirectionHorizontal;
+        _layout.scrollDirection = LNCollectionViewScrollDirectionVertical;
+        _layout.minimumLineSpacing = 10.f;
+        _layout.minimumInteritemSpacing = 8.f;
+        _layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     }
     return _layout;
 }

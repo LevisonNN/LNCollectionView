@@ -31,28 +31,29 @@
         NSMutableArray<NSIndexPath *> *indexPathMArr = [[NSMutableArray alloc] init];
         for (int sectionIndex = 0 ; sectionIndex < sectionCount ; sectionIndex ++) {
             NSInteger itemCount = [self.collectionView.dataSource ln_collectionView:self.collectionView numberOfItemsInSection:sectionIndex];
-            cursorX = cursorX + lineWidth;
+            cursorX = cursorX + self.sectionInset.left;
             lineWidth = 0;
-            cursorY = 0;
+            cursorY = self.sectionInset.top;
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex ++) {
                 CGSize itemSize = [(id<LNCollectionViewDelegateFlowLayout>)self.collectionView.delegate ln_collectionView:self.collectionView layout:self sizeForItemAtIndexPath:[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]];
-                if (cursorY > 0 && cursorY + itemSize.height > height) {
-                    cursorX = cursorX + lineWidth;
+                if (cursorY > 0 && cursorY + itemSize.height + self.sectionInset.bottom >= height) {
+                    cursorX = cursorX + lineWidth + self.minimumLineSpacing;
                     lineWidth = 0;
-                    cursorY = 0;
+                    cursorY = self.sectionInset.top;
                 }
                 if (lineWidth < itemSize.width) {
                     lineWidth = itemSize.width;
                 }
                 CGRect itemRect = CGRectMake(cursorX, cursorY, itemSize.width, itemSize.height);
-                cursorY = CGRectGetMaxY(itemRect);
+                cursorY = CGRectGetMaxY(itemRect) + self.minimumInteritemSpacing;
                 NSValue *value = [NSValue valueWithCGRect:itemRect];
                 mDic[[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]] = value;
                 [indexPathMArr addObject:[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]];
             }
+            cursorX = cursorX + lineWidth + self.sectionInset.right;
         }
         self.indexPathArr = [NSArray arrayWithArray:indexPathMArr];
-        self.collectionViewContentSize = CGSizeMake(cursorX + lineWidth, self.collectionView.bounds.size.height);
+        self.collectionViewContentSize = CGSizeMake(cursorX, self.collectionView.bounds.size.height);
         return [NSDictionary dictionaryWithDictionary:mDic];
     } else {
         CGFloat width = self.collectionView.frame.size.width;
@@ -64,28 +65,29 @@
         NSMutableArray<NSIndexPath *> *indexPathMArr = [[NSMutableArray alloc] init];
         for (int sectionIndex = 0 ; sectionIndex < sectionCount ; sectionIndex++) {
             NSInteger itemCount = [self.collectionView.dataSource ln_collectionView:self.collectionView numberOfItemsInSection:sectionIndex];
-            cursorY = cursorY + lineHeight;
+            cursorY = cursorY + self.sectionInset.top;
             lineHeight = 0;
-            cursorX = 0;
+            cursorX = self.sectionInset.left;
             for (int itemIndex = 0; itemIndex < itemCount ; itemIndex++) {
                 CGSize itemSize = [(id<LNCollectionViewDelegateFlowLayout>)self.collectionView.delegate ln_collectionView:self.collectionView layout:self sizeForItemAtIndexPath:[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]];
-                if (cursorX > 0 && cursorX + itemSize.width > width) {
-                    cursorY = cursorY + lineHeight;
+                if (cursorX > 0 && cursorX + itemSize.width + self.sectionInset.right >= width) {
+                    cursorY = cursorY + lineHeight + self.minimumLineSpacing;
                     lineHeight = 0;
-                    cursorX = 0;
+                    cursorX = self.sectionInset.left;
                 }
                 if (lineHeight < itemSize.height) {
                     lineHeight = itemSize.height;
                 }
                 CGRect itemRect = CGRectMake(cursorX, cursorY, itemSize.width, itemSize.height);
-                cursorX = CGRectGetMaxX(itemRect);
+                cursorX = CGRectGetMaxX(itemRect) + self.minimumInteritemSpacing;
                 NSValue *value = [NSValue valueWithCGRect:itemRect];
                 mDic[[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]] = value;
                 [indexPathMArr addObject:[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]];
             }
+            cursorY = cursorY + lineHeight + self.sectionInset.bottom;
         }
         self.indexPathArr = [NSArray arrayWithArray:indexPathMArr];
-        self.collectionViewContentSize = CGSizeMake(self.collectionView.bounds.size.width, cursorY + lineHeight);
+        self.collectionViewContentSize = CGSizeMake(self.collectionView.bounds.size.width, cursorY);
         return [NSDictionary dictionaryWithDictionary:mDic];
     }
 }

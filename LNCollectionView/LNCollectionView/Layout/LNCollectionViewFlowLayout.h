@@ -29,6 +29,7 @@ typedef NS_ENUM(NSInteger, LNCollectionViewScrollDirection) {
 @property (nonatomic) CGFloat minimumLineSpacing;
 @property (nonatomic) CGFloat minimumInteritemSpacing;
 @property (nonatomic) CGSize itemSize;
+@property (nonatomic) UIEdgeInsets sectionInset;
 @property (nonatomic) LNCollectionViewScrollDirection scrollDirection;
 
 @end
