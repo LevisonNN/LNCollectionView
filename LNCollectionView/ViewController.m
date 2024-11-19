@@ -90,12 +90,12 @@ LNCollectionViewDelegateFlowLayout>
 
 - (NSInteger)ln_numberOfSectionsInCollectionView:(LNCollectionView *)collectionView
 {
-    return 1;
+    return 10;
 }
 
 - (NSInteger)ln_collectionView:(LNCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 100;
+    return 10;
 }
 
 - (__kindof LNCollectionViewCell *)ln_collectionView:(LNCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -125,7 +125,7 @@ LNCollectionViewDelegateFlowLayout>
 {
     if (!_layout) {
         _layout = [[LNCollectionViewFlowLayout alloc] init];
-        _layout.scrollDirection = LNCollectionViewScrollDirectionVertical;
+        _layout.scrollDirection = LNCollectionViewScrollDirectionHorizontal;
     }
     return _layout;
 }

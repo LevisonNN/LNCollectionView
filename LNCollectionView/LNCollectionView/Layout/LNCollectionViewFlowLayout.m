@@ -33,6 +33,7 @@
             NSInteger itemCount = [self.collectionView.dataSource ln_collectionView:self.collectionView numberOfItemsInSection:sectionIndex];
             cursorX = cursorX + lineWidth;
             lineWidth = 0;
+            cursorY = 0;
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex ++) {
                 CGSize itemSize = [(id<LNCollectionViewDelegateFlowLayout>)self.collectionView.delegate ln_collectionView:self.collectionView layout:self sizeForItemAtIndexPath:[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]];
                 if (cursorY > 0 && cursorY + itemSize.height > height) {
@@ -65,6 +66,7 @@
             NSInteger itemCount = [self.collectionView.dataSource ln_collectionView:self.collectionView numberOfItemsInSection:sectionIndex];
             cursorY = cursorY + lineHeight;
             lineHeight = 0;
+            cursorX = 0;
             for (int itemIndex = 0; itemIndex < itemCount ; itemIndex++) {
                 CGSize itemSize = [(id<LNCollectionViewDelegateFlowLayout>)self.collectionView.delegate ln_collectionView:self.collectionView layout:self sizeForItemAtIndexPath:[NSIndexPath indexPathForItem:itemIndex inSection:sectionIndex]];
                 if (cursorX > 0 && cursorX + itemSize.width > width) {
