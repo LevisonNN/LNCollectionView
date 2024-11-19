@@ -97,6 +97,14 @@
     self.frameDic = [self _getSizingInfos];
 }
 
+- (void)invalidateLayout
+{
+    self.indexPathArr = nil;
+    self.frameDic = nil;
+    [self.attributesMDic removeAllObjects];
+    self.collectionViewContentSize = CGSizeZero;
+}
+
 - (nullable NSArray<__kindof LNCollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {
     NSInteger targetIndex = [self binarySearchIndexPathInRect:rect];
     if (targetIndex < 0 || targetIndex >= self.indexPathArr.count) {

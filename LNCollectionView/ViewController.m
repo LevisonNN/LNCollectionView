@@ -51,6 +51,10 @@ LNCollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) LNCollectionView *collectionView;
 @property (nonatomic, strong) LNCollectionViewFlowLayout *layout;
+@property (nonatomic, strong) UIButton *reloadButton;
+
+@property (nonatomic, assign) NSInteger sectionCount;
+@property (nonatomic, assign) NSInteger itemCount;
 
 @end
 
@@ -58,8 +62,12 @@ LNCollectionViewDelegateFlowLayout>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.sectionCount = 2;
+    self.itemCount = 10;
     [self.view addSubview:self.collectionView];
     self.collectionView.frame = self.view.bounds;
+    [self.view addSubview:self.reloadButton];
+    self.reloadButton.frame = CGRectMake(0, 0, 100, 200);
     
 }
 
@@ -90,12 +98,12 @@ LNCollectionViewDelegateFlowLayout>
 
 - (NSInteger)ln_numberOfSectionsInCollectionView:(LNCollectionView *)collectionView
 {
-    return 10;
+    return self.sectionCount;
 }
 
 - (NSInteger)ln_collectionView:(LNCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return self.itemCount;
 }
 
 - (__kindof LNCollectionViewCell *)ln_collectionView:(LNCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -119,6 +127,23 @@ LNCollectionViewDelegateFlowLayout>
         [_collectionView registerClass:TestCell.class forCellWithReuseIdentifier:@"kTestCell"];
     }
     return _collectionView;
+}
+
+- (UIButton *)reloadButton
+{
+    if (!_reloadButton) {
+        _reloadButton = [[UIButton alloc] init];
+        [_reloadButton addTarget:self action:@selector(reloadCollectionView) forControlEvents:UIControlEventTouchUpInside];
+        _reloadButton.backgroundColor = [UIColor blackColor];
+    }
+    return _reloadButton;
+}
+
+- (void)reloadCollectionView
+{
+    self.sectionCount = random()%3 + 2;
+    self.itemCount = random()%5 + 5;
+    [self.collectionView reloadData];
 }
 
 - (LNCollectionViewFlowLayout *)layout

@@ -57,6 +57,21 @@
     }
 }
 
+- (void)reloadData
+{
+    for (LNCollectionViewLayoutAttributes *attributes in self.currentAttributesArr) {
+        LNCollectionViewCell *cell = [self.currentCells objectForKey:attributes.indexPath];
+        [cell removeFromSuperview];
+        [self.currentCells removeObjectForKey:attributes.indexPath];
+        [self.pool addReusableCell:cell];
+    }
+    [self.currentCells removeAllObjects];
+    self.currentAttributesArr = @[];
+    [self.collectionViewLayout invalidateLayout];
+    [self.collectionViewLayout prepareLayout];
+    [self checkVisible];
+}
+
 - (void)checkVisible
 {
     NSArray<LNCollectionViewLayoutAttributes *> *currentAttributesArr = [self.collectionViewLayout layoutAttributesForElementsInRect:self.bounds];
