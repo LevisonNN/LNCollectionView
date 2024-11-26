@@ -274,9 +274,17 @@
 
 - (void)createHorizontalDecelerateSimulator
 {
-    self.horizontalDecelerateSimulator =
-    [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.x
-                                                     velocity:self.restStatus.velocity.x];
+    LNScrollViewDecelerateSimulator *simulator = nil;
+    if (self.dataSource && [self.dataSource respondsToSelector:@selector(autoEffect:horizontalDecelerateWithPosition:velocity:)]) {
+        simulator = [self.dataSource autoEffect:self horizontalDecelerateWithPosition:self.restStatus.startPosition.x velocity:self.restStatus.velocity.x];
+    }
+    if (simulator) {
+        self.horizontalDecelerateSimulator = simulator;
+    } else {
+        self.horizontalDecelerateSimulator =
+        [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.x
+                                                         velocity:self.restStatus.velocity.x];
+    }
 }
 
 - (void)createHorizontalPageSimulatorTo:(CGFloat)targetPosition
@@ -348,9 +356,19 @@
 
 - (void)createVerticalDecelerateSimulator
 {
-    self.verticalDecelerateSimulator =
-    [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.y
-                                                     velocity:self.restStatus.velocity.y];
+    LNScrollViewDecelerateSimulator *simulator = nil;
+    if (self.dataSource && [self.dataSource respondsToSelector:@selector(autoEffect:verticalDecelerateWithPosition:velocity:)]) {
+        simulator = [self.dataSource autoEffect:self
+                 verticalDecelerateWithPosition:self.restStatus.startPosition.y
+                                       velocity:self.restStatus.velocity.y];
+    }
+    if (simulator) {
+        self.verticalDecelerateSimulator = simulator;
+    } else {
+        self.verticalDecelerateSimulator =
+        [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.y
+                                                         velocity:self.restStatus.velocity.y];
+    }
 }
 
 - (void)createVerticalPageSimulatorTo:(CGFloat)targetPosition

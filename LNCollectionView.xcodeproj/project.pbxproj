@@ -12,6 +12,7 @@
 		A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3B72CE6049F0029386F /* LNCollectionViewCell.m */; };
 		A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */; };
 		A56DA4032CEBB31C0029386F /* LNCollectionViewReusePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4022CEBB31C0029386F /* LNCollectionViewReusePool.m */; };
+		A56DA4082CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4072CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m */; };
 		A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */; };
 		A58BE4382CDCAE12005A24C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE4372CDCAE12005A24C4 /* AppDelegate.m */; };
 		A58BE43B2CDCAE12005A24C4 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE43A2CDCAE12005A24C4 /* SceneDelegate.m */; };
@@ -62,6 +63,8 @@
 		A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		A56DA4012CEBB31C0029386F /* LNCollectionViewReusePool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewReusePool.h; sourceTree = "<group>"; };
 		A56DA4022CEBB31C0029386F /* LNCollectionViewReusePool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewReusePool.m; sourceTree = "<group>"; };
+		A56DA4062CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewPowerLawDecelerateSimulator.h; sourceTree = "<group>"; };
+		A56DA4072CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewPowerLawDecelerateSimulator.m; sourceTree = "<group>"; };
 		A57F69B82CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		A58BE4332CDCAE12005A24C4 /* LNCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LNCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,6 +172,23 @@
 			path = Reuse;
 			sourceTree = "<group>";
 		};
+		A56DA4042CF4E7200029386F /* Extention */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA4052CF4E7350029386F /* PowerLawDecelerate */,
+			);
+			path = Extention;
+			sourceTree = "<group>";
+		};
+		A56DA4052CF4E7350029386F /* PowerLawDecelerate */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA4062CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.h */,
+				A56DA4072CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m */,
+			);
+			path = PowerLawDecelerate;
+			sourceTree = "<group>";
+		};
 		A58BE42A2CDCAE12005A24C4 = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +212,7 @@
 		A58BE4352CDCAE12005A24C4 /* LNCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				A56DA4042CF4E7200029386F /* Extention */,
 				A53076212CE4F1A000C37840 /* LNCollectionView */,
 				A58BE46B2CDCAE27005A24C4 /* LNScrollView */,
 				A58BE4362CDCAE12005A24C4 /* AppDelegate.h */,
@@ -416,6 +437,7 @@
 				A53076242CE4F1BC00C37840 /* LNCollectionView.m in Sources */,
 				A58BE4782CDCBD27005A24C4 /* LNScrollViewClockProxy.m in Sources */,
 				A56DA4032CEBB31C0029386F /* LNCollectionViewReusePool.m in Sources */,
+				A56DA4082CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m in Sources */,
 				A58BE4922CDF83F1005A24C4 /* LNScrollViewGestureEffect.m in Sources */,
 				A53076282CE4F42100C37840 /* LNCollectionViewLayout.m in Sources */,
 				A58BE4982CE26A9C005A24C4 /* LNScrollViewPageSimulator.m in Sources */,

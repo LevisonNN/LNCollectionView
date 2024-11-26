@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     LNScrollViewModeAuto = 2,
 };
 
-@interface LNScrollView () <LNScrollViewAutoEffectProtocol, LNScrollViewGestureEffectProtocol>
+@interface LNScrollView () <LNScrollViewAutoEffectProtocol, LNScrollViewGestureEffectProtocol, LNScrollViewAutoEffectDataSource>
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 
@@ -119,6 +119,22 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     }
 }
 
+- (nullable LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect horizontalDecelerateWithPosition:(CGFloat)position velocity:(CGFloat)velocity
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewHorizontalDecelerateSimulatorForPosition:velocity:)]) {
+        return [self.delegate ln_scrollViewHorizontalDecelerateSimulatorForPosition:position velocity:velocity];
+    }
+    return nil;
+}
+
+- (LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect verticalDecelerateWithPosition:(CGFloat)position velocity:(CGFloat)velocity
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewVerticalDecelerateSimulatorForPosition:velocity:)]) {
+        return [self.delegate ln_scrollViewVerticalDecelerateSimulatorForPosition:position velocity:velocity];
+    }
+    return nil;
+}
+
 - (LNScrollViewGestureEffect *)gestureEffect
 {
     if (!_gestureEffect) {
@@ -138,6 +154,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     if (!_autoEffect) {
         _autoEffect = [[LNScrollViewAutoEffect alloc] init];
         _autoEffect.delegate = self;
+        _autoEffect.dataSource = self;
     }
     return _autoEffect;
 }

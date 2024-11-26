@@ -6,6 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LNScrollViewBounceSimulator.h"
+#import "LNScrollViewDecelerateSimulator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +18,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) CGPoint trailingPoint;
 @property (nonatomic, assign, readonly) CGPoint velocity;
 @property (nonatomic, assign, readonly) CGPoint offset;
+@end
+
+@protocol LNScrollViewAutoEffectDataSource <NSObject>
+
+
+- (nullable LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect
+                        horizontalDecelerateWithPosition:(CGFloat)position
+                                                velocity:(CGFloat)velocity;
+- (nullable LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect
+                          verticalDecelerateWithPosition:(CGFloat)position
+                                                velocity:(CGFloat)velocity;
+
 @end
 
 @protocol LNScrollViewAutoEffectProtocol
@@ -29,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat pageDamping;
 
 @property (nonatomic, weak) NSObject<LNScrollViewAutoEffectProtocol> *delegate;
+@property (nonatomic, weak) NSObject<LNScrollViewAutoEffectDataSource> *dataSource;
 
 - (BOOL)startWithContentSize:(CGSize)contentSize
                    frameSize:(CGSize)frameSize

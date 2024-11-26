@@ -10,6 +10,7 @@
 #import "LNCollectionView.h"
 #import "LNCollectionViewLayout.h"
 #import "LNCollectionViewFlowLayout.h"
+#import "LNScrollViewPowerLawDecelerateSimulator.h"
 
 
 @interface TestCell : LNCollectionViewCell
@@ -62,7 +63,7 @@ LNCollectionViewDelegateFlowLayout>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.sectionCount = 2;
+    self.sectionCount = 10;
     self.itemCount = 10;
     [self.view addSubview:self.collectionView];
     self.collectionView.frame = self.view.bounds;
@@ -118,6 +119,16 @@ LNCollectionViewDelegateFlowLayout>
     return CGSizeMake(100.f, 100.f);
 }
 
+- (LNScrollViewDecelerateSimulator *)ln_scrollViewHorizontalDecelerateSimulatorForPosition:(CGFloat)position velocity:(CGFloat)velocity {
+    LNScrollViewPowerLawDecelerateSimulator *simulator = [[LNScrollViewPowerLawDecelerateSimulator alloc] initWithPosition:position velocity:velocity k:2 n:1.2];
+    return simulator;
+}
+
+- (LNScrollViewDecelerateSimulator *)ln_scrollViewVerticalDecelerateSimulatorForPosition:(CGFloat)position velocity:(CGFloat)velocity {
+    LNScrollViewPowerLawDecelerateSimulator *simulator = [[LNScrollViewPowerLawDecelerateSimulator alloc] initWithPosition:position velocity:velocity k:2 n:1.2];
+    return simulator;
+}
+
 - (LNCollectionView *)collectionView
 {
     if (!_collectionView) {
@@ -141,7 +152,7 @@ LNCollectionViewDelegateFlowLayout>
 
 - (void)reloadCollectionView
 {
-    self.sectionCount = random()%3 + 2;
+    self.sectionCount = random()%3 + 10;
     self.itemCount = random()%5 + 5;
     [self.collectionView reloadData];
 }
