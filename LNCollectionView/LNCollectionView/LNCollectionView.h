@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(LNCollectionViewLayout *)layout;
 @property (nonatomic, strong, readonly) LNCollectionViewLayout *collectionViewLayout;
-@property (nonatomic, weak, nullable) id <UICollectionViewDelegate> delegate;
+@property (nonatomic, weak, nullable) id <LNCollectionViewDelegate> delegate;
 @property (nonatomic, weak, nullable) id <LNCollectionViewDataSource> dataSource;
 
 - (void)reloadData;

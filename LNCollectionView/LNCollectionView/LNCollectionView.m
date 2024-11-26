@@ -29,6 +29,7 @@
 @end
 
 @implementation LNCollectionView
+@dynamic delegate;
 
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(LNCollectionViewLayout *)layout
 {
