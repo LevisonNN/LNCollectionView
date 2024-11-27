@@ -1,25 +1,24 @@
 //
-//  ViewController.m
+//  CommonDemoViewController.m
 //  LNCollectionView
 //
-//  Created by Levison on 7.11.24.
+//  Created by Levison on 27.11.24.
 //
 
-#import "ViewController.h"
+#import "CommonDemoViewController.h"
 #import "LNScrollView.h"
 #import "LNCollectionView.h"
 #import "LNCollectionViewLayout.h"
 #import "LNCollectionViewFlowLayout.h"
 #import "LNScrollViewPowerLawDecelerateSimulator.h"
 
-
-@interface TestCell : LNCollectionViewCell
+@interface CommonDemoCell : LNCollectionViewCell
 
 @property (nonatomic, strong) UILabel *label;
 
 @end
 
-@implementation TestCell
+@implementation CommonDemoCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -45,7 +44,7 @@
 
 @end
 
-@interface ViewController ()
+@interface CommonDemoViewController ()
 <LNCollectionViewDelegate,
 LNCollectionViewDataSource,
 LNCollectionViewDelegateFlowLayout>
@@ -57,19 +56,25 @@ LNCollectionViewDelegateFlowLayout>
 @property (nonatomic, assign) NSInteger sectionCount;
 @property (nonatomic, assign) NSInteger itemCount;
 
+
 @end
 
-@implementation ViewController
+@implementation CommonDemoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.sectionCount = 10;
     self.itemCount = 10;
     [self.view addSubview:self.collectionView];
-    self.collectionView.frame = self.view.bounds;
     [self.view addSubview:self.reloadButton];
     self.reloadButton.frame = CGRectMake(0, 0, 100, 200);
     
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    self.collectionView.frame = self.view.bounds;
 }
 
 - (void)ln_scrollViewDidScroll:(LNScrollView *)scrollView
@@ -114,7 +119,7 @@ LNCollectionViewDelegateFlowLayout>
 
 - (__kindof LNCollectionViewCell *)ln_collectionView:(LNCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    TestCell *cell = (TestCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"kTestCell" forIndexPath:indexPath];
+    CommonDemoCell *cell = (CommonDemoCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"kCommonDemoCell" forIndexPath:indexPath];
     cell.label.text = [NSString stringWithFormat:@"%@-%@", @(indexPath.section), @(indexPath.item)];
     return cell;
 }
@@ -124,23 +129,14 @@ LNCollectionViewDelegateFlowLayout>
     return CGSizeMake(100.f, 100.f);
 }
 
-- (LNScrollViewDecelerateSimulator *)ln_scrollViewHorizontalDecelerateSimulatorForPosition:(CGFloat)position velocity:(CGFloat)velocity {
-    LNScrollViewPowerLawDecelerateSimulator *simulator = [[LNScrollViewPowerLawDecelerateSimulator alloc] initWithPosition:position velocity:velocity k:2 n:1.2];
-    return simulator;
-}
-
-- (LNScrollViewDecelerateSimulator *)ln_scrollViewVerticalDecelerateSimulatorForPosition:(CGFloat)position velocity:(CGFloat)velocity {
-    LNScrollViewPowerLawDecelerateSimulator *simulator = [[LNScrollViewPowerLawDecelerateSimulator alloc] initWithPosition:position velocity:velocity k:2 n:1.2];
-    return simulator;
-}
-
 - (LNCollectionView *)collectionView
 {
     if (!_collectionView) {
         _collectionView = [[LNCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        [_collectionView registerClass:TestCell.class forCellWithReuseIdentifier:@"kTestCell"];
+        _collectionView.layer.masksToBounds = YES;
+        [_collectionView registerClass:CommonDemoCell.class forCellWithReuseIdentifier:@"kCommonDemoCell"];
     }
     return _collectionView;
 }

@@ -13,10 +13,12 @@
 		A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */; };
 		A56DA4032CEBB31C0029386F /* LNCollectionViewReusePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4022CEBB31C0029386F /* LNCollectionViewReusePool.m */; };
 		A56DA4082CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4072CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m */; };
+		A56DA40C2CF6D84E0029386F /* CommonDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA40B2CF6D84E0029386F /* CommonDemoViewController.m */; };
+		A56DA40F2CF6D9550029386F /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA40E2CF6D9550029386F /* MainViewController.m */; };
+		A56DA4142CF6DD210029386F /* MainItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4132CF6DD210029386F /* MainItemCell.m */; };
+		A56DA4182CF745870029386F /* PowerLawDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4172CF745870029386F /* PowerLawDemoViewController.m */; };
 		A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */; };
 		A58BE4382CDCAE12005A24C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE4372CDCAE12005A24C4 /* AppDelegate.m */; };
-		A58BE43B2CDCAE12005A24C4 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE43A2CDCAE12005A24C4 /* SceneDelegate.m */; };
-		A58BE43E2CDCAE12005A24C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE43D2CDCAE12005A24C4 /* ViewController.m */; };
 		A58BE4412CDCAE12005A24C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A58BE43F2CDCAE12005A24C4 /* Main.storyboard */; };
 		A58BE4432CDCAE12005A24C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A58BE4422CDCAE12005A24C4 /* Assets.xcassets */; };
 		A58BE4462CDCAE12005A24C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A58BE4442CDCAE12005A24C4 /* LaunchScreen.storyboard */; };
@@ -65,15 +67,19 @@
 		A56DA4022CEBB31C0029386F /* LNCollectionViewReusePool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewReusePool.m; sourceTree = "<group>"; };
 		A56DA4062CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewPowerLawDecelerateSimulator.h; sourceTree = "<group>"; };
 		A56DA4072CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewPowerLawDecelerateSimulator.m; sourceTree = "<group>"; };
+		A56DA40A2CF6D84E0029386F /* CommonDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonDemoViewController.h; sourceTree = "<group>"; };
+		A56DA40B2CF6D84E0029386F /* CommonDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonDemoViewController.m; sourceTree = "<group>"; };
+		A56DA40D2CF6D9550029386F /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		A56DA40E2CF6D9550029386F /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		A56DA4122CF6DD210029386F /* MainItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainItemCell.h; sourceTree = "<group>"; };
+		A56DA4132CF6DD210029386F /* MainItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainItemCell.m; sourceTree = "<group>"; };
+		A56DA4162CF745870029386F /* PowerLawDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PowerLawDemoViewController.h; sourceTree = "<group>"; };
+		A56DA4172CF745870029386F /* PowerLawDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PowerLawDemoViewController.m; sourceTree = "<group>"; };
 		A57F69B82CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		A58BE4332CDCAE12005A24C4 /* LNCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LNCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A58BE4362CDCAE12005A24C4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A58BE4372CDCAE12005A24C4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		A58BE4392CDCAE12005A24C4 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		A58BE43A2CDCAE12005A24C4 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		A58BE43C2CDCAE12005A24C4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		A58BE43D2CDCAE12005A24C4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		A58BE4402CDCAE12005A24C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A58BE4422CDCAE12005A24C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A58BE4452CDCAE12005A24C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -189,6 +195,45 @@
 			path = PowerLawDecelerate;
 			sourceTree = "<group>";
 		};
+		A56DA4092CF6D81B0029386F /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA4152CF745680029386F /* PowerLawDemo */,
+				A56DA4112CF6DCE60029386F /* CommonDemo */,
+				A56DA4102CF6DCDE0029386F /* Main */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		A56DA4102CF6DCDE0029386F /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA40D2CF6D9550029386F /* MainViewController.h */,
+				A56DA40E2CF6D9550029386F /* MainViewController.m */,
+				A56DA4122CF6DD210029386F /* MainItemCell.h */,
+				A56DA4132CF6DD210029386F /* MainItemCell.m */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		A56DA4112CF6DCE60029386F /* CommonDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA40A2CF6D84E0029386F /* CommonDemoViewController.h */,
+				A56DA40B2CF6D84E0029386F /* CommonDemoViewController.m */,
+			);
+			path = CommonDemo;
+			sourceTree = "<group>";
+		};
+		A56DA4152CF745680029386F /* PowerLawDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA4162CF745870029386F /* PowerLawDemoViewController.h */,
+				A56DA4172CF745870029386F /* PowerLawDemoViewController.m */,
+			);
+			path = PowerLawDemo;
+			sourceTree = "<group>";
+		};
 		A58BE42A2CDCAE12005A24C4 = {
 			isa = PBXGroup;
 			children = (
@@ -212,15 +257,12 @@
 		A58BE4352CDCAE12005A24C4 /* LNCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				A56DA4092CF6D81B0029386F /* Demo */,
 				A56DA4042CF4E7200029386F /* Extention */,
 				A53076212CE4F1A000C37840 /* LNCollectionView */,
 				A58BE46B2CDCAE27005A24C4 /* LNScrollView */,
 				A58BE4362CDCAE12005A24C4 /* AppDelegate.h */,
 				A58BE4372CDCAE12005A24C4 /* AppDelegate.m */,
-				A58BE4392CDCAE12005A24C4 /* SceneDelegate.h */,
-				A58BE43A2CDCAE12005A24C4 /* SceneDelegate.m */,
-				A58BE43C2CDCAE12005A24C4 /* ViewController.h */,
-				A58BE43D2CDCAE12005A24C4 /* ViewController.m */,
 				A58BE43F2CDCAE12005A24C4 /* Main.storyboard */,
 				A58BE4422CDCAE12005A24C4 /* Assets.xcassets */,
 				A58BE4442CDCAE12005A24C4 /* LaunchScreen.storyboard */,
@@ -428,7 +470,6 @@
 			files = (
 				A58BE4852CDCCB5E005A24C4 /* LNScrollViewDragSimulator.m in Sources */,
 				A58BE4952CDF8460005A24C4 /* LNScrollViewAutoEffect.m in Sources */,
-				A58BE43E2CDCAE12005A24C4 /* ViewController.m in Sources */,
 				A58BE4382CDCAE12005A24C4 /* AppDelegate.m in Sources */,
 				A58BE4822CDCCB26005A24C4 /* LNScrollViewDecelerateSimulator.m in Sources */,
 				A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */,
@@ -437,13 +478,16 @@
 				A53076242CE4F1BC00C37840 /* LNCollectionView.m in Sources */,
 				A58BE4782CDCBD27005A24C4 /* LNScrollViewClockProxy.m in Sources */,
 				A56DA4032CEBB31C0029386F /* LNCollectionViewReusePool.m in Sources */,
+				A56DA40F2CF6D9550029386F /* MainViewController.m in Sources */,
 				A56DA4082CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m in Sources */,
+				A56DA4182CF745870029386F /* PowerLawDemoViewController.m in Sources */,
 				A58BE4922CDF83F1005A24C4 /* LNScrollViewGestureEffect.m in Sources */,
 				A53076282CE4F42100C37840 /* LNCollectionViewLayout.m in Sources */,
+				A56DA4142CF6DD210029386F /* MainItemCell.m in Sources */,
 				A58BE4982CE26A9C005A24C4 /* LNScrollViewPageSimulator.m in Sources */,
 				A58BE4492CDCAE12005A24C4 /* main.m in Sources */,
+				A56DA40C2CF6D84E0029386F /* CommonDemoViewController.m in Sources */,
 				A58BE4882CDF7771005A24C4 /* LNScrollView.m in Sources */,
-				A58BE43B2CDCAE12005A24C4 /* SceneDelegate.m in Sources */,
 				A58BE47F2CDCCB09005A24C4 /* LNScrollViewBounceSimulator.m in Sources */,
 				A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */,
 			);
