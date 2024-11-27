@@ -10,6 +10,7 @@
 @interface LNCollectionViewCell ()
 
 @property (nonatomic, copy, nullable) NSString *identifier;
+@property (nonatomic, strong, nonnull) UIView *contentView;
 
 @end
 
@@ -19,8 +20,23 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self addSubview:self.contentView];
     }
     return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.contentView.frame = self.bounds;
+}
+
+- (UIView *)contentView
+{
+    if (!_contentView) {
+        _contentView = [[UIView alloc] init];
+    }
+    return _contentView;
 }
 
 @end

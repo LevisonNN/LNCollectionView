@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class LNScrollView;
 @class LNScrollViewDecelerateSimulator;
 
-@protocol LNScrollViewDelegate
+@protocol LNScrollViewDelegate <NSObject>
 
 @optional
 //已实现

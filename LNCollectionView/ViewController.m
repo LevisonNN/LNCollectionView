@@ -74,7 +74,7 @@ LNCollectionViewDelegateFlowLayout>
 
 - (void)ln_scrollViewDidScroll:(LNScrollView *)scrollView
 {
-    //NSLog(@"ln_scrollViewDidScroll: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+    NSLog(@"ln_scrollViewDidScroll: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
 }
 
 - (void)ln_scrollViewWillEndDragging:(LNScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
@@ -95,6 +95,11 @@ LNCollectionViewDelegateFlowLayout>
 - (void)ln_scrollViewDidEndDecelerating:(LNScrollView *)scrollView
 {
     //NSLog(@"ln_scrollViewDidEndDecelerating: (%@, %@)", @(scrollView.contentOffset.x), @(scrollView.contentOffset.y));
+}
+
+- (void)ln_collectionView:(LNCollectionView *)collectionView willDisplayCell:(LNCollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"willDisplayCell: %@-%@", @(indexPath.section), @(indexPath.item));
 }
 
 - (NSInteger)ln_numberOfSectionsInCollectionView:(LNCollectionView *)collectionView
