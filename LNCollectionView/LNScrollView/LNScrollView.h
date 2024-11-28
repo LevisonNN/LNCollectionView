@@ -6,6 +6,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LNScrollViewPulser.h"
+#import "LNScrollViewPulseGenerator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,6 +49,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGPoint contentOffset;
 
 @property (nonatomic, assign) BOOL pageEnable;
+
+@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *topPulseGenerator;
+@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *leftPulseGenerator;
+@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *bottomPulseGenerator;
+@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *rightPulseGenerator;
+@property (nonatomic, strong, readonly) LNScrollViewPulser *topPulser;
+@property (nonatomic, strong, readonly) LNScrollViewPulser *leftPulser;
+@property (nonatomic, strong, readonly) LNScrollViewPulser *bottomPulser;
+@property (nonatomic, strong, readonly) LNScrollViewPulser *rightPulser;
 
 @end
 

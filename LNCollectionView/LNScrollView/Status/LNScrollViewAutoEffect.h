@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import "LNScrollViewBounceSimulator.h"
 #import "LNScrollViewDecelerateSimulator.h"
+#import "LNScrollViewPulser.h"
+#import "LNScrollViewPulseGenerator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,6 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol LNScrollViewAutoEffectDataSource <NSObject>
 
+- (CGSize)autoEffectGetContentSize:(LNScrollViewAutoEffect *)effect;
+- (CGSize)autoEffectGetFrameSize:(LNScrollViewAutoEffect *)effect;
+- (CGPoint)autoEffectGetContentOffset:(LNScrollViewAutoEffect *)effect;
 
 - (nullable LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect
                         horizontalDecelerateWithPosition:(CGFloat)position
@@ -45,12 +50,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) NSObject<LNScrollViewAutoEffectProtocol> *delegate;
 @property (nonatomic, weak) NSObject<LNScrollViewAutoEffectDataSource> *dataSource;
 
-- (BOOL)startWithContentSize:(CGSize)contentSize
-                   frameSize:(CGSize)frameSize
-                    velocity:(CGPoint)velocity
-                    position:(CGPoint)position;
+- (BOOL)startWithVelocity:(CGPoint)velocity;
 - (BOOL)isFinished;
 - (void)finishForcely;
+
+@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *topPulseGenerator;
+@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *leftPulseGenerator;
+@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *bottomPulseGenerator;
+@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *rightPulseGenerator;
+@property (nonatomic, strong, readonly) LNScrollViewPulser *topPulser;
+@property (nonatomic, strong, readonly) LNScrollViewPulser *leftPulser;
+@property (nonatomic, strong, readonly) LNScrollViewPulser *bottomPulser;
+@property (nonatomic, strong, readonly) LNScrollViewPulser *rightPulser;
 
 @end
 

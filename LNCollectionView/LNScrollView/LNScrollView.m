@@ -103,10 +103,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewWillBeginDecelerating:)]) {
             [self.delegate ln_scrollViewWillBeginDecelerating:self];
         }
-        if ([self.autoEffect startWithContentSize:self.contentSize
-                                        frameSize:self.bounds.size
-                                         velocity:viewVelocity
-                                         position:self.bounds.origin]) {
+        if ([self.autoEffect startWithVelocity:viewVelocity]) {
             self.mode = LNScrollViewModeAuto;
         } else {
             self.mode = LNScrollViewModeDefault;
@@ -159,6 +156,19 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     return _autoEffect;
 }
 
+- (CGSize)autoEffectGetContentSize:(LNScrollViewAutoEffect *)effect {
+    return self.contentSize;
+}
+
+- (CGSize)autoEffectGetFrameSize:(LNScrollViewAutoEffect *)effect {
+    return self.bounds.size;
+}
+
+- (CGPoint)autoEffectGetContentOffset:(LNScrollViewAutoEffect *)effect
+{
+    return self.contentOffset;
+}
+
 - (void)autoEffectStatusDidChange:(LNScrollViewRestStatus *)status
 {
     self.contentOffset = status.offset;
@@ -169,6 +179,46 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewDidEndDecelerating:)]) {
         [self.delegate ln_scrollViewDidEndDecelerating:self];
     }
+}
+
+- (LNScrollViewPulser *)topPulser
+{
+    return self.autoEffect.topPulser;
+}
+
+- (LNScrollViewPulser *)leftPulser
+{
+    return self.autoEffect.leftPulser;
+}
+
+- (LNScrollViewPulser *)bottomPulser
+{
+    return self.autoEffect.bottomPulser;
+}
+
+- (LNScrollViewPulser *)rightPulser
+{
+    return self.autoEffect.rightPulser;
+}
+
+- (LNScrollViewPulseGenerator *)topPulseGenerator
+{
+    return self.autoEffect.topPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)leftPulseGenerator
+{
+    return self.autoEffect.leftPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)bottomPulseGenerator
+{
+    return self.autoEffect.bottomPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)rightPulseGenerator
+{
+    return self.autoEffect.rightPulseGenerator;
 }
 
 @end

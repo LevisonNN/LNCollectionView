@@ -17,6 +17,11 @@
 		A56DA40F2CF6D9550029386F /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA40E2CF6D9550029386F /* MainViewController.m */; };
 		A56DA4142CF6DD210029386F /* MainItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4132CF6DD210029386F /* MainItemCell.m */; };
 		A56DA4182CF745870029386F /* PowerLawDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4172CF745870029386F /* PowerLawDemoViewController.m */; };
+		A56DA41C2CF757180029386F /* LNScrollViewPulser.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA41B2CF757180029386F /* LNScrollViewPulser.m */; };
+		A56DA41F2CF7587C0029386F /* LNScrollViewPulseGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA41E2CF7587C0029386F /* LNScrollViewPulseGenerator.m */; };
+		A56DA4222CF83E8C0029386F /* LNScrollViewPulseConvertor.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4212CF83E8C0029386F /* LNScrollViewPulseConvertor.m */; };
+		A56DA4252CF850250029386F /* LNScrollViewMomentum.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4242CF850250029386F /* LNScrollViewMomentum.m */; };
+		A56DA4292CF8E35E0029386F /* PulseDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4282CF8E35E0029386F /* PulseDemoViewController.m */; };
 		A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */; };
 		A58BE4382CDCAE12005A24C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE4372CDCAE12005A24C4 /* AppDelegate.m */; };
 		A58BE4412CDCAE12005A24C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A58BE43F2CDCAE12005A24C4 /* Main.storyboard */; };
@@ -75,6 +80,16 @@
 		A56DA4132CF6DD210029386F /* MainItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainItemCell.m; sourceTree = "<group>"; };
 		A56DA4162CF745870029386F /* PowerLawDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PowerLawDemoViewController.h; sourceTree = "<group>"; };
 		A56DA4172CF745870029386F /* PowerLawDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PowerLawDemoViewController.m; sourceTree = "<group>"; };
+		A56DA41A2CF757180029386F /* LNScrollViewPulser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewPulser.h; sourceTree = "<group>"; };
+		A56DA41B2CF757180029386F /* LNScrollViewPulser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewPulser.m; sourceTree = "<group>"; };
+		A56DA41D2CF7587C0029386F /* LNScrollViewPulseGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewPulseGenerator.h; sourceTree = "<group>"; };
+		A56DA41E2CF7587C0029386F /* LNScrollViewPulseGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewPulseGenerator.m; sourceTree = "<group>"; };
+		A56DA4202CF83E8C0029386F /* LNScrollViewPulseConvertor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewPulseConvertor.h; sourceTree = "<group>"; };
+		A56DA4212CF83E8C0029386F /* LNScrollViewPulseConvertor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewPulseConvertor.m; sourceTree = "<group>"; };
+		A56DA4232CF850250029386F /* LNScrollViewMomentum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewMomentum.h; sourceTree = "<group>"; };
+		A56DA4242CF850250029386F /* LNScrollViewMomentum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewMomentum.m; sourceTree = "<group>"; };
+		A56DA4272CF8E35E0029386F /* PulseDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PulseDemoViewController.h; sourceTree = "<group>"; };
+		A56DA4282CF8E35E0029386F /* PulseDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PulseDemoViewController.m; sourceTree = "<group>"; };
 		A57F69B82CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		A58BE4332CDCAE12005A24C4 /* LNCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LNCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +213,7 @@
 		A56DA4092CF6D81B0029386F /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				A56DA4262CF8E3440029386F /* PulseDemo */,
 				A56DA4152CF745680029386F /* PowerLawDemo */,
 				A56DA4112CF6DCE60029386F /* CommonDemo */,
 				A56DA4102CF6DCDE0029386F /* Main */,
@@ -232,6 +248,30 @@
 				A56DA4172CF745870029386F /* PowerLawDemoViewController.m */,
 			);
 			path = PowerLawDemo;
+			sourceTree = "<group>";
+		};
+		A56DA4192CF755E10029386F /* Pulse */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA41A2CF757180029386F /* LNScrollViewPulser.h */,
+				A56DA41B2CF757180029386F /* LNScrollViewPulser.m */,
+				A56DA41D2CF7587C0029386F /* LNScrollViewPulseGenerator.h */,
+				A56DA41E2CF7587C0029386F /* LNScrollViewPulseGenerator.m */,
+				A56DA4202CF83E8C0029386F /* LNScrollViewPulseConvertor.h */,
+				A56DA4212CF83E8C0029386F /* LNScrollViewPulseConvertor.m */,
+				A56DA4232CF850250029386F /* LNScrollViewMomentum.h */,
+				A56DA4242CF850250029386F /* LNScrollViewMomentum.m */,
+			);
+			path = Pulse;
+			sourceTree = "<group>";
+		};
+		A56DA4262CF8E3440029386F /* PulseDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA4272CF8E35E0029386F /* PulseDemoViewController.h */,
+				A56DA4282CF8E35E0029386F /* PulseDemoViewController.m */,
+			);
+			path = PulseDemo;
 			sourceTree = "<group>";
 		};
 		A58BE42A2CDCAE12005A24C4 = {
@@ -292,6 +332,7 @@
 		A58BE46B2CDCAE27005A24C4 /* LNScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				A56DA4192CF755E10029386F /* Pulse */,
 				A58BE4892CDF7F2D005A24C4 /* Status */,
 				A58BE4792CDCC727005A24C4 /* Simulator */,
 				A58BE46C2CDCB052005A24C4 /* Clock */,
@@ -469,8 +510,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A58BE4852CDCCB5E005A24C4 /* LNScrollViewDragSimulator.m in Sources */,
+				A56DA4252CF850250029386F /* LNScrollViewMomentum.m in Sources */,
 				A58BE4952CDF8460005A24C4 /* LNScrollViewAutoEffect.m in Sources */,
 				A58BE4382CDCAE12005A24C4 /* AppDelegate.m in Sources */,
+				A56DA4222CF83E8C0029386F /* LNScrollViewPulseConvertor.m in Sources */,
 				A58BE4822CDCCB26005A24C4 /* LNScrollViewDecelerateSimulator.m in Sources */,
 				A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */,
 				A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */,
@@ -479,8 +522,10 @@
 				A58BE4782CDCBD27005A24C4 /* LNScrollViewClockProxy.m in Sources */,
 				A56DA4032CEBB31C0029386F /* LNCollectionViewReusePool.m in Sources */,
 				A56DA40F2CF6D9550029386F /* MainViewController.m in Sources */,
+				A56DA41F2CF7587C0029386F /* LNScrollViewPulseGenerator.m in Sources */,
 				A56DA4082CF4E7580029386F /* LNScrollViewPowerLawDecelerateSimulator.m in Sources */,
 				A56DA4182CF745870029386F /* PowerLawDemoViewController.m in Sources */,
+				A56DA41C2CF757180029386F /* LNScrollViewPulser.m in Sources */,
 				A58BE4922CDF83F1005A24C4 /* LNScrollViewGestureEffect.m in Sources */,
 				A53076282CE4F42100C37840 /* LNCollectionViewLayout.m in Sources */,
 				A56DA4142CF6DD210029386F /* MainItemCell.m in Sources */,
@@ -490,6 +535,7 @@
 				A58BE4882CDF7771005A24C4 /* LNScrollView.m in Sources */,
 				A58BE47F2CDCCB09005A24C4 /* LNScrollViewBounceSimulator.m in Sources */,
 				A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */,
+				A56DA4292CF8E35E0029386F /* PulseDemoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,7 +26,7 @@
 @implementation LNScrollViewRestStatus
 @end
 
-@interface LNScrollViewAutoEffect() <LNScrollViewClockProtocol>
+@interface LNScrollViewAutoEffect() <LNScrollViewClockProtocol, LNScrollViewPulserDelegate>
 
 @property (nonatomic, strong) LNScrollViewBounceSimulator *horizontalBounceSimulator;
 @property (nonatomic, strong) LNScrollViewBounceSimulator *verticalBounceSimulator;
@@ -38,6 +38,15 @@
 @property (nonatomic, strong) LNScrollViewPageSimulator *verticalPageSimulator;
 
 @property (nonatomic, strong) LNScrollViewRestStatus *restStatus;
+
+@property (nonatomic, strong) LNScrollViewPulseGenerator *topPulseGenerator;
+@property (nonatomic, strong) LNScrollViewPulseGenerator *leftPulseGenerator;
+@property (nonatomic, strong) LNScrollViewPulseGenerator *bottomPulseGenerator;
+@property (nonatomic, strong) LNScrollViewPulseGenerator *rightPulseGenerator;
+@property (nonatomic, strong) LNScrollViewPulser *topPulser;
+@property (nonatomic, strong) LNScrollViewPulser *leftPulser;
+@property (nonatomic, strong) LNScrollViewPulser *bottomPulser;
+@property (nonatomic, strong) LNScrollViewPulser *rightPulser;
 
 @end
 
@@ -56,24 +65,30 @@
 {
 }
 
-- (BOOL)startWithContentSize:(CGSize)contentSize
-                   frameSize:(CGSize)frameSize
-                    velocity:(CGPoint)velocity
-                    position:(CGPoint)position {
+- (BOOL)startWithVelocity:(CGPoint)velocity {
     [self finish];
     [LNScrollViewClock.shareInstance addObject:self];
+    if (self.dataSource &&
+        [self.dataSource respondsToSelector:@selector(autoEffectGetFrameSize:)] &&
+        [self.dataSource respondsToSelector:@selector(autoEffectGetContentSize:)] &&
+        [self.dataSource respondsToSelector:@selector(autoEffectGetContentOffset:)]) {} else {
+        return NO;
+    }
+    CGSize contentSize = [self.dataSource autoEffectGetContentSize:self];
+    CGSize frameSize = [self.dataSource autoEffectGetFrameSize:self];
+    CGPoint contentOffset = [self.dataSource autoEffectGetContentOffset:self];
     self.restStatus = [[LNScrollViewRestStatus alloc] init];
     self.restStatus.velocity = velocity;
     self.restStatus.contentSize = contentSize;
     self.restStatus.frameSize = frameSize;
-    self.restStatus.startPosition = position;
+    self.restStatus.startPosition = contentOffset;
     CGFloat leadingX = 0;
     CGFloat trailingX = contentSize.width - frameSize.width;
     CGFloat leadingY = 0;
     CGFloat trailingY = contentSize.height - frameSize.height;
     self.restStatus.leadingPoint = CGPointMake(leadingX, leadingY);
     self.restStatus.trailingPoint = CGPointMake(trailingX, trailingY);
-    self.restStatus.offset = position;
+    self.restStatus.offset = contentOffset;
 
     [self createHorizontalSimulatorIfNeeded];
     [self createVerticalSimulatorIfNeeded];
@@ -87,16 +102,26 @@
         self.restStatus.velocity = CGPointMake(self.horizontalDecelerateSimulator.velocity, self.restStatus.velocity.y);
         self.restStatus.offset = CGPointMake(self.horizontalDecelerateSimulator.position, self.restStatus.offset.y);
         if (self.restStatus.offset.x < self.restStatus.leadingPoint.x) {
-            self.horizontalBounceSimulator =
-            [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
-                                                         velocity:self.horizontalDecelerateSimulator.velocity
-                                                   targetPosition:self.restStatus.leadingPoint.x];
+            if (self.restStatus.velocity.x < 0.f && self.leftPulseGenerator.isOpen) {
+                self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
+                [self.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
+            } else {
+                self.horizontalBounceSimulator =
+                [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
+                                                             velocity:self.horizontalDecelerateSimulator.velocity
+                                                       targetPosition:self.restStatus.leadingPoint.x];
+            }
             self.horizontalDecelerateSimulator = nil;
         } else if (self.restStatus.offset.x > self.restStatus.trailingPoint.x) {
-            self.horizontalBounceSimulator =
-            [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
-                                                         velocity:self.horizontalDecelerateSimulator.velocity
-                                                   targetPosition:self.restStatus.trailingPoint.x];
+            if (self.restStatus.velocity.x > 0.f && self.rightPulseGenerator.isOpen) {
+                self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
+                [self.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
+            } else {
+                self.horizontalBounceSimulator =
+                [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
+                                                             velocity:self.horizontalDecelerateSimulator.velocity
+                                                       targetPosition:self.restStatus.trailingPoint.x];
+            }
             self.horizontalDecelerateSimulator = nil;
         } else if (self.horizontalDecelerateSimulator.isFinished) {
             self.horizontalDecelerateSimulator = nil;
@@ -462,6 +487,121 @@
             }
         }
     }
+}
+
+//pulser
+- (CGFloat)pulserGetVelocity:(LNScrollViewPulser *)pulser
+{
+    if (!self.restStatus) {
+        return 0.f;
+    }
+    if (pulser == self.topPulser) {
+        return self.restStatus.velocity.y;
+    } else if (pulser == self.leftPulser) {
+        return self.restStatus.velocity.x;
+    } else if (pulser == self.bottomPulser) {
+        return -self.restStatus.velocity.y;
+    } else if (pulser == self.rightPulser) {
+        return -self.restStatus.velocity.x;
+    }
+    return 0.f;
+}
+
+- (void)pulser:(LNScrollViewPulser *)pulser updateVelocity:(CGFloat)velocity
+{
+    if (!pulser) {
+        return ;
+    }
+    if (self.restStatus) {
+        if (pulser == self.topPulser) {
+            self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, velocity);
+        } else if (pulser == self.leftPulser) {
+            self.restStatus.velocity = CGPointMake(velocity, self.restStatus.velocity.y);
+        } else if (pulser == self.bottomPulser) {
+            self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, -velocity);
+        } else if (pulser == self.rightPulser) {
+            self.restStatus.velocity = CGPointMake(-velocity, self.restStatus.velocity.y);
+        }
+        [self startWithVelocity:self.restStatus.velocity];
+    } else {
+        if (pulser == self.topPulser) {
+            [self startWithVelocity:CGPointMake(0, velocity)];
+        } else if (pulser == self.leftPulser) {
+            [self startWithVelocity:CGPointMake(velocity, 0)];
+        } else if (pulser == self.bottomPulser) {
+            [self startWithVelocity:CGPointMake(0, -velocity)];
+        } else if (pulser == self.rightPulser) {
+            [self startWithVelocity:CGPointMake(-velocity, 0)];
+        }
+    }
+}
+
+- (LNScrollViewPulseGenerator *)topPulseGenerator
+{
+    if (!_topPulseGenerator) {
+        _topPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
+    }
+    return _topPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)leftPulseGenerator
+{
+    if (!_leftPulseGenerator) {
+        _leftPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
+    }
+    return _leftPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)bottomPulseGenerator
+{
+    if (!_bottomPulseGenerator) {
+        _bottomPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
+    }
+    return _bottomPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)rightPulseGenerator
+{
+    if (!_rightPulseGenerator) {
+        _rightPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
+    }
+    return _rightPulseGenerator;
+}
+
+- (LNScrollViewPulser *)topPulser
+{
+    if (!_topPulser) {
+        _topPulser = [[LNScrollViewPulser alloc] init];
+        _topPulser.delegate = self;
+    }
+    return _topPulser;
+}
+
+- (LNScrollViewPulser *)leftPulser
+{
+    if (!_leftPulser) {
+        _leftPulser = [[LNScrollViewPulser alloc] init];
+        _leftPulser.delegate = self;
+    }
+    return _leftPulser;
+}
+
+- (LNScrollViewPulser *)bottomPulser
+{
+    if (!_bottomPulser) {
+        _bottomPulser = [[LNScrollViewPulser alloc] init];
+        _bottomPulser.delegate = self;
+    }
+    return _bottomPulser;
+}
+
+- (LNScrollViewPulser *)rightPulser
+{
+    if (!_rightPulser) {
+        _rightPulser = [[LNScrollViewPulser alloc] init];
+        _rightPulser.delegate = self;
+    }
+    return _rightPulser;
 }
 
 @end

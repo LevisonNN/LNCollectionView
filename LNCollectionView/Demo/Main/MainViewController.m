@@ -9,6 +9,7 @@
 #import "MainItemCell.h"
 #import "CommonDemoViewController.h"
 #import "PowerLawDemoViewController.h"
+#import "PulseDemoViewController.h"
 
 @interface DemoObject : NSObject
 
@@ -61,6 +62,11 @@ UICollectionViewDelegateFlowLayout
     powerLawObj.vcClass = PowerLawDemoViewController.class;
     [mArr addObject:powerLawObj];
     
+    DemoObject *pulseObj = [[DemoObject alloc] init];
+    pulseObj.title = @"Pulse";
+    pulseObj.vcClass = PulseDemoViewController.class;
+    [mArr addObject:pulseObj];
+    
     self.modelList = [NSArray arrayWithArray:mArr];
 }
 
@@ -90,7 +96,7 @@ UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((self.view.bounds.size.width - 8.f * 2 - 16.f * 2)/3.f, 33.f);
+    return CGSizeMake((self.view.bounds.size.width - 8.f * 2 - 16.f * 2)/3.f - 1.f, 33.f);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
@@ -100,7 +106,7 @@ UICollectionViewDelegateFlowLayout
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 16.f;
+    return 8.f;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
