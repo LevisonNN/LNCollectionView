@@ -12,6 +12,8 @@
 #import "LNScrollViewClock.h"
 #import "LNScrollViewPageSimulator.h"
 
+#define LNScrollViewAutoEffectCommonTolerance 0.001f
+
 @interface LNScrollViewRestStatus()
 @property (nonatomic, assign) CGPoint leadingPoint;
 @property (nonatomic, assign) CGPoint trailingPoint;
@@ -101,7 +103,7 @@
         [self.horizontalDecelerateSimulator accumulate:time];
         self.restStatus.velocity = CGPointMake(self.horizontalDecelerateSimulator.velocity, self.restStatus.velocity.y);
         self.restStatus.offset = CGPointMake(self.horizontalDecelerateSimulator.position, self.restStatus.offset.y);
-        if (self.restStatus.offset.x < self.restStatus.leadingPoint.x) {
+        if (self.restStatus.offset.x < self.restStatus.leadingPoint.x - LNScrollViewAutoEffectCommonTolerance) {
             if (self.restStatus.velocity.x < 0.f && self.leftPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
                 [self.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
@@ -112,7 +114,7 @@
                                                        targetPosition:self.restStatus.leadingPoint.x];
             }
             self.horizontalDecelerateSimulator = nil;
-        } else if (self.restStatus.offset.x > self.restStatus.trailingPoint.x) {
+        } else if (self.restStatus.offset.x > self.restStatus.trailingPoint.x + LNScrollViewAutoEffectCommonTolerance) {
             if (self.restStatus.velocity.x > 0.f && self.rightPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
                 [self.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
@@ -165,13 +167,13 @@
         [self.verticalDecelerateSimulator accumulate:time];
         self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.verticalDecelerateSimulator.position);
         self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, self.verticalDecelerateSimulator.velocity);
-        if (self.restStatus.offset.y < self.restStatus.leadingPoint.y) {
+        if (self.restStatus.offset.y < self.restStatus.leadingPoint.y - LNScrollViewAutoEffectCommonTolerance) {
             self.verticalBounceSimulator =
             [[LNScrollViewBounceSimulator alloc] initWithPosition:self.verticalDecelerateSimulator.position
                                                          velocity:self.verticalDecelerateSimulator.velocity
                                                    targetPosition:self.restStatus.leadingPoint.y];
             self.verticalDecelerateSimulator = nil;
-        } else if (self.restStatus.offset.y > self.restStatus.trailingPoint.y) {
+        } else if (self.restStatus.offset.y > self.restStatus.trailingPoint.y + LNScrollViewAutoEffectCommonTolerance) {
             self.verticalBounceSimulator =
             [[LNScrollViewBounceSimulator alloc] initWithPosition:self.verticalDecelerateSimulator.position
                                                          velocity:self.verticalDecelerateSimulator.velocity
@@ -457,10 +459,10 @@
 
 - (void)createHorizontalSimulatorIfNeeded
 {
-    if (self.restStatus.contentSize.width > self.restStatus.frameSize.width) {
-        if (self.restStatus.startPosition.x < self.restStatus.leadingPoint.x) {
+    if (self.restStatus.contentSize.width > self.restStatus.frameSize.width + LNScrollViewAutoEffectCommonTolerance) {
+        if (self.restStatus.startPosition.x < self.restStatus.leadingPoint.x - LNScrollViewAutoEffectCommonTolerance) {
             [self createHorizontalBounceSimulator:NO];
-        } else if (self.restStatus.startPosition.x > self.restStatus.trailingPoint.x) {
+        } else if (self.restStatus.startPosition.x > self.restStatus.trailingPoint.x + LNScrollViewAutoEffectCommonTolerance) {
             [self createHorizontalBounceSimulator:YES];
         } else {
             if (self.pageEnable) {
@@ -474,10 +476,10 @@
 
 - (void)createVerticalSimulatorIfNeeded
 {
-    if (self.restStatus.contentSize.height > self.restStatus.frameSize.height) {
-        if (self.restStatus.startPosition.y < self.restStatus.leadingPoint.y) {
+    if (self.restStatus.contentSize.height > self.restStatus.frameSize.height + LNScrollViewAutoEffectCommonTolerance) {
+        if (self.restStatus.startPosition.y < self.restStatus.leadingPoint.y - LNScrollViewAutoEffectCommonTolerance) {
             [self createVerticalBounceSimulator:NO];
-        } else if (self.restStatus.startPosition.y > self.restStatus.trailingPoint.y) {
+        } else if (self.restStatus.startPosition.y > self.restStatus.trailingPoint.y + LNScrollViewAutoEffectCommonTolerance) {
             [self createVerticalBounceSimulator:YES];
         } else {
             if (self.pageEnable) {

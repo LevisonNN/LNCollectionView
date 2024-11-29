@@ -146,6 +146,44 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     self.contentOffset = status.convertedOffset;
 }
 
+- (BOOL)gestureEffect:(LNScrollViewGestureEffect *)gestureEffect
+     shouldOverBounds:(LNScrollViewGestureEffectBoundsType)boundsType
+{
+    switch (boundsType) {
+        case LNScrollViewGestureEffectBoundsVerticalLeading: {
+            if (self.topPulseGenerator.isOpen) {
+                return NO;
+            } else {
+                return YES;
+            }
+        } break;
+        case LNScrollViewGestureEffectBoundsHorizontalLeading: {
+            if (self.leftPulseGenerator.isOpen) {
+                return NO;
+            } else {
+                return YES;
+            }
+        } break;
+        case LNScrollViewGestureEffectBoundsVerticalTrailing: {
+            if (self.bottomPulseGenerator.isOpen) {
+                return NO;
+            } else {
+                return YES;
+            }
+        } break;
+        case LNScrollViewGestureEffectBoundsHorizontalTrailing: {
+            if (self.rightPulseGenerator.isOpen) {
+                return NO;
+            } else {
+                return YES;
+            }
+        } break;
+        default: {
+            return NO;
+        } break;
+    }
+}
+
 - (LNScrollViewAutoEffect *)autoEffect
 {
     if (!_autoEffect) {
