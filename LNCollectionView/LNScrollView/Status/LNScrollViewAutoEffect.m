@@ -106,25 +106,27 @@
         if (self.restStatus.offset.x < self.restStatus.leadingPoint.x - LNScrollViewAutoEffectCommonTolerance) {
             if (self.restStatus.velocity.x < 0.f && self.leftPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
-                [self.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
+                CGFloat feedbackVelocity = [self.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
+                [self startWithVelocity:CGPointMake(-feedbackVelocity, self.restStatus.velocity.y)];
             } else {
                 self.horizontalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
                                                              velocity:self.horizontalDecelerateSimulator.velocity
                                                        targetPosition:self.restStatus.leadingPoint.x];
+                self.horizontalDecelerateSimulator = nil;
             }
-            self.horizontalDecelerateSimulator = nil;
         } else if (self.restStatus.offset.x > self.restStatus.trailingPoint.x + LNScrollViewAutoEffectCommonTolerance) {
             if (self.restStatus.velocity.x > 0.f && self.rightPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
-                [self.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
+                CGFloat feedbackVelocity = [self.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
+                [self startWithVelocity:CGPointMake(feedbackVelocity, self.restStatus.velocity.y)];
             } else {
                 self.horizontalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
                                                              velocity:self.horizontalDecelerateSimulator.velocity
                                                        targetPosition:self.restStatus.trailingPoint.x];
+                self.horizontalDecelerateSimulator = nil;
             }
-            self.horizontalDecelerateSimulator = nil;
         } else if (self.horizontalDecelerateSimulator.isFinished) {
             self.horizontalDecelerateSimulator = nil;
         }

@@ -85,9 +85,11 @@
     for (LNCollectionViewLayoutAttributes *attributes in newlyVisibleAttributesMSet) {
         //willDisplay
         LNCollectionViewCell *cell = [self.dataSource ln_collectionView:self cellForItemAtIndexPath:attributes.indexPath];
-        [self.currentCells setObject:cell forKey:attributes.indexPath];
-        [self addSubview:cell];
-        cell.frame = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:attributes.indexPath].frame;
+        if (cell) {
+            [self.currentCells setObject:cell forKey:attributes.indexPath];
+            [self addSubview:cell];
+            cell.frame = [self.collectionViewLayout layoutAttributesForItemAtIndexPath:attributes.indexPath].frame;
+        }
     }
 
     for (LNCollectionViewLayoutAttributes *attributes in disappearingAttributesMSet) {

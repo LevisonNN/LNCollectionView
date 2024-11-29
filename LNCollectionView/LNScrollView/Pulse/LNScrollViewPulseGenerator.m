@@ -43,7 +43,8 @@
         LNScrollViewMomentum *momentum = [[LNScrollViewMomentum alloc] init];
         momentum.mass = self.mass;
         momentum.velocity = velocity;
-        return [self.delegate generatorHasDetectedMomentum:momentum].velocity;
+        LNScrollViewMomentum *resultMomentum = [self.delegate generatorHasDetectedMomentum:momentum];
+        return resultMomentum.velocity;
     }
     return velocity;
 }

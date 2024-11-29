@@ -56,6 +56,7 @@ LNCollectionViewDelegateFlowLayout
 @property (nonatomic, strong) LNCollectionViewFlowLayout *flowLayout2;
 
 @property (nonatomic, strong) LNScrollViewPulseConvertor *rightToLeftConvertor;
+@property (nonatomic, strong) LNScrollViewPulseConvertor *leftToRightConvertor;
 
 @end
 
@@ -68,6 +69,16 @@ LNCollectionViewDelegateFlowLayout
     [self.view addSubview:self.collectionView2];
     [self.rightToLeftConvertor bindGenerator:self.collectionView1.rightPulseGenerator];
     [self.rightToLeftConvertor bindPulser:self.collectionView2.leftPulser];
+    self.rightToLeftConvertor.isConversationOfEnergy = YES;
+    self.collectionView1.rightPulseGenerator.mass = 1.f;
+    self.collectionView2.leftPulser.mass = 2.f;
+    
+    [self.leftToRightConvertor bindGenerator:self.collectionView2.leftPulseGenerator];
+    [self.leftToRightConvertor bindPulser:self.collectionView1.rightPulser];
+    self.leftToRightConvertor.isConversationOfEnergy = YES;
+    self.collectionView1.rightPulser.mass = 2.f;
+    self.collectionView2.rightPulseGenerator.mass = 1.f;
+    
     // Do any additional setup after loading the view.
 }
 
@@ -107,6 +118,7 @@ LNCollectionViewDelegateFlowLayout
         _collectionView1.dataSource = self;
         _collectionView1.delegate = self;
         [_collectionView1.rightPulseGenerator open];
+        [_collectionView1.rightPulser open];
         [_collectionView1 registerClass:PulseDemoCell.class forCellWithReuseIdentifier:@"kPulseDemoCell"];
     }
     return _collectionView1;
@@ -128,6 +140,7 @@ LNCollectionViewDelegateFlowLayout
         _collectionView2.delegate = self;
         _collectionView2.dataSource = self;
         [_collectionView2.leftPulser open];
+        [_collectionView2.leftPulseGenerator open];
         [_collectionView2 registerClass:PulseDemoCell.class forCellWithReuseIdentifier:@"kPulseDemoCell"];
     }
     return _collectionView2;
@@ -148,6 +161,14 @@ LNCollectionViewDelegateFlowLayout
         _rightToLeftConvertor = [[LNScrollViewPulseConvertor alloc] init];
     }
     return _rightToLeftConvertor;
+}
+
+- (LNScrollViewPulseConvertor *)leftToRightConvertor
+{
+    if (!_leftToRightConvertor) {
+        _leftToRightConvertor = [[LNScrollViewPulseConvertor alloc] init];
+    }
+    return _leftToRightConvertor;
 }
 
 @end
