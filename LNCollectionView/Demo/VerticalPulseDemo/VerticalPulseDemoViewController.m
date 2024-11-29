@@ -1,22 +1,22 @@
 //
-//  PulseDemoViewController.m
+//  VerticalPulseDemoViewController.m
 //  LNCollectionView
 //
 //  Created by Levison on 29.11.24.
 //
 
-#import "PulseDemoViewController.h"
+#import "VerticalPulseDemoViewController.h"
 #import "LNCollectionView.h"
 #import "LNCollectionViewFlowLayout.h"
 #import "LNScrollViewPulseConvertor.h"
 
-@interface PulseDemoCell : LNCollectionViewCell
+@interface VerticalPulseDemoCell : LNCollectionViewCell
 
 @property (nonatomic, strong) UILabel *label;
 
 @end
 
-@implementation PulseDemoCell
+@implementation VerticalPulseDemoCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -43,7 +43,7 @@
 @end
 
 
-@interface PulseDemoViewController ()
+@interface VerticalPulseDemoViewController ()
 <
 LNCollectionViewDataSource,
 LNCollectionViewDelegate,
@@ -55,29 +55,34 @@ LNCollectionViewDelegateFlowLayout
 @property (nonatomic, strong) LNCollectionView *collectionView2;
 @property (nonatomic, strong) LNCollectionViewFlowLayout *flowLayout2;
 
-@property (nonatomic, strong) LNScrollViewPulseConvertor *rightToLeftConvertor;
-@property (nonatomic, strong) LNScrollViewPulseConvertor *leftToRightConvertor;
+@property (nonatomic, strong) LNScrollViewPulseConvertor *bottomToTopConvertor;
+@property (nonatomic, strong) LNScrollViewPulseConvertor *topToButtomConvertor;
+
 
 @end
 
-@implementation PulseDemoViewController
+@implementation VerticalPulseDemoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self.view addSubview:self.collectionView1];
     [self.view addSubview:self.collectionView2];
-    [self.rightToLeftConvertor bindGenerator:self.collectionView1.rightPulseGenerator];
-    [self.rightToLeftConvertor bindPulser:self.collectionView2.leftPulser];
-    self.rightToLeftConvertor.isConversationOfEnergy = YES;
-    self.collectionView1.rightPulseGenerator.mass = 1.f;
-    self.collectionView2.leftPulser.mass = 1.f;
+    [self.bottomToTopConvertor bindGenerator:self.collectionView1.bottomPulseGenerator];
+    [self.bottomToTopConvertor bindPulser:self.collectionView2.topPulser];
+    self.bottomToTopConvertor.isConversationOfEnergy = YES;
+    self.collectionView1.bottomPulseGenerator.mass = 1.f;
+    [self.collectionView1.bottomPulseGenerator open];
+    self.collectionView2.topPulser.mass = 1.f;
+    [self.collectionView2.topPulser open];
     
-    [self.leftToRightConvertor bindGenerator:self.collectionView2.leftPulseGenerator];
-    [self.leftToRightConvertor bindPulser:self.collectionView1.rightPulser];
-    self.leftToRightConvertor.isConversationOfEnergy = YES;
-    self.collectionView1.rightPulser.mass = 1.f;
-    self.collectionView2.leftPulseGenerator.mass = 1.f;
+    [self.topToButtomConvertor bindGenerator:self.collectionView2.topPulseGenerator];
+    [self.topToButtomConvertor bindPulser:self.collectionView1.bottomPulser];
+    self.topToButtomConvertor.isConversationOfEnergy = YES;
+    self.collectionView1.bottomPulser.mass = 1.f;
+    [self.collectionView1.bottomPulser open];
+    self.collectionView2.topPulseGenerator.mass = 1.f;
+    [self.collectionView2.topPulseGenerator open];
     
     // Do any additional setup after loading the view.
 }
@@ -85,8 +90,8 @@ LNCollectionViewDelegateFlowLayout
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.collectionView1.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height/2.f);
-    self.collectionView2.frame = CGRectMake(0, self.view.bounds.size.height/2.f, self.view.bounds.size.width, self.view.bounds.size.height/2.f);
+    self.collectionView1.frame = CGRectMake(0, 0, self.view.bounds.size.width/2.f, self.view.bounds.size.height);
+    self.collectionView2.frame = CGRectMake(self.view.bounds.size.width/2.f, 0, self.view.bounds.size.width/2.f, self.view.bounds.size.height);
 }
 
 - (NSInteger)ln_numberOfSectionsInCollectionView:(LNCollectionView *)collectionView
@@ -106,7 +111,7 @@ LNCollectionViewDelegateFlowLayout
 
 - (__kindof LNCollectionViewCell *)ln_collectionView:(LNCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    PulseDemoCell *cell = (PulseDemoCell *) [collectionView dequeueReusableCellWithReuseIdentifier:@"kPulseDemoCell" forIndexPath:indexPath];
+    VerticalPulseDemoCell *cell = (VerticalPulseDemoCell *) [collectionView dequeueReusableCellWithReuseIdentifier:@"kVerticalPulseDemoCell" forIndexPath:indexPath];
     cell.label.text = [NSString stringWithFormat:@"%@-%@", @(indexPath.section), @(indexPath.item)];
     return cell;
 }
@@ -117,10 +122,9 @@ LNCollectionViewDelegateFlowLayout
         _collectionView1 = [[LNCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.flowLayout1];
         _collectionView1.dataSource = self;
         _collectionView1.delegate = self;
-        [_collectionView1.rightPulseGenerator open];
-        [_collectionView1.rightPulser open];
         _collectionView1.tag = 1;
-        [_collectionView1 registerClass:PulseDemoCell.class forCellWithReuseIdentifier:@"kPulseDemoCell"];
+        _collectionView1.layer.masksToBounds = YES;
+        [_collectionView1 registerClass:VerticalPulseDemoCell.class forCellWithReuseIdentifier:@"kVerticalPulseDemoCell"];
     }
     return _collectionView1;
 }
@@ -129,7 +133,7 @@ LNCollectionViewDelegateFlowLayout
 {
     if (!_flowLayout1) {
         _flowLayout1 = [[LNCollectionViewFlowLayout alloc] init];
-        _flowLayout1.scrollDirection = LNCollectionViewScrollDirectionHorizontal;
+        _flowLayout1.scrollDirection = LNCollectionViewScrollDirectionVertical;
     }
     return _flowLayout1;
 }
@@ -140,10 +144,9 @@ LNCollectionViewDelegateFlowLayout
         _collectionView2 = [[LNCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.flowLayout2];
         _collectionView2.delegate = self;
         _collectionView2.dataSource = self;
-        [_collectionView2.leftPulser open];
-        [_collectionView2.leftPulseGenerator open];
         _collectionView2.tag = 2;
-        [_collectionView2 registerClass:PulseDemoCell.class forCellWithReuseIdentifier:@"kPulseDemoCell"];
+        _collectionView2.layer.masksToBounds = YES;
+        [_collectionView2 registerClass:VerticalPulseDemoCell.class forCellWithReuseIdentifier:@"kVerticalPulseDemoCell"];
     }
     return _collectionView2;
 }
@@ -152,25 +155,25 @@ LNCollectionViewDelegateFlowLayout
 {
     if (!_flowLayout2) {
         _flowLayout2 = [[LNCollectionViewFlowLayout alloc] init];
-        _flowLayout2.scrollDirection = LNCollectionViewScrollDirectionHorizontal;
+        _flowLayout2.scrollDirection = LNCollectionViewScrollDirectionVertical;
     }
     return _flowLayout2;
 }
 
-- (LNScrollViewPulseConvertor *)rightToLeftConvertor
+- (LNScrollViewPulseConvertor *)bottomToTopConvertor
 {
-    if (!_rightToLeftConvertor) {
-        _rightToLeftConvertor = [[LNScrollViewPulseConvertor alloc] init];
+    if (!_bottomToTopConvertor) {
+        _bottomToTopConvertor = [[LNScrollViewPulseConvertor alloc] init];
     }
-    return _rightToLeftConvertor;
+    return _bottomToTopConvertor;
 }
 
-- (LNScrollViewPulseConvertor *)leftToRightConvertor
+- (LNScrollViewPulseConvertor *)topToButtomConvertor
 {
-    if (!_leftToRightConvertor) {
-        _leftToRightConvertor = [[LNScrollViewPulseConvertor alloc] init];
+    if (!_topToButtomConvertor) {
+        _topToButtomConvertor = [[LNScrollViewPulseConvertor alloc] init];
     }
-    return _leftToRightConvertor;
+    return _topToButtomConvertor;
 }
 
 @end

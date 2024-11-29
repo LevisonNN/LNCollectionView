@@ -82,20 +82,20 @@
         CGFloat verticalOffset = location.y - self.status.gestureStartPosition.y;
         [self.verticalDragSimulator updateOffset:verticalOffset];
         CGFloat resultOffset = self.verticalDragSimulator.getResultOffset;
-        if (resultOffset < self.verticalDragSimulator.trailingPoint) {
+        if (resultOffset < self.verticalDragSimulator.leadingPoint) {
             if ([self checkCouldOverBounds:LNScrollViewGestureEffectBoundsVerticalLeading]) {
-                self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, self.verticalDragSimulator.getResultOffset);
+                self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, resultOffset);
             } else {
-                self.status.convertedOffset = CGPointMake(self.verticalDragSimulator.leadingPoint, self.verticalDragSimulator.getResultOffset);
+                self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, self.verticalDragSimulator.leadingPoint);
             }
         } else if (resultOffset > self.verticalDragSimulator.trailingPoint) {
             if ([self checkCouldOverBounds:LNScrollViewGestureEffectBoundsVerticalTrailing]) {
-                self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, self.verticalDragSimulator.getResultOffset);
+                self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, resultOffset);
             } else {
-                self.status.convertedOffset = CGPointMake(self.verticalDragSimulator.trailingPoint, self.verticalDragSimulator.getResultOffset);
+                self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, self.verticalDragSimulator.trailingPoint);
             }
         } else {
-            self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, self.verticalDragSimulator.getResultOffset);
+            self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, resultOffset);
         }
         didStatusChange = YES;
     }

@@ -22,6 +22,7 @@
 		A56DA4222CF83E8C0029386F /* LNScrollViewPulseConvertor.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4212CF83E8C0029386F /* LNScrollViewPulseConvertor.m */; };
 		A56DA4252CF850250029386F /* LNScrollViewMomentum.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4242CF850250029386F /* LNScrollViewMomentum.m */; };
 		A56DA4292CF8E35E0029386F /* PulseDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4282CF8E35E0029386F /* PulseDemoViewController.m */; };
+		A56DA42D2CF9CC0E0029386F /* VerticalPulseDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA42C2CF9CC0E0029386F /* VerticalPulseDemoViewController.m */; };
 		A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */; };
 		A58BE4382CDCAE12005A24C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A58BE4372CDCAE12005A24C4 /* AppDelegate.m */; };
 		A58BE4412CDCAE12005A24C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A58BE43F2CDCAE12005A24C4 /* Main.storyboard */; };
@@ -90,6 +91,8 @@
 		A56DA4242CF850250029386F /* LNScrollViewMomentum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewMomentum.m; sourceTree = "<group>"; };
 		A56DA4272CF8E35E0029386F /* PulseDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PulseDemoViewController.h; sourceTree = "<group>"; };
 		A56DA4282CF8E35E0029386F /* PulseDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PulseDemoViewController.m; sourceTree = "<group>"; };
+		A56DA42B2CF9CC0E0029386F /* VerticalPulseDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalPulseDemoViewController.h; sourceTree = "<group>"; };
+		A56DA42C2CF9CC0E0029386F /* VerticalPulseDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalPulseDemoViewController.m; sourceTree = "<group>"; };
 		A57F69B82CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		A57F69B92CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		A58BE4332CDCAE12005A24C4 /* LNCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LNCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,6 +216,7 @@
 		A56DA4092CF6D81B0029386F /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				A56DA42A2CF9CBF10029386F /* VerticalPulseDemo */,
 				A56DA4262CF8E3440029386F /* PulseDemo */,
 				A56DA4152CF745680029386F /* PowerLawDemo */,
 				A56DA4112CF6DCE60029386F /* CommonDemo */,
@@ -272,6 +276,15 @@
 				A56DA4282CF8E35E0029386F /* PulseDemoViewController.m */,
 			);
 			path = PulseDemo;
+			sourceTree = "<group>";
+		};
+		A56DA42A2CF9CBF10029386F /* VerticalPulseDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A56DA42B2CF9CC0E0029386F /* VerticalPulseDemoViewController.h */,
+				A56DA42C2CF9CC0E0029386F /* VerticalPulseDemoViewController.m */,
+			);
+			path = VerticalPulseDemo;
 			sourceTree = "<group>";
 		};
 		A58BE42A2CDCAE12005A24C4 = {
@@ -518,6 +531,7 @@
 				A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */,
 				A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */,
 				A58BE4752CDCBD18005A24C4 /* LNScrollViewClock.m in Sources */,
+				A56DA42D2CF9CC0E0029386F /* VerticalPulseDemoViewController.m in Sources */,
 				A53076242CE4F1BC00C37840 /* LNCollectionView.m in Sources */,
 				A58BE4782CDCBD27005A24C4 /* LNScrollViewClockProxy.m in Sources */,
 				A56DA4032CEBB31C0029386F /* LNCollectionViewReusePool.m in Sources */,

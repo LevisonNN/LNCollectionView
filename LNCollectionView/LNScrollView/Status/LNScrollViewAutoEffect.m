@@ -104,10 +104,10 @@
         self.restStatus.velocity = CGPointMake(self.horizontalDecelerateSimulator.velocity, self.restStatus.velocity.y);
         self.restStatus.offset = CGPointMake(self.horizontalDecelerateSimulator.position, self.restStatus.offset.y);
         if (self.restStatus.offset.x < self.restStatus.leadingPoint.x - LNScrollViewAutoEffectCommonTolerance) {
-            if (self.restStatus.velocity.x < 0.f && self.leftPulseGenerator.isOpen) {
+            if (self.restStatus.velocity.x < LNScrollViewAutoEffectCommonTolerance && self.leftPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
                 CGFloat feedbackVelocity = [self.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
-                [self startWithVelocity:CGPointMake(-feedbackVelocity, self.restStatus.velocity.y)];
+                [self startWithVelocity:CGPointMake(feedbackVelocity, self.restStatus.velocity.y)];
             } else {
                 self.horizontalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
@@ -116,10 +116,10 @@
                 self.horizontalDecelerateSimulator = nil;
             }
         } else if (self.restStatus.offset.x > self.restStatus.trailingPoint.x + LNScrollViewAutoEffectCommonTolerance) {
-            if (self.restStatus.velocity.x > 0.f && self.rightPulseGenerator.isOpen) {
+            if (self.restStatus.velocity.x > LNScrollViewAutoEffectCommonTolerance && self.rightPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
                 CGFloat feedbackVelocity = [self.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
-                [self startWithVelocity:CGPointMake(feedbackVelocity, self.restStatus.velocity.y)];
+                [self startWithVelocity:CGPointMake(-feedbackVelocity, self.restStatus.velocity.y)];
             } else {
                 self.horizontalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
@@ -170,17 +170,29 @@
         self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.verticalDecelerateSimulator.position);
         self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, self.verticalDecelerateSimulator.velocity);
         if (self.restStatus.offset.y < self.restStatus.leadingPoint.y - LNScrollViewAutoEffectCommonTolerance) {
-            self.verticalBounceSimulator =
-            [[LNScrollViewBounceSimulator alloc] initWithPosition:self.verticalDecelerateSimulator.position
-                                                         velocity:self.verticalDecelerateSimulator.velocity
-                                                   targetPosition:self.restStatus.leadingPoint.y];
-            self.verticalDecelerateSimulator = nil;
+            if (self.restStatus.velocity.y < LNScrollViewAutoEffectCommonTolerance && self.topPulseGenerator.isOpen) {
+                self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.leadingPoint.y);
+                CGFloat feedbackVelocity = [self.topPulseGenerator generate:fabs(self.restStatus.velocity.y)];
+                [self startWithVelocity:CGPointMake(self.restStatus.velocity.y, feedbackVelocity)];
+            } else {
+                self.verticalBounceSimulator =
+                [[LNScrollViewBounceSimulator alloc] initWithPosition:self.verticalDecelerateSimulator.position
+                                                             velocity:self.verticalDecelerateSimulator.velocity
+                                                       targetPosition:self.restStatus.leadingPoint.y];
+                self.verticalDecelerateSimulator = nil;
+            }
         } else if (self.restStatus.offset.y > self.restStatus.trailingPoint.y + LNScrollViewAutoEffectCommonTolerance) {
-            self.verticalBounceSimulator =
-            [[LNScrollViewBounceSimulator alloc] initWithPosition:self.verticalDecelerateSimulator.position
-                                                         velocity:self.verticalDecelerateSimulator.velocity
-                                                   targetPosition:self.restStatus.trailingPoint.y];
-            self.verticalDecelerateSimulator = nil;
+            if (self.restStatus.velocity.y > LNScrollViewAutoEffectCommonTolerance && self.bottomPulseGenerator.isOpen) {
+                self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.trailingPoint.y);
+                CGFloat feedbackVelocity = [self.bottomPulseGenerator generate:fabs(self.restStatus.velocity.y)];
+                [self startWithVelocity:CGPointMake(self.restStatus.velocity.x, - feedbackVelocity)];
+            } else {
+                self.verticalBounceSimulator =
+                [[LNScrollViewBounceSimulator alloc] initWithPosition:self.verticalDecelerateSimulator.position
+                                                             velocity:self.verticalDecelerateSimulator.velocity
+                                                       targetPosition:self.restStatus.trailingPoint.y];
+                self.verticalDecelerateSimulator = nil;
+            }
         } else if (self.verticalDecelerateSimulator.isFinished) {
             self.verticalDecelerateSimulator = nil;
         }

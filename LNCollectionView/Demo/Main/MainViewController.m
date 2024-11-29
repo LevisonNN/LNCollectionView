@@ -10,6 +10,7 @@
 #import "CommonDemoViewController.h"
 #import "PowerLawDemoViewController.h"
 #import "PulseDemoViewController.h"
+#import "VerticalPulseDemoViewController.h"
 
 @interface DemoObject : NSObject
 
@@ -66,6 +67,11 @@ UICollectionViewDelegateFlowLayout
     pulseObj.title = @"Pulse";
     pulseObj.vcClass = PulseDemoViewController.class;
     [mArr addObject:pulseObj];
+    
+    DemoObject *verticalPulseObj = [[DemoObject alloc] init];
+    verticalPulseObj.title = @"verticalPulse";
+    verticalPulseObj.vcClass = VerticalPulseDemoViewController.class;
+    [mArr addObject:verticalPulseObj];
     
     self.modelList = [NSArray arrayWithArray:mArr];
 }
