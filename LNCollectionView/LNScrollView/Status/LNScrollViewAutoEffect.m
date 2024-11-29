@@ -107,7 +107,12 @@
             if (self.restStatus.velocity.x < LNScrollViewAutoEffectCommonTolerance && self.leftPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
                 CGFloat feedbackVelocity = [self.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
-                [self startWithVelocity:CGPointMake(feedbackVelocity, self.restStatus.velocity.y)];
+                if (feedbackVelocity >= -LNScrollViewAutoEffectCommonTolerance) {
+                    self.restStatus.velocity = CGPointMake(0.f, self.restStatus.velocity.y);
+                    self.horizontalDecelerateSimulator = nil;
+                } else {
+                    [self startWithVelocity:CGPointMake(-feedbackVelocity, self.restStatus.velocity.y)];
+                }
             } else {
                 self.horizontalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
@@ -119,7 +124,12 @@
             if (self.restStatus.velocity.x > LNScrollViewAutoEffectCommonTolerance && self.rightPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
                 CGFloat feedbackVelocity = [self.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
-                [self startWithVelocity:CGPointMake(-feedbackVelocity, self.restStatus.velocity.y)];
+                if (feedbackVelocity >= -LNScrollViewAutoEffectCommonTolerance) {
+                    self.restStatus.velocity = CGPointMake(0.f, self.restStatus.velocity.y);
+                    self.horizontalDecelerateSimulator = nil;
+                } else {
+                    [self startWithVelocity:CGPointMake(feedbackVelocity, self.restStatus.velocity.y)];
+                }
             } else {
                 self.horizontalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.horizontalDecelerateSimulator.position
@@ -173,7 +183,12 @@
             if (self.restStatus.velocity.y < LNScrollViewAutoEffectCommonTolerance && self.topPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.leadingPoint.y);
                 CGFloat feedbackVelocity = [self.topPulseGenerator generate:fabs(self.restStatus.velocity.y)];
-                [self startWithVelocity:CGPointMake(self.restStatus.velocity.y, feedbackVelocity)];
+                if (feedbackVelocity >= -LNScrollViewAutoEffectCommonTolerance) {
+                    self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, 0.f);
+                    self.verticalDecelerateSimulator = nil;
+                } else {
+                    [self startWithVelocity:CGPointMake(self.restStatus.velocity.x, -feedbackVelocity)];
+                }
             } else {
                 self.verticalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.verticalDecelerateSimulator.position
@@ -185,7 +200,12 @@
             if (self.restStatus.velocity.y > LNScrollViewAutoEffectCommonTolerance && self.bottomPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.trailingPoint.y);
                 CGFloat feedbackVelocity = [self.bottomPulseGenerator generate:fabs(self.restStatus.velocity.y)];
-                [self startWithVelocity:CGPointMake(self.restStatus.velocity.x, - feedbackVelocity)];
+                if (feedbackVelocity >= -LNScrollViewAutoEffectCommonTolerance) {
+                    self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, 0.f);
+                    self.verticalDecelerateSimulator = nil;
+                } else {
+                    [self startWithVelocity:CGPointMake(self.restStatus.velocity.x, feedbackVelocity)];
+                }
             } else {
                 self.verticalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.verticalDecelerateSimulator.position
