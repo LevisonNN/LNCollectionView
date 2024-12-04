@@ -103,7 +103,7 @@
         CGFloat vBase = (self.n - 1)*self.k*during - c*(self.n - 1);
         CGFloat vExp = 1.0/(1.0 - self.n);
         CGFloat v = pow(vBase, vExp);
-        CGFloat l = (1.0/self.k*(2.0 - self.n))*(pow(positiveVelocity, 2.0 - self.n) - pow(v, 2.0 - self.n));
+        CGFloat l = (1.0/(self.k*(2.0 - self.n)))*(pow(positiveVelocity, 2.0 - self.n) - pow(v, 2.0 - self.n));
         self.velocity = -v;
         self.position = self.position - l;
     }
