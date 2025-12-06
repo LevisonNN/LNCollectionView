@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "LNScrollViewDecelerateSimulator.h"
+#import "LNScrollViewPulseGenerator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
+- (LNScrollViewPulseGenerator *)contextGetTopPulseGenerator;
+- (LNScrollViewPulseGenerator *)contextGetLeftPulseGenerator;
+- (LNScrollViewPulseGenerator *)contextGetBottomPulseGenerator;
+- (LNScrollViewPulseGenerator *)contextGetRightPulseGenerator;
 
 @end
 
@@ -38,6 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGPoint)contentOffset;
 - (BOOL)bounces;
 - (BOOL)pageEnable;
+
+- (LNScrollViewPulseGenerator *)topPulseGenerator;
+- (LNScrollViewPulseGenerator *)leftPulseGenerator;
+- (LNScrollViewPulseGenerator *)bottomPulseGenerator;
+- (LNScrollViewPulseGenerator *)rightPulseGenerator;
 
 @end
 NS_ASSUME_NONNULL_END

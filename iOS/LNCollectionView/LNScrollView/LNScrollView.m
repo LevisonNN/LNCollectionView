@@ -17,6 +17,11 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     LNScrollViewModeAuto = 2,
 };
 
+@interface LNScrollView(Pulse) <LNScrollViewPulserDelegate>
+- (CGFloat)pulserGetVelocity:(LNScrollViewPulser *)pulser;
+- (void)pulser:(LNScrollViewPulser *)pulser updateVelocity:(CGFloat)velocity;
+@end
+
 @interface LNScrollView () <LNScrollViewAutoEffectProtocol, LNScrollViewGestureEffectProtocol, LNScrollViewContextDelegate>
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
@@ -27,6 +32,15 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 @property (nonatomic, strong) LNScrollViewAutoEffect *autoEffect;
 
 @property (nonatomic, strong) LNScrollViewContextObject *context;
+
+@property (nonatomic, strong) LNScrollViewPulseGenerator *topPulseGenerator;
+@property (nonatomic, strong) LNScrollViewPulseGenerator *leftPulseGenerator;
+@property (nonatomic, strong) LNScrollViewPulseGenerator *bottomPulseGenerator;
+@property (nonatomic, strong) LNScrollViewPulseGenerator *rightPulseGenerator;
+@property (nonatomic, strong) LNScrollViewPulser *topPulser;
+@property (nonatomic, strong) LNScrollViewPulser *leftPulser;
+@property (nonatomic, strong) LNScrollViewPulser *bottomPulser;
+@property (nonatomic, strong) LNScrollViewPulser *rightPulser;
 
 @end
 
@@ -129,44 +143,6 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     self.contentOffset = status.convertedOffset;
 }
 
-- (BOOL)gestureEffect:(LNScrollViewGestureEffect *)gestureEffect
-     shouldOverBounds:(LNScrollViewGestureEffectBoundsType)boundsType
-{
-    switch (boundsType) {
-        case LNScrollViewGestureEffectBoundsVerticalLeading: {
-            if (self.topPulseGenerator.isOpen) {
-                return NO;
-            } else {
-                return YES;
-            }
-        } break;
-        case LNScrollViewGestureEffectBoundsHorizontalLeading: {
-            if (self.leftPulseGenerator.isOpen) {
-                return NO;
-            } else {
-                return YES;
-            }
-        } break;
-        case LNScrollViewGestureEffectBoundsVerticalTrailing: {
-            if (self.bottomPulseGenerator.isOpen) {
-                return NO;
-            } else {
-                return YES;
-            }
-        } break;
-        case LNScrollViewGestureEffectBoundsHorizontalTrailing: {
-            if (self.rightPulseGenerator.isOpen) {
-                return NO;
-            } else {
-                return YES;
-            }
-        } break;
-        default: {
-            return NO;
-        } break;
-    }
-}
-
 - (LNScrollViewAutoEffect *)autoEffect
 {
     if (!_autoEffect) {
@@ -201,44 +177,72 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     }
 }
 
-- (LNScrollViewPulser *)topPulser
-{
-    return self.autoEffect.topPulser;
-}
-
-- (LNScrollViewPulser *)leftPulser
-{
-    return self.autoEffect.leftPulser;
-}
-
-- (LNScrollViewPulser *)bottomPulser
-{
-    return self.autoEffect.bottomPulser;
-}
-
-- (LNScrollViewPulser *)rightPulser
-{
-    return self.autoEffect.rightPulser;
-}
-
 - (LNScrollViewPulseGenerator *)topPulseGenerator
 {
-    return self.autoEffect.topPulseGenerator;
+    if (!_topPulseGenerator) {
+        _topPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
+    }
+    return _topPulseGenerator;
 }
 
 - (LNScrollViewPulseGenerator *)leftPulseGenerator
 {
-    return self.autoEffect.leftPulseGenerator;
+    if (!_leftPulseGenerator) {
+        _leftPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
+    }
+    return _leftPulseGenerator;
 }
 
 - (LNScrollViewPulseGenerator *)bottomPulseGenerator
 {
-    return self.autoEffect.bottomPulseGenerator;
+    if (!_bottomPulseGenerator) {
+        _bottomPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
+    }
+    return _bottomPulseGenerator;
 }
 
 - (LNScrollViewPulseGenerator *)rightPulseGenerator
 {
-    return self.autoEffect.rightPulseGenerator;
+    if (!_rightPulseGenerator) {
+        _rightPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
+    }
+    return _rightPulseGenerator;
+}
+
+- (LNScrollViewPulser *)topPulser
+{
+    if (!_topPulser) {
+        _topPulser = [[LNScrollViewPulser alloc] init];
+        _topPulser.delegate = self;
+    }
+    return _topPulser;
+}
+
+- (LNScrollViewPulser *)leftPulser
+{
+    if (!_leftPulser) {
+        _leftPulser = [[LNScrollViewPulser alloc] init];
+        _leftPulser.delegate = self;
+    }
+    return _leftPulser;
+}
+
+- (LNScrollViewPulser *)bottomPulser
+{
+    if (!_bottomPulser) {
+        _bottomPulser = [[LNScrollViewPulser alloc] init];
+        _bottomPulser.delegate = self;
+    }
+    return _bottomPulser;
+}
+
+- (LNScrollViewPulser *)rightPulser
+{
+    if (!_rightPulser) {
+        _rightPulser = [[LNScrollViewPulser alloc] init];
+        _rightPulser.delegate = self;
+    }
+    return _rightPulser;
 }
 
 - (LNScrollViewContextObject *)context {
@@ -266,6 +270,73 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 
 - (BOOL)contextGetPageEnable {
     return self.pageEnable;
+}
+
+- (LNScrollViewPulseGenerator *)contextGetTopPulseGenerator {
+    return self.topPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)contextGetLeftPulseGenerator {
+    return self.leftPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)contextGetBottomPulseGenerator {
+    return self.bottomPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)contextGetRightPulseGenerator {
+    return self.rightPulseGenerator;
+}
+
+@end
+
+@implementation LNScrollView(Pulse)
+
+//pulser
+- (CGFloat)pulserGetVelocity:(LNScrollViewPulser *)pulser
+{
+    if ([self.autoEffect isFinished]) {
+        return 0.f;
+    }
+    if (pulser == self.topPulser) {
+        return self.autoEffect.getVelocity.y;
+    } else if (pulser == self.leftPulser) {
+        return self.autoEffect.getVelocity.x;
+    } else if (pulser == self.bottomPulser) {
+        return -self.autoEffect.getVelocity.y;
+    } else if (pulser == self.rightPulser) {
+        return -self.autoEffect.getVelocity.x;
+    }
+    return 0.f;
+}
+
+- (void)pulser:(LNScrollViewPulser *)pulser updateVelocity:(CGFloat)velocity
+{
+    if (!pulser) {
+        return ;
+    }
+    
+    if (![self.autoEffect isFinished]) {
+        if (pulser == self.topPulser) {
+            [self.autoEffect startWithVelocity:CGPointMake(self.autoEffect.getVelocity.x, velocity)];
+        } else if (pulser == self.leftPulser) {
+            [self.autoEffect startWithVelocity:CGPointMake(velocity, self.autoEffect.getVelocity.y)];
+        } else if (pulser == self.bottomPulser) {
+            [self.autoEffect startWithVelocity:CGPointMake(self.autoEffect.getVelocity.x, -velocity)];
+        } else if (pulser == self.rightPulser) {
+            [self.autoEffect startWithVelocity:CGPointMake(-velocity, self.autoEffect.getVelocity.y)];
+        }
+    } else {
+        if (pulser == self.topPulser) {
+            [self.autoEffect startWithVelocity:CGPointMake(0, velocity)];
+        } else if (pulser == self.leftPulser) {
+            [self.autoEffect startWithVelocity:CGPointMake(velocity, 0)];
+        } else if (pulser == self.bottomPulser) {
+            [self.autoEffect startWithVelocity:CGPointMake(0, -velocity)];
+        } else if (pulser == self.rightPulser) {
+            [self.autoEffect startWithVelocity:CGPointMake(-velocity, 0)];
+        }
+    }
 }
 
 @end

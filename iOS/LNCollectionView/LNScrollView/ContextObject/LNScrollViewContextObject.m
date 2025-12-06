@@ -43,4 +43,20 @@
     return self.delegate.contextGetPageEnable;
 }
 
+- (LNScrollViewPulseGenerator *)topPulseGenerator {
+    return self.delegate.contextGetTopPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)leftPulseGenerator {
+    return self.delegate.contextGetLeftPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)bottomPulseGenerator {
+    return self.delegate.contextGetBottomPulseGenerator;
+}
+
+- (LNScrollViewPulseGenerator *)rightPulseGenerator {
+    return  self.delegate.contextGetRightPulseGenerator;
+}
+
 @end

@@ -41,14 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isFinished;
 - (void)finishForcely;
 
-@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *topPulseGenerator;
-@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *leftPulseGenerator;
-@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *bottomPulseGenerator;
-@property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *rightPulseGenerator;
-@property (nonatomic, strong, readonly) LNScrollViewPulser *topPulser;
-@property (nonatomic, strong, readonly) LNScrollViewPulser *leftPulser;
-@property (nonatomic, strong, readonly) LNScrollViewPulser *bottomPulser;
-@property (nonatomic, strong, readonly) LNScrollViewPulser *rightPulser;
+//tempProperty
+- (CGPoint)getVelocity;
 
 @end
 

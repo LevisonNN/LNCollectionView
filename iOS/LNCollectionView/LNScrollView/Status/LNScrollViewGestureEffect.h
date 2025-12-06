@@ -28,8 +28,6 @@ typedef NS_ENUM(NSInteger, LNScrollViewGestureEffectBoundsType) {
 
 @protocol LNScrollViewGestureEffectProtocol
 - (void)gestureEffectStatusDidChange:(LNScrollViewGestureStatus *)status;
-- (BOOL)gestureEffect:(LNScrollViewGestureEffect *)gestureEffect
-     shouldOverBounds:(LNScrollViewGestureEffectBoundsType)boundsType;
 @end
 
 @interface LNScrollViewGestureEffect : NSObject

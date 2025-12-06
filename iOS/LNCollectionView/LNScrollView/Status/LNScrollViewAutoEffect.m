@@ -28,7 +28,7 @@
 @implementation LNScrollViewRestStatus
 @end
 
-@interface LNScrollViewAutoEffect() <LNScrollViewClockProtocol, LNScrollViewPulserDelegate>
+@interface LNScrollViewAutoEffect() <LNScrollViewClockProtocol>
 
 @property (nonatomic, weak) LNScrollViewContextObject *context;
 
@@ -42,15 +42,6 @@
 @property (nonatomic, strong) LNScrollViewPageSimulator *verticalPageSimulator;
 
 @property (nonatomic, strong) LNScrollViewRestStatus *restStatus;
-
-@property (nonatomic, strong) LNScrollViewPulseGenerator *topPulseGenerator;
-@property (nonatomic, strong) LNScrollViewPulseGenerator *leftPulseGenerator;
-@property (nonatomic, strong) LNScrollViewPulseGenerator *bottomPulseGenerator;
-@property (nonatomic, strong) LNScrollViewPulseGenerator *rightPulseGenerator;
-@property (nonatomic, strong) LNScrollViewPulser *topPulser;
-@property (nonatomic, strong) LNScrollViewPulser *leftPulser;
-@property (nonatomic, strong) LNScrollViewPulser *bottomPulser;
-@property (nonatomic, strong) LNScrollViewPulser *rightPulser;
 
 @end
 
@@ -101,9 +92,9 @@
         self.restStatus.velocity = CGPointMake(self.horizontalDecelerateSimulator.velocity, self.restStatus.velocity.y);
         self.restStatus.offset = CGPointMake(self.horizontalDecelerateSimulator.position, self.restStatus.offset.y);
         if (self.restStatus.offset.x < self.restStatus.leadingPoint.x - LNScrollViewAutoEffectCommonTolerance) {
-            if (self.restStatus.velocity.x < LNScrollViewAutoEffectCommonTolerance && self.leftPulseGenerator.isOpen) {
+            if (self.restStatus.velocity.x < LNScrollViewAutoEffectCommonTolerance && self.context.leftPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
-                CGFloat feedbackVelocity = [self.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
+                CGFloat feedbackVelocity = [self.context.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
                 if (feedbackVelocity >= -LNScrollViewAutoEffectCommonTolerance) {
                     self.restStatus.velocity = CGPointMake(0.f, self.restStatus.velocity.y);
                     self.horizontalDecelerateSimulator = nil;
@@ -118,9 +109,9 @@
                 self.horizontalDecelerateSimulator = nil;
             }
         } else if (self.restStatus.offset.x > self.restStatus.trailingPoint.x + LNScrollViewAutoEffectCommonTolerance) {
-            if (self.restStatus.velocity.x > LNScrollViewAutoEffectCommonTolerance && self.rightPulseGenerator.isOpen) {
+            if (self.restStatus.velocity.x > LNScrollViewAutoEffectCommonTolerance && self.context.rightPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
-                CGFloat feedbackVelocity = [self.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
+                CGFloat feedbackVelocity = [self.context.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
                 if (feedbackVelocity >= -LNScrollViewAutoEffectCommonTolerance) {
                     self.restStatus.velocity = CGPointMake(0.f, self.restStatus.velocity.y);
                     self.horizontalDecelerateSimulator = nil;
@@ -177,9 +168,9 @@
         self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.verticalDecelerateSimulator.position);
         self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, self.verticalDecelerateSimulator.velocity);
         if (self.restStatus.offset.y < self.restStatus.leadingPoint.y - LNScrollViewAutoEffectCommonTolerance) {
-            if (self.restStatus.velocity.y < LNScrollViewAutoEffectCommonTolerance && self.topPulseGenerator.isOpen) {
+            if (self.restStatus.velocity.y < LNScrollViewAutoEffectCommonTolerance && self.context.topPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.leadingPoint.y);
-                CGFloat feedbackVelocity = [self.topPulseGenerator generate:fabs(self.restStatus.velocity.y)];
+                CGFloat feedbackVelocity = [self.context.topPulseGenerator generate:fabs(self.restStatus.velocity.y)];
                 if (feedbackVelocity >= -LNScrollViewAutoEffectCommonTolerance) {
                     self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, 0.f);
                     self.verticalDecelerateSimulator = nil;
@@ -194,9 +185,9 @@
                 self.verticalDecelerateSimulator = nil;
             }
         } else if (self.restStatus.offset.y > self.restStatus.trailingPoint.y + LNScrollViewAutoEffectCommonTolerance) {
-            if (self.restStatus.velocity.y > LNScrollViewAutoEffectCommonTolerance && self.bottomPulseGenerator.isOpen) {
+            if (self.restStatus.velocity.y > LNScrollViewAutoEffectCommonTolerance && self.context.bottomPulseGenerator.isOpen) {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.trailingPoint.y);
-                CGFloat feedbackVelocity = [self.bottomPulseGenerator generate:fabs(self.restStatus.velocity.y)];
+                CGFloat feedbackVelocity = [self.context.bottomPulseGenerator generate:fabs(self.restStatus.velocity.y)];
                 if (feedbackVelocity >= -LNScrollViewAutoEffectCommonTolerance) {
                     self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, 0.f);
                     self.verticalDecelerateSimulator = nil;
@@ -502,119 +493,8 @@
     }
 }
 
-//pulser
-- (CGFloat)pulserGetVelocity:(LNScrollViewPulser *)pulser
-{
-    if (!self.restStatus) {
-        return 0.f;
-    }
-    if (pulser == self.topPulser) {
-        return self.restStatus.velocity.y;
-    } else if (pulser == self.leftPulser) {
-        return self.restStatus.velocity.x;
-    } else if (pulser == self.bottomPulser) {
-        return -self.restStatus.velocity.y;
-    } else if (pulser == self.rightPulser) {
-        return -self.restStatus.velocity.x;
-    }
-    return 0.f;
-}
-
-- (void)pulser:(LNScrollViewPulser *)pulser updateVelocity:(CGFloat)velocity
-{
-    if (!pulser) {
-        return ;
-    }
-    if (self.restStatus) {
-        if (pulser == self.topPulser) {
-            self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, velocity);
-        } else if (pulser == self.leftPulser) {
-            self.restStatus.velocity = CGPointMake(velocity, self.restStatus.velocity.y);
-        } else if (pulser == self.bottomPulser) {
-            self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, -velocity);
-        } else if (pulser == self.rightPulser) {
-            self.restStatus.velocity = CGPointMake(-velocity, self.restStatus.velocity.y);
-        }
-        [self startWithVelocity:self.restStatus.velocity];
-    } else {
-        if (pulser == self.topPulser) {
-            [self startWithVelocity:CGPointMake(0, velocity)];
-        } else if (pulser == self.leftPulser) {
-            [self startWithVelocity:CGPointMake(velocity, 0)];
-        } else if (pulser == self.bottomPulser) {
-            [self startWithVelocity:CGPointMake(0, -velocity)];
-        } else if (pulser == self.rightPulser) {
-            [self startWithVelocity:CGPointMake(-velocity, 0)];
-        }
-    }
-}
-
-- (LNScrollViewPulseGenerator *)topPulseGenerator
-{
-    if (!_topPulseGenerator) {
-        _topPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
-    }
-    return _topPulseGenerator;
-}
-
-- (LNScrollViewPulseGenerator *)leftPulseGenerator
-{
-    if (!_leftPulseGenerator) {
-        _leftPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
-    }
-    return _leftPulseGenerator;
-}
-
-- (LNScrollViewPulseGenerator *)bottomPulseGenerator
-{
-    if (!_bottomPulseGenerator) {
-        _bottomPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
-    }
-    return _bottomPulseGenerator;
-}
-
-- (LNScrollViewPulseGenerator *)rightPulseGenerator
-{
-    if (!_rightPulseGenerator) {
-        _rightPulseGenerator = [[LNScrollViewPulseGenerator alloc] init];
-    }
-    return _rightPulseGenerator;
-}
-
-- (LNScrollViewPulser *)topPulser
-{
-    if (!_topPulser) {
-        _topPulser = [[LNScrollViewPulser alloc] init];
-        _topPulser.delegate = self;
-    }
-    return _topPulser;
-}
-
-- (LNScrollViewPulser *)leftPulser
-{
-    if (!_leftPulser) {
-        _leftPulser = [[LNScrollViewPulser alloc] init];
-        _leftPulser.delegate = self;
-    }
-    return _leftPulser;
-}
-
-- (LNScrollViewPulser *)bottomPulser
-{
-    if (!_bottomPulser) {
-        _bottomPulser = [[LNScrollViewPulser alloc] init];
-        _bottomPulser.delegate = self;
-    }
-    return _bottomPulser;
-}
-
-- (LNScrollViewPulser *)rightPulser
-{
-    if (!_rightPulser) {
-        _rightPulser = [[LNScrollViewPulser alloc] init];
-        _rightPulser.delegate = self;
-    }
-    return _rightPulser;
+- (CGPoint)getVelocity {
+    return self.restStatus.velocity;
 }
 
 @end
