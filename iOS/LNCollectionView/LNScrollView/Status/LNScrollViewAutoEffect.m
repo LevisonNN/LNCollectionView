@@ -20,8 +20,6 @@
 @property (nonatomic, assign) CGPoint velocity;
 @property (nonatomic, assign) CGPoint offset;
 
-@property (nonatomic, assign) CGSize contentSize;
-@property (nonatomic, assign) CGSize frameSize;
 @property (nonatomic, assign) CGPoint startPosition;
 @end
 
@@ -69,8 +67,6 @@
     CGPoint contentOffset = self.context.contentOffset;
     self.restStatus = [[LNScrollViewRestStatus alloc] init];
     self.restStatus.velocity = velocity;
-    self.restStatus.contentSize = contentSize;
-    self.restStatus.frameSize = frameSize;
     self.restStatus.startPosition = contentOffset;
     CGFloat leadingX = 0;
     CGFloat trailingX = contentSize.width - frameSize.width;
@@ -338,14 +334,14 @@
 
 - (CGFloat)validPositionForHorizontalPage:(NSInteger)pageIndex
 {
-    CGFloat pageSize = self.restStatus.frameSize.width;
+    CGFloat pageSize = self.context.frameSize.width;
     CGFloat targetPosition = MAX(self.restStatus.leadingPoint.x, MIN(pageIndex * pageSize, self.restStatus.trailingPoint.x));
     return targetPosition;
 }
 
 - (void)createHorizontalPageSimulator
 {
-    CGFloat pageSize = self.restStatus.frameSize.width;
+    CGFloat pageSize = self.context.frameSize.width;
     NSInteger pageIndex = floor(self.restStatus.startPosition.x/pageSize);
     CGFloat restOffset = self.restStatus.startPosition.x - pageIndex * pageSize;
     if (restOffset < pageSize/2.f) {
@@ -412,14 +408,14 @@
 
 - (CGFloat)validPositionForVerticalPage:(NSInteger)pageIndex
 {
-    CGFloat pageSize = self.restStatus.frameSize.height;
+    CGFloat pageSize = self.context.frameSize.height;
     CGFloat targetPosition = MAX(self.restStatus.leadingPoint.y, MIN(pageIndex *pageSize, self.restStatus.trailingPoint.y));
     return targetPosition;
 }
 
 - (void)createVerticalPageSimulator
 {
-    CGFloat pageSize = self.restStatus.frameSize.height;
+    CGFloat pageSize = self.context.frameSize.height;
     NSInteger pageIndex = floor(self.restStatus.startPosition.y/pageSize);
     CGFloat restOffset = self.restStatus.startPosition.y - pageIndex * pageSize;
     if (restOffset < pageSize/2.f) {
@@ -461,7 +457,7 @@
 
 - (void)createHorizontalSimulatorIfNeeded
 {
-    if (self.restStatus.contentSize.width > self.restStatus.frameSize.width + LNScrollViewAutoEffectCommonTolerance) {
+    if (self.context.contentSize.width > self.context.frameSize.width + LNScrollViewAutoEffectCommonTolerance) {
         if (self.restStatus.startPosition.x < self.restStatus.leadingPoint.x - LNScrollViewAutoEffectCommonTolerance) {
             [self createHorizontalBounceSimulator:NO];
         } else if (self.restStatus.startPosition.x > self.restStatus.trailingPoint.x + LNScrollViewAutoEffectCommonTolerance) {
@@ -478,7 +474,7 @@
 
 - (void)createVerticalSimulatorIfNeeded
 {
-    if (self.restStatus.contentSize.height > self.restStatus.frameSize.height + LNScrollViewAutoEffectCommonTolerance) {
+    if (self.context.contentSize.height > self.context.frameSize.height + LNScrollViewAutoEffectCommonTolerance) {
         if (self.restStatus.startPosition.y < self.restStatus.leadingPoint.y - LNScrollViewAutoEffectCommonTolerance) {
             [self createVerticalBounceSimulator:NO];
         } else if (self.restStatus.startPosition.y > self.restStatus.trailingPoint.y + LNScrollViewAutoEffectCommonTolerance) {

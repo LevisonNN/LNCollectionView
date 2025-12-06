@@ -50,6 +50,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.bounces = YES;
         [self addGestureRecognizer:self.panGesture];
     }
     return self;
