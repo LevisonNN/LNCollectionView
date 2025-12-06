@@ -30,7 +30,7 @@
 
 @interface LNScrollViewAutoEffect() <LNScrollViewClockProtocol, LNScrollViewPulserDelegate>
 
-@property (nonatomic, strong) LNScrollViewContextObject *context;
+@property (nonatomic, weak) LNScrollViewContextObject *context;
 
 @property (nonatomic, strong) LNScrollViewBounceSimulator *horizontalBounceSimulator;
 @property (nonatomic, strong) LNScrollViewBounceSimulator *verticalBounceSimulator;

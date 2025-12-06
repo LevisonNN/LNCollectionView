@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LNScrollViewContextObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @class LNScrollViewGestureEffect;
@@ -33,12 +34,11 @@ typedef NS_ENUM(NSInteger, LNScrollViewGestureEffectBoundsType) {
 
 @interface LNScrollViewGestureEffect : NSObject
 
+- (instancetype)initWithContext:(nonnull LNScrollViewContextObject *)context;
+
 @property (nonatomic, weak) NSObject<LNScrollViewGestureEffectProtocol> *delegate;
  
-- (void)startWithFrameSize:(CGSize)frameSize
-               contentSize:(CGSize)contentSize
-             currentOffset:(CGPoint)contentOffset
-           gesturePosition:(CGPoint)gesturePosition;
+- (void)startWithGesturePosition:(CGPoint)gesturePosition;
 - (void)updateGestureLocation:(CGPoint)location;
 - (void)finish;
 

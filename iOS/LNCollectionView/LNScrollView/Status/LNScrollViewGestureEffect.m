@@ -7,6 +7,7 @@
 
 #import "LNScrollViewGestureEffect.h"
 #import "LNScrollViewDragSimulator.h"
+#import "LNScrollViewContextObject.h"
 
 @implementation LNScrollViewGestureStatus
 @end
@@ -18,17 +19,31 @@
 @property (nonatomic, strong) LNScrollViewDragSimulator *horizontalDragSimulator;
 @property (nonatomic, strong) LNScrollViewDragSimulator *verticalDragSimulator;
 
+@property (nonatomic, weak) LNScrollViewContextObject *context;
+
 @end
 
 @implementation LNScrollViewGestureEffect
-- (void)startWithFrameSize:(CGSize)frameSize
-               contentSize:(CGSize)contentSize
-             currentOffset:(CGPoint)contentOffset
-           gesturePosition:(CGPoint)gesturePosition {
+
+- (instancetype)initWithContext:(nonnull LNScrollViewContextObject *)context {
+    self = [super init];
+    if (self) {
+        self.context = context;
+    }
+    return self;
+}
+
+- (void)startWithGesturePosition:(CGPoint)gesturePosition {
+    
+    CGSize contentSize = self.context.contentSize;
+    CGSize frameSize = self.context.frameSize;
+    CGPoint contentOffset = self.context.contentOffset;
+    
     self.status = [[LNScrollViewGestureStatus alloc] init];
     self.status.gestureStartPosition = gesturePosition;
     self.status.startContentOffset = contentOffset;
     self.status.convertedOffset = CGPointZero;
+
     if (contentSize.height > frameSize.height) {
         self.verticalDragSimulator =
         [[LNScrollViewDragSimulator alloc] initWithLeadingPoint:0

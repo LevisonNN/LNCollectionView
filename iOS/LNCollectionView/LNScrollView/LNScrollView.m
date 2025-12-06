@@ -82,10 +82,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
         [self.autoEffect finishForcely];
         self.mode = LNScrollViewModeTracking;
         CGPoint location = [self convertedRealLocation];
-        [self.gestureEffect startWithFrameSize:self.bounds.size
-                                                contentSize:self.contentSize
-                                              currentOffset:self.bounds.origin
-                                            gesturePosition:location];
+        [self.gestureEffect startWithGesturePosition:location];
         if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewWillBeginDragging:)]) {
             [self.delegate ln_scrollViewWillBeginDragging:self];
         }
@@ -121,7 +118,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 - (LNScrollViewGestureEffect *)gestureEffect
 {
     if (!_gestureEffect) {
-        _gestureEffect = [[LNScrollViewGestureEffect alloc] init];
+        _gestureEffect = [[LNScrollViewGestureEffect alloc] initWithContext:self.context];
         _gestureEffect.delegate = self;
     }
     return _gestureEffect;
