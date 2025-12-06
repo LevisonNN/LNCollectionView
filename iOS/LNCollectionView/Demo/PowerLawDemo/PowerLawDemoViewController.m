@@ -99,16 +99,7 @@ LNCollectionViewDelegateFlowLayout>
     return CGSizeMake(100.f, 100.f);
 }
 
-- (LNScrollViewDecelerateSimulator *)ln_scrollViewHorizontalDecelerateSimulatorForPosition:(CGFloat)position velocity:(CGFloat)velocity {
-    LNScrollViewPowerLawDecelerateSimulator *simulator = [[LNScrollViewPowerLawDecelerateSimulator alloc] initWithPosition:position velocity:velocity k:2 n:1.2];
-    return simulator;
-}
-
-- (LNScrollViewDecelerateSimulator *)ln_scrollViewVerticalDecelerateSimulatorForPosition:(CGFloat)position velocity:(CGFloat)velocity {
-    LNScrollViewPowerLawDecelerateSimulator *simulator = [[LNScrollViewPowerLawDecelerateSimulator alloc] initWithPosition:position velocity:velocity k:2 n:1.2];
-    return simulator;
-}
-
+//改成定制Axis
 - (LNCollectionView *)collectionView
 {
     if (!_collectionView) {

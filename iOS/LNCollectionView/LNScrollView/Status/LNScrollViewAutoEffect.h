@@ -10,6 +10,7 @@
 #import "LNScrollViewDecelerateSimulator.h"
 #import "LNScrollViewPulser.h"
 #import "LNScrollViewPulseGenerator.h"
+#import "LNScrollViewContextObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,21 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) CGPoint offset;
 @end
 
-@protocol LNScrollViewAutoEffectDataSource <NSObject>
-
-- (CGSize)autoEffectGetContentSize:(LNScrollViewAutoEffect *)effect;
-- (CGSize)autoEffectGetFrameSize:(LNScrollViewAutoEffect *)effect;
-- (CGPoint)autoEffectGetContentOffset:(LNScrollViewAutoEffect *)effect;
-
-- (nullable LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect
-                        horizontalDecelerateWithPosition:(CGFloat)position
-                                                velocity:(CGFloat)velocity;
-- (nullable LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect
-                          verticalDecelerateWithPosition:(CGFloat)position
-                                                velocity:(CGFloat)velocity;
-
-@end
-
 @protocol LNScrollViewAutoEffectProtocol
 - (void)autoEffectStatusDidChange:(LNScrollViewRestStatus *)status;
 - (void)autoEffectStatusHasFinished:(LNScrollViewAutoEffect *)effect;
@@ -44,11 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LNScrollViewAutoEffect : NSObject
 
+- (instancetype)initWithContext:(nonnull LNScrollViewContextObject *)context;
+
 @property (nonatomic, assign) BOOL pageEnable;
 @property (nonatomic, assign) CGFloat pageDamping;
 
 @property (nonatomic, weak) NSObject<LNScrollViewAutoEffectProtocol> *delegate;
-@property (nonatomic, weak) NSObject<LNScrollViewAutoEffectDataSource> *dataSource;
 
 - (BOOL)startWithVelocity:(CGPoint)velocity;
 - (BOOL)isFinished;

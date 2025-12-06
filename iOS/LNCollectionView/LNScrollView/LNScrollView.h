@@ -24,11 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)ln_scrollViewDidEndDragging:(LNScrollView *)scrollView willDecelerate:(BOOL)decelerate;
 - (void)ln_scrollViewWillBeginDecelerating:(LNScrollView *)scrollView;
 - (void)ln_scrollViewDidEndDecelerating:(LNScrollView *)scrollView;
-
-//extension
-- (nullable LNScrollViewDecelerateSimulator *)ln_scrollViewHorizontalDecelerateSimulatorForPosition:(CGFloat)position velocity:(CGFloat)velocity;
-- (nullable LNScrollViewDecelerateSimulator *)ln_scrollViewVerticalDecelerateSimulatorForPosition:(CGFloat)position velocity:(CGFloat)velocity;
-
 //未实现
 - (void)ln_scrollViewDidZoom:(LNScrollView *)scrollView;
 - (void)ln_scrollViewDidEndScrollingAnimation:(LNScrollView *)scrollView;
@@ -48,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGSize contentSize;
 @property (nonatomic, assign) CGPoint contentOffset;
 
+@property (nonatomic, assign) BOOL bounces;
 @property (nonatomic, assign) BOOL pageEnable;
 
 @property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *topPulseGenerator;

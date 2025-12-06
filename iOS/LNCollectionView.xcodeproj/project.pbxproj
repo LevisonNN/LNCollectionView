@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A53076242CE4F1BC00C37840 /* LNCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A53076232CE4F1BC00C37840 /* LNCollectionView.m */; };
 		A53076282CE4F42100C37840 /* LNCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A53076272CE4F42100C37840 /* LNCollectionViewLayout.m */; };
+		A53425782EE42F65001BBC4E /* LNScrollViewContextObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A53425772EE42F65001BBC4E /* LNScrollViewContextObject.m */; };
 		A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3B72CE6049F0029386F /* LNCollectionViewCell.m */; };
 		A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */; };
 		A56DA4032CEBB31C0029386F /* LNCollectionViewReusePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4022CEBB31C0029386F /* LNCollectionViewReusePool.m */; };
@@ -65,6 +66,8 @@
 		A53076232CE4F1BC00C37840 /* LNCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionView.m; sourceTree = "<group>"; };
 		A53076262CE4F42100C37840 /* LNCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewLayout.h; sourceTree = "<group>"; };
 		A53076272CE4F42100C37840 /* LNCollectionViewLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewLayout.m; sourceTree = "<group>"; };
+		A53425762EE42F65001BBC4E /* LNScrollViewContextObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewContextObject.h; sourceTree = "<group>"; };
+		A53425772EE42F65001BBC4E /* LNScrollViewContextObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewContextObject.m; sourceTree = "<group>"; };
 		A56DA3B62CE6049F0029386F /* LNCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewCell.h; sourceTree = "<group>"; };
 		A56DA3B72CE6049F0029386F /* LNCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewCell.m; sourceTree = "<group>"; };
 		A56DA3B92CE86F420029386F /* LNCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewFlowLayout.h; sourceTree = "<group>"; };
@@ -176,6 +179,15 @@
 				A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */,
 			);
 			path = Layout;
+			sourceTree = "<group>";
+		};
+		A53425752EE42F4B001BBC4E /* ContextObject */ = {
+			isa = PBXGroup;
+			children = (
+				A53425762EE42F65001BBC4E /* LNScrollViewContextObject.h */,
+				A53425772EE42F65001BBC4E /* LNScrollViewContextObject.m */,
+			);
+			path = ContextObject;
 			sourceTree = "<group>";
 		};
 		A56DA3B52CE6048A0029386F /* Cell */ = {
@@ -345,6 +357,7 @@
 		A58BE46B2CDCAE27005A24C4 /* LNScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				A53425752EE42F4B001BBC4E /* ContextObject */,
 				A56DA4192CF755E10029386F /* Pulse */,
 				A58BE4892CDF7F2D005A24C4 /* Status */,
 				A58BE4792CDCC727005A24C4 /* Simulator */,
@@ -530,6 +543,7 @@
 				A58BE4822CDCCB26005A24C4 /* LNScrollViewDecelerateSimulator.m in Sources */,
 				A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */,
 				A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */,
+				A53425782EE42F65001BBC4E /* LNScrollViewContextObject.m in Sources */,
 				A58BE4752CDCBD18005A24C4 /* LNScrollViewClock.m in Sources */,
 				A56DA42D2CF9CC0E0029386F /* VerticalPulseDemoViewController.m in Sources */,
 				A53076242CE4F1BC00C37840 /* LNCollectionView.m in Sources */,

@@ -30,6 +30,8 @@
 
 @interface LNScrollViewAutoEffect() <LNScrollViewClockProtocol, LNScrollViewPulserDelegate>
 
+@property (nonatomic, strong) LNScrollViewContextObject *context;
+
 @property (nonatomic, strong) LNScrollViewBounceSimulator *horizontalBounceSimulator;
 @property (nonatomic, strong) LNScrollViewBounceSimulator *verticalBounceSimulator;
 
@@ -54,10 +56,11 @@
 
 @implementation LNScrollViewAutoEffect
 
-- (instancetype)init
+- (instancetype)initWithContext:(LNScrollViewContextObject *)context
 {
     self = [super init];
     if (self) {
+        self.context = context;
         self.pageDamping = 20;
     }
     return self;
@@ -70,15 +73,9 @@
 - (BOOL)startWithVelocity:(CGPoint)velocity {
     [self finish];
     [LNScrollViewClock.shareInstance addObject:self];
-    if (self.dataSource &&
-        [self.dataSource respondsToSelector:@selector(autoEffectGetFrameSize:)] &&
-        [self.dataSource respondsToSelector:@selector(autoEffectGetContentSize:)] &&
-        [self.dataSource respondsToSelector:@selector(autoEffectGetContentOffset:)]) {} else {
-        return NO;
-    }
-    CGSize contentSize = [self.dataSource autoEffectGetContentSize:self];
-    CGSize frameSize = [self.dataSource autoEffectGetFrameSize:self];
-    CGPoint contentOffset = [self.dataSource autoEffectGetContentOffset:self];
+    CGSize contentSize = self.context.contentSize;
+    CGSize frameSize = self.context.frameSize;
+    CGPoint contentOffset = self.context.contentOffset;
     self.restStatus = [[LNScrollViewRestStatus alloc] init];
     self.restStatus.velocity = velocity;
     self.restStatus.contentSize = contentSize;
@@ -335,17 +332,8 @@
 
 - (void)createHorizontalDecelerateSimulator
 {
-    LNScrollViewDecelerateSimulator *simulator = nil;
-    if (self.dataSource && [self.dataSource respondsToSelector:@selector(autoEffect:horizontalDecelerateWithPosition:velocity:)]) {
-        simulator = [self.dataSource autoEffect:self horizontalDecelerateWithPosition:self.restStatus.startPosition.x velocity:self.restStatus.velocity.x];
-    }
-    if (simulator) {
-        self.horizontalDecelerateSimulator = simulator;
-    } else {
-        self.horizontalDecelerateSimulator =
-        [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.x
+    self.horizontalDecelerateSimulator = [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.x
                                                          velocity:self.restStatus.velocity.x];
-    }
 }
 
 - (void)createHorizontalPageSimulatorTo:(CGFloat)targetPosition
@@ -417,19 +405,8 @@
 
 - (void)createVerticalDecelerateSimulator
 {
-    LNScrollViewDecelerateSimulator *simulator = nil;
-    if (self.dataSource && [self.dataSource respondsToSelector:@selector(autoEffect:verticalDecelerateWithPosition:velocity:)]) {
-        simulator = [self.dataSource autoEffect:self
-                 verticalDecelerateWithPosition:self.restStatus.startPosition.y
-                                       velocity:self.restStatus.velocity.y];
-    }
-    if (simulator) {
-        self.verticalDecelerateSimulator = simulator;
-    } else {
-        self.verticalDecelerateSimulator =
-        [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.y
+    self.verticalDecelerateSimulator = [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.y
                                                          velocity:self.restStatus.velocity.y];
-    }
 }
 
 - (void)createVerticalPageSimulatorTo:(CGFloat)targetPosition

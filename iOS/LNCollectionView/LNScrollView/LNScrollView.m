@@ -9,6 +9,7 @@
 #import "LNScrollViewAutoEffect.h"
 #import "LNScrollViewGestureEffect.h"
 #import "LNScrollViewClock.h"
+#import "LNScrollViewContextObject.h"
 
 typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     LNScrollViewModeDefault = 0,
@@ -16,7 +17,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     LNScrollViewModeAuto = 2,
 };
 
-@interface LNScrollView () <LNScrollViewAutoEffectProtocol, LNScrollViewGestureEffectProtocol, LNScrollViewAutoEffectDataSource>
+@interface LNScrollView () <LNScrollViewAutoEffectProtocol, LNScrollViewGestureEffectProtocol, LNScrollViewContextDelegate>
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 
@@ -24,6 +25,8 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 
 @property (nonatomic, strong) LNScrollViewGestureEffect *gestureEffect;
 @property (nonatomic, strong) LNScrollViewAutoEffect *autoEffect;
+
+@property (nonatomic, strong) LNScrollViewContextObject *context;
 
 @end
 
@@ -112,24 +115,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
             //TODO: 这个回调的特性需要确认一下是只有减速的时候有回调，还是page/bounce也有回调
             [self.delegate ln_scrollViewDidEndDragging:self willDecelerate:YES];
         }
-
     }
-}
-
-- (nullable LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect horizontalDecelerateWithPosition:(CGFloat)position velocity:(CGFloat)velocity
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewHorizontalDecelerateSimulatorForPosition:velocity:)]) {
-        return [self.delegate ln_scrollViewHorizontalDecelerateSimulatorForPosition:position velocity:velocity];
-    }
-    return nil;
-}
-
-- (LNScrollViewDecelerateSimulator *)autoEffect:(LNScrollViewAutoEffect *)effect verticalDecelerateWithPosition:(CGFloat)position velocity:(CGFloat)velocity
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewVerticalDecelerateSimulatorForPosition:velocity:)]) {
-        return [self.delegate ln_scrollViewVerticalDecelerateSimulatorForPosition:position velocity:velocity];
-    }
-    return nil;
 }
 
 - (LNScrollViewGestureEffect *)gestureEffect
@@ -187,9 +173,8 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 - (LNScrollViewAutoEffect *)autoEffect
 {
     if (!_autoEffect) {
-        _autoEffect = [[LNScrollViewAutoEffect alloc] init];
+        _autoEffect = [[LNScrollViewAutoEffect alloc] initWithContext:self.context];
         _autoEffect.delegate = self;
-        _autoEffect.dataSource = self;
     }
     return _autoEffect;
 }
@@ -257,6 +242,33 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 - (LNScrollViewPulseGenerator *)rightPulseGenerator
 {
     return self.autoEffect.rightPulseGenerator;
+}
+
+- (LNScrollViewContextObject *)context {
+    if (!_context) {
+        _context = [[LNScrollViewContextObject alloc] initWithDelegate:self];
+    }
+    return _context;
+}
+
+- (CGSize)contextGetContentSize {
+    return self.contentSize;
+}
+
+- (CGSize)contextGetFrameSize {
+    return self.bounds.size;
+}
+
+- (CGPoint)contextGetContentOffset {
+    return self.contentOffset;
+}
+
+- (BOOL)contextGetBounces {
+    return self.bounces;
+}
+
+- (BOOL)contextGetPageEnable {
+    return self.pageEnable;
 }
 
 @end
