@@ -46,15 +46,15 @@
 
     if (contentSize.height > frameSize.height) {
         self.verticalDragSimulator =
-        [[LNScrollViewDragSimulator alloc] initWithLeadingPoint:0
-                                                  trailingPoint:contentSize.height - frameSize.height
+        [[LNScrollViewDragSimulator alloc] initWithLeadingPoint:-self.context.contentInset.top
+                                                  trailingPoint:contentSize.height - frameSize.height + self.context.contentInset.bottom
                                                      startPoint:contentOffset.y];
     }
     
     if (contentSize.width > frameSize.width) {
         self.horizontalDragSimulator =
-        [[LNScrollViewDragSimulator alloc] initWithLeadingPoint:0
-                                                  trailingPoint:contentSize.width - frameSize.width
+        [[LNScrollViewDragSimulator alloc] initWithLeadingPoint:-self.context.contentInset.left
+                                                  trailingPoint:contentSize.width - frameSize.width + self.context.contentInset.right
                                                      startPoint:contentOffset.x];
     }
     

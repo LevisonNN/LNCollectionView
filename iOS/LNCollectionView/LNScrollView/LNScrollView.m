@@ -51,6 +51,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     self = [super initWithFrame:frame];
     if (self) {
         self.bounces = YES;
+        self.contentInset = UIEdgeInsetsZero;
         [self addGestureRecognizer:self.panGesture];
     }
     return self;
@@ -263,6 +264,10 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 
 - (CGPoint)contextGetContentOffset {
     return self.contentOffset;
+}
+
+- (UIEdgeInsets)contextGetContentInset {
+    return self.contentInset;
 }
 
 - (BOOL)contextGetBounces {

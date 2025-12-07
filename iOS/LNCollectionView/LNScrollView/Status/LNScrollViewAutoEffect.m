@@ -68,10 +68,10 @@
     self.restStatus = [[LNScrollViewRestStatus alloc] init];
     self.restStatus.velocity = velocity;
     self.restStatus.startPosition = contentOffset;
-    CGFloat leadingX = 0;
-    CGFloat trailingX = contentSize.width - frameSize.width;
-    CGFloat leadingY = 0;
-    CGFloat trailingY = contentSize.height - frameSize.height;
+    CGFloat leadingX = - self.context.contentInset.left;
+    CGFloat trailingX = contentSize.width - frameSize.width + self.context.contentInset.right;
+    CGFloat leadingY = - self.context.contentInset.top;
+    CGFloat trailingY = contentSize.height - frameSize.height + self.context.contentInset.bottom;
     self.restStatus.leadingPoint = CGPointMake(leadingX, leadingY);
     self.restStatus.trailingPoint = CGPointMake(trailingX, trailingY);
     self.restStatus.offset = contentOffset;
@@ -90,10 +90,7 @@
         if (self.restStatus.offset.x <= self.restStatus.leadingPoint.x) {
             self.horizontalDecelerateSimulator = nil;
             if ([self shouldOverBounds:LNScrollViewBoundsHorizontalLeading]) {
-                self.horizontalBounceSimulator =
-                [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.x
-                                                             velocity:self.restStatus.velocity.x
-                                                       targetPosition:self.restStatus.leadingPoint.x];
+                [self createHorizontalBounceSimulator:NO];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
                 if ([self needFeedback:LNScrollViewBoundsHorizontalLeading]) {
@@ -115,10 +112,7 @@
         } else if (self.restStatus.offset.x >= self.restStatus.trailingPoint.x) {
             self.horizontalDecelerateSimulator = nil;
             if ([self shouldOverBounds:LNScrollViewBoundsHorizontalTrailing]) {
-                self.horizontalBounceSimulator =
-                [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.x
-                                                             velocity:self.restStatus.velocity.x
-                                                       targetPosition:self.restStatus.trailingPoint.x];
+                [self createHorizontalBounceSimulator:YES];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
                 if ([self needFeedback:LNScrollViewBoundsHorizontalTrailing]) {
@@ -184,10 +178,7 @@
             self.verticalDecelerateSimulator = nil;
             if ([self shouldOverBounds:LNScrollViewBoundsVerticalLeading]) {
                 //可以越界，直接启用Bounces
-                self.verticalBounceSimulator =
-                [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.y
-                                                             velocity:self.restStatus.velocity.x
-                                                       targetPosition:self.restStatus.leadingPoint.y];
+                [self createVerticalBounceSimulator:NO];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.leadingPoint.y);
                 if  ([self needFeedback:LNScrollViewBoundsVerticalLeading]) {
@@ -212,10 +203,7 @@
         } else if (self.restStatus.offset.y >= self.restStatus.trailingPoint.y) {
             self.verticalDecelerateSimulator = nil;
             if ([self shouldOverBounds:LNScrollViewBoundsVerticalTrailing]) {
-                self.verticalBounceSimulator =
-                [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.y
-                                                             velocity:self.restStatus.velocity.y
-                                                       targetPosition:self.restStatus.trailingPoint.y];
+                [self createVerticalBounceSimulator:YES];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.trailingPoint.y);
                 if ([self needFeedback:LNScrollViewBoundsVerticalTrailing]) {
@@ -351,21 +339,21 @@
 {
     CGFloat targetPosition = isTrailing? self.restStatus.trailingPoint.x : self.restStatus.leadingPoint.x;
     self.horizontalBounceSimulator =
-    [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.startPosition.x
+    [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.x
                                                  velocity:self.restStatus.velocity.x
                                            targetPosition:targetPosition];
 }
 
 - (void)createHorizontalDecelerateSimulator
 {
-    self.horizontalDecelerateSimulator = [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.x
+    self.horizontalDecelerateSimulator = [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.offset.x
                                                          velocity:self.restStatus.velocity.x];
 }
 
 - (void)createHorizontalPageSimulatorTo:(CGFloat)targetPosition
 {
     self.horizontalPageSimulator =
-    [[LNScrollViewPageSimulator alloc] initWithPosition:self.restStatus.startPosition.x
+    [[LNScrollViewPageSimulator alloc] initWithPosition:self.restStatus.offset.x
                                                velocity:self.restStatus.velocity.x
                                          targetPosition:targetPosition
                                                 damping:self.pageDamping];
@@ -381,8 +369,8 @@
 - (void)createHorizontalPageSimulator
 {
     CGFloat pageSize = self.context.frameSize.width;
-    NSInteger pageIndex = floor(self.restStatus.startPosition.x/pageSize);
-    CGFloat restOffset = self.restStatus.startPosition.x - pageIndex * pageSize;
+    NSInteger pageIndex = floor(self.restStatus.offset.x/pageSize);
+    CGFloat restOffset = self.restStatus.offset.x - pageIndex * pageSize;
     if (restOffset < pageSize/2.f) {
         if (self.restStatus.velocity.x <= 0) {
             CGFloat targetPosition = [self validPositionForHorizontalPage:pageIndex];
@@ -423,22 +411,24 @@
 
 - (void)createVerticalBounceSimulator:(BOOL)isTrailing
 {
+    NSLog(@"创建一个垂直边界模拟器");
     CGFloat targetPosition = isTrailing? self.restStatus.trailingPoint.y : self.restStatus.leadingPoint.y;
-    self.verticalBounceSimulator = [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.startPosition.y
+    self.verticalBounceSimulator = [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.y
                                                                               velocity:self.restStatus.velocity.y
                                                                         targetPosition:targetPosition];
 }
 
 - (void)createVerticalDecelerateSimulator
 {
-    self.verticalDecelerateSimulator = [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.startPosition.y
+    NSLog(@"创建一个垂直减速模拟器");
+    self.verticalDecelerateSimulator = [[LNScrollViewDecelerateSimulator alloc] initWithPosition:self.restStatus.offset.y
                                                          velocity:self.restStatus.velocity.y];
 }
 
 - (void)createVerticalPageSimulatorTo:(CGFloat)targetPosition
 {
     self.verticalPageSimulator =
-    [[LNScrollViewPageSimulator alloc] initWithPosition:self.restStatus.startPosition.y
+    [[LNScrollViewPageSimulator alloc] initWithPosition:self.restStatus.offset.y
                                                velocity:self.restStatus.velocity.y
                                          targetPosition:targetPosition
                                                 damping:self.pageDamping];
@@ -455,8 +445,8 @@
 - (void)createVerticalPageSimulator
 {
     CGFloat pageSize = self.context.frameSize.height;
-    NSInteger pageIndex = floor(self.restStatus.startPosition.y/pageSize);
-    CGFloat restOffset = self.restStatus.startPosition.y - pageIndex * pageSize;
+    NSInteger pageIndex = floor(self.restStatus.offset.y/pageSize);
+    CGFloat restOffset = self.restStatus.offset.y - pageIndex * pageSize;
     if (restOffset < pageSize/2.f) {
         if (self.restStatus.velocity.y <= 0) {
             CGFloat targetPosition = [self validPositionForVerticalPage:pageIndex];
@@ -497,7 +487,7 @@
 - (void)createHorizontalSimulatorIfNeeded
 {
     if (self.context.contentSize.width > self.context.frameSize.width + LNScrollViewAutoEffectCommonTolerance) {
-        if (self.restStatus.startPosition.x <= self.restStatus.leadingPoint.x && self.restStatus.velocity.x < 0) {
+        if (self.restStatus.offset.x <= self.restStatus.leadingPoint.x && self.restStatus.velocity.x < 0) {
             //超出左边界了
             if ([self shouldOverBounds:LNScrollViewBoundsHorizontalLeading]) {
                 [self createHorizontalBounceSimulator:NO];
@@ -520,7 +510,7 @@
                 }
             }
             
-        } else if (self.restStatus.startPosition.x >= self.restStatus.trailingPoint.x && self.restStatus.velocity.x > 0) {
+        } else if (self.restStatus.offset.x >= self.restStatus.trailingPoint.x && self.restStatus.velocity.x > 0) {
             if ([self shouldOverBounds:LNScrollViewBoundsHorizontalTrailing]) {
                 [self createHorizontalBounceSimulator:YES];
             } else {
@@ -554,7 +544,7 @@
 - (void)createVerticalSimulatorIfNeeded
 {
     if (self.context.contentSize.height > self.context.frameSize.height + LNScrollViewAutoEffectCommonTolerance) {
-        if (self.restStatus.startPosition.y <= self.restStatus.leadingPoint.y && self.restStatus.velocity.y < 0) {
+        if (self.restStatus.offset.y <= self.restStatus.leadingPoint.y && self.restStatus.velocity.y < 0) {
             //超出了上边界
             if ([self shouldOverBounds:LNScrollViewBoundsVerticalLeading]) {
                 [self createVerticalBounceSimulator:NO];
@@ -579,7 +569,7 @@
                     self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, 0);
                 }
             }
-        } else if (self.restStatus.startPosition.y >= self.restStatus.trailingPoint.y && self.restStatus.velocity.y > 0) {
+        } else if (self.restStatus.offset.y >= self.restStatus.trailingPoint.y && self.restStatus.velocity.y > 0) {
             if ([self shouldOverBounds:LNScrollViewBoundsVerticalTrailing]) {
                 [self createVerticalBounceSimulator:YES];
             } else {

@@ -39,6 +39,10 @@
     
 }
 
+- (CGSize)collectionViewContentSize {
+    return CGSizeZero;
+}
+
 - (nullable NSArray<__kindof UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     return @[];

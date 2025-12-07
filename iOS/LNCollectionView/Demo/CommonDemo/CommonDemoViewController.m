@@ -136,6 +136,7 @@ LNCollectionViewDelegateFlowLayout>
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.layer.masksToBounds = YES;
+        _collectionView.contentInset = UIEdgeInsetsMake(100, 0, 100, 0);
         [_collectionView registerClass:CommonDemoCell.class forCellWithReuseIdentifier:@"kCommonDemoCell"];
     }
     return _collectionView;

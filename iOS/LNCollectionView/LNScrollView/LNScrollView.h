@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) NSObject <LNScrollViewDelegate> *delegate;
 
 @property (nonatomic, assign) CGSize contentSize;
+@property (nonatomic, assign) UIEdgeInsets contentInset;
 @property (nonatomic, assign) CGPoint contentOffset;
 
 @property (nonatomic, assign) BOOL bounces;

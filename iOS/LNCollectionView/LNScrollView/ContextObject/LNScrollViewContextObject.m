@@ -31,6 +31,10 @@
     return self.delegate.contextGetContentOffset;
 }
 
+- (UIEdgeInsets)contentInset {
+    return self.delegate.contextGetContentInset;
+}
+
 - (CGSize)frameSize {
     return self.delegate.contextGetFrameSize;
 }

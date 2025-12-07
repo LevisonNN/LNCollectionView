@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "LNScrollViewDecelerateSimulator.h"
 #import "LNScrollViewPulseGenerator.h"
 
@@ -29,6 +30,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
 - (CGSize)contextGetContentSize;
 - (CGSize)contextGetFrameSize;
 - (CGPoint)contextGetContentOffset;
+- (UIEdgeInsets)contextGetContentInset;
 
 - (BOOL)contextGetBounces;
 - (BOOL)contextGetPageEnable;
@@ -49,6 +51,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
 - (CGSize)contentSize;
 - (CGSize)frameSize;
 - (CGPoint)contentOffset;
+- (UIEdgeInsets)contentInset;
 - (BOOL)bounces;
 - (BOOL)pageEnable;
 
