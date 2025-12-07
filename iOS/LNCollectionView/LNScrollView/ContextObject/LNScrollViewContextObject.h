@@ -12,11 +12,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-typedef NS_ENUM(NSInteger, LNScrollViewGestureEffectBoundsType) {
-    LNScrollViewGestureEffectBoundsVerticalLeading = 0,
-    LNScrollViewGestureEffectBoundsHorizontalLeading = 1,
-    LNScrollViewGestureEffectBoundsVerticalTrailing = 2,
-    LNScrollViewGestureEffectBoundsHorizontalTrailing = 3,
+typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
+    LNScrollViewBoundsVerticalLeading = 0,
+    LNScrollViewBoundsHorizontalLeading = 1,
+    LNScrollViewBoundsVerticalTrailing = 2,
+    LNScrollViewBoundsHorizontalTrailing = 3,
 };
 
 /**

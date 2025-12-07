@@ -89,14 +89,14 @@
         self.restStatus.offset = CGPointMake(self.horizontalDecelerateSimulator.position, self.restStatus.offset.y);
         if (self.restStatus.offset.x <= self.restStatus.leadingPoint.x) {
             self.horizontalDecelerateSimulator = nil;
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsHorizontalLeading]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsHorizontalLeading]) {
                 self.horizontalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.x
                                                              velocity:self.restStatus.velocity.x
                                                        targetPosition:self.restStatus.leadingPoint.x];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
-                if ([self needFeedback:LNScrollViewGestureEffectBoundsHorizontalLeading]) {
+                if ([self needFeedback:LNScrollViewBoundsHorizontalLeading]) {
                     CGFloat feedbackVelocity = [self.context.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
                     if (feedbackVelocity < -LNScrollViewAutoEffectCommonTolerance) {
                         self.restStatus.velocity = CGPointMake(-feedbackVelocity, self.restStatus.velocity.y);
@@ -114,14 +114,14 @@
             }
         } else if (self.restStatus.offset.x >= self.restStatus.trailingPoint.x) {
             self.horizontalDecelerateSimulator = nil;
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsHorizontalTrailing]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsHorizontalTrailing]) {
                 self.horizontalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.x
                                                              velocity:self.restStatus.velocity.x
                                                        targetPosition:self.restStatus.trailingPoint.x];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
-                if ([self needFeedback:LNScrollViewGestureEffectBoundsHorizontalTrailing]) {
+                if ([self needFeedback:LNScrollViewBoundsHorizontalTrailing]) {
                     CGFloat feedbackVelocity = [self.context.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
                     if (feedbackVelocity < -LNScrollViewAutoEffectCommonTolerance) {
                         self.restStatus.velocity = CGPointMake(feedbackVelocity, self.restStatus.velocity.y);
@@ -182,7 +182,7 @@
         if (self.restStatus.offset.y <= self.restStatus.leadingPoint.y) {
             //减速到头了
             self.verticalDecelerateSimulator = nil;
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsVerticalLeading]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsVerticalLeading]) {
                 //可以越界，直接启用Bounces
                 self.verticalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.y
@@ -190,7 +190,7 @@
                                                        targetPosition:self.restStatus.leadingPoint.y];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.leadingPoint.y);
-                if  ([self needFeedback:LNScrollViewGestureEffectBoundsVerticalLeading]) {
+                if  ([self needFeedback:LNScrollViewBoundsVerticalLeading]) {
                     //如果pulser可以接收
                     CGFloat feedbackVelocity = [self.context.topPulseGenerator generate:fabs(self.restStatus.velocity.y)];
                     if (feedbackVelocity < -LNScrollViewAutoEffectCommonTolerance) {
@@ -211,14 +211,14 @@
             }
         } else if (self.restStatus.offset.y >= self.restStatus.trailingPoint.y) {
             self.verticalDecelerateSimulator = nil;
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsVerticalTrailing]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsVerticalTrailing]) {
                 self.verticalBounceSimulator =
                 [[LNScrollViewBounceSimulator alloc] initWithPosition:self.restStatus.offset.y
                                                              velocity:self.restStatus.velocity.y
                                                        targetPosition:self.restStatus.trailingPoint.y];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.trailingPoint.y);
-                if ([self needFeedback:LNScrollViewGestureEffectBoundsVerticalTrailing]) {
+                if ([self needFeedback:LNScrollViewBoundsVerticalTrailing]) {
                     CGFloat feedbackVelocity = [self.context.bottomPulseGenerator generate:fabs(self.restStatus.velocity.y)];
                     if (feedbackVelocity < -LNScrollViewAutoEffectCommonTolerance) {
                         self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, feedbackVelocity);
@@ -499,11 +499,11 @@
     if (self.context.contentSize.width > self.context.frameSize.width + LNScrollViewAutoEffectCommonTolerance) {
         if (self.restStatus.startPosition.x <= self.restStatus.leadingPoint.x && self.restStatus.velocity.x < 0) {
             //超出左边界了
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsHorizontalLeading]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsHorizontalLeading]) {
                 [self createHorizontalBounceSimulator:NO];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.leadingPoint.x, self.restStatus.offset.y);
-                if ([self needFeedback:LNScrollViewGestureEffectBoundsHorizontalLeading]) {
+                if ([self needFeedback:LNScrollViewBoundsHorizontalLeading]) {
                     CGFloat feedbackVelocity = [self.context.leftPulseGenerator generate:fabs(self.restStatus.velocity.x)];
                     if (feedbackVelocity < -LNScrollViewAutoEffectCommonTolerance) {
                         self.restStatus.velocity = CGPointMake(-feedbackVelocity, self.restStatus.velocity.y);
@@ -521,11 +521,11 @@
             }
             
         } else if (self.restStatus.startPosition.x >= self.restStatus.trailingPoint.x && self.restStatus.velocity.x > 0) {
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsHorizontalTrailing]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsHorizontalTrailing]) {
                 [self createHorizontalBounceSimulator:YES];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.trailingPoint.x, self.restStatus.offset.y);
-                if ([self needFeedback:LNScrollViewGestureEffectBoundsHorizontalTrailing]) {
+                if ([self needFeedback:LNScrollViewBoundsHorizontalTrailing]) {
                     CGFloat feedbackVelocity = [self.context.rightPulseGenerator generate:fabs(self.restStatus.velocity.x)];
                     if (feedbackVelocity < -LNScrollViewAutoEffectCommonTolerance) {
                         self.restStatus.velocity = CGPointMake(feedbackVelocity, self.restStatus.velocity.y);
@@ -556,11 +556,11 @@
     if (self.context.contentSize.height > self.context.frameSize.height + LNScrollViewAutoEffectCommonTolerance) {
         if (self.restStatus.startPosition.y <= self.restStatus.leadingPoint.y && self.restStatus.velocity.y < 0) {
             //超出了上边界
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsVerticalLeading]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsVerticalLeading]) {
                 [self createVerticalBounceSimulator:NO];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.leadingPoint.y);
-                if (self.restStatus.velocity.y < -LNScrollViewAutoEffectCommonTolerance && [self needFeedback:LNScrollViewGestureEffectBoundsVerticalLeading]) {
+                if (self.restStatus.velocity.y < -LNScrollViewAutoEffectCommonTolerance && [self needFeedback:LNScrollViewBoundsVerticalLeading]) {
                     //如果有反馈，直接捕获反馈的速度，创建向下的减速
                     CGFloat feedbackVelocity = [self.context.topPulseGenerator generate:fabs(self.restStatus.velocity.y)];
                     if (feedbackVelocity < -LNScrollViewAutoEffectCommonTolerance) {
@@ -580,11 +580,11 @@
                 }
             }
         } else if (self.restStatus.startPosition.y >= self.restStatus.trailingPoint.y && self.restStatus.velocity.y > 0) {
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsVerticalTrailing]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsVerticalTrailing]) {
                 [self createVerticalBounceSimulator:YES];
             } else {
                 self.restStatus.offset = CGPointMake(self.restStatus.offset.x, self.restStatus.trailingPoint.y);
-                if (self.restStatus.velocity.y > LNScrollViewAutoEffectCommonTolerance && [self needFeedback:LNScrollViewGestureEffectBoundsVerticalTrailing]) {
+                if (self.restStatus.velocity.y > LNScrollViewAutoEffectCommonTolerance && [self needFeedback:LNScrollViewBoundsVerticalTrailing]) {
                     CGFloat feedbackVelocity = [self.context.bottomPulseGenerator generate:fabs(self.restStatus.velocity.y)];
                     if (feedbackVelocity < - LNScrollViewAutoEffectCommonTolerance) {
                         self.restStatus.velocity = CGPointMake(self.restStatus.velocity.x, feedbackVelocity);
@@ -611,30 +611,30 @@
     }
 }
 
-- (BOOL)needFeedback:(LNScrollViewGestureEffectBoundsType)boundsType {
+- (BOOL)needFeedback:(LNScrollViewBoundsType)boundsType {
     switch (boundsType) {
-        case LNScrollViewGestureEffectBoundsVerticalLeading: {
+        case LNScrollViewBoundsVerticalLeading: {
             if (self.context.topPulseGenerator.isOpen) {
                 return YES;
             } else {
                 return NO;
             }
         } break;
-        case LNScrollViewGestureEffectBoundsHorizontalLeading: {
+        case LNScrollViewBoundsHorizontalLeading: {
             if (self.context.leftPulseGenerator.isOpen) {
                 return YES;
             } else {
                 return NO;
             }
         } break;
-        case LNScrollViewGestureEffectBoundsVerticalTrailing: {
+        case LNScrollViewBoundsVerticalTrailing: {
             if (self.context.bottomPulseGenerator.isOpen) {
                 return YES;
             } else {
                 return NO;
             }
         } break;
-        case LNScrollViewGestureEffectBoundsHorizontalTrailing: {
+        case LNScrollViewBoundsHorizontalTrailing: {
             if (self.context.rightPulseGenerator.isOpen) {
                 return YES;
             } else {
@@ -647,7 +647,7 @@
     }
 }
 
-- (BOOL)shouldOverBounds: (LNScrollViewGestureEffectBoundsType)boundsType {
+- (BOOL)shouldOverBounds: (LNScrollViewBoundsType)boundsType {
     if (self.context.bounces == NO) {
         return NO;
     }

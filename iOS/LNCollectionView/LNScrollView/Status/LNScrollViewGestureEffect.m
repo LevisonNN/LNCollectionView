@@ -60,33 +60,33 @@
     
 }
 
-- (BOOL)shouldOverBounds: (LNScrollViewGestureEffectBoundsType)boundsType {
+- (BOOL)shouldOverBounds: (LNScrollViewBoundsType)boundsType {
     if (self.context.bounces == NO) {
         return NO;
     }
     switch (boundsType) {
-        case LNScrollViewGestureEffectBoundsVerticalLeading: {
+        case LNScrollViewBoundsVerticalLeading: {
             if (self.context.topPulseGenerator.isOpen) {
                 return NO;
             } else {
                 return YES;
             }
         } break;
-        case LNScrollViewGestureEffectBoundsHorizontalLeading: {
+        case LNScrollViewBoundsHorizontalLeading: {
             if (self.context.leftPulseGenerator.isOpen) {
                 return NO;
             } else {
                 return YES;
             }
         } break;
-        case LNScrollViewGestureEffectBoundsVerticalTrailing: {
+        case LNScrollViewBoundsVerticalTrailing: {
             if (self.context.bottomPulseGenerator.isOpen) {
                 return NO;
             } else {
                 return YES;
             }
         } break;
-        case LNScrollViewGestureEffectBoundsHorizontalTrailing: {
+        case LNScrollViewBoundsHorizontalTrailing: {
             if (self.context.rightPulseGenerator.isOpen) {
                 return NO;
             } else {
@@ -107,13 +107,13 @@
         [self.horizontalDragSimulator updateOffset:horizontalOffset];
         CGFloat resultOffset = self.horizontalDragSimulator.getResultOffset;
         if (resultOffset < self.horizontalDragSimulator.leadingPoint) {
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsHorizontalLeading]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsHorizontalLeading]) {
                 self.status.convertedOffset = CGPointMake(resultOffset, self.status.convertedOffset.y);
             } else {
                 self.status.convertedOffset = CGPointMake(self.horizontalDragSimulator.leadingPoint, self.status.convertedOffset.y);
             }
         } else if (resultOffset > self.horizontalDragSimulator.trailingPoint){
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsHorizontalTrailing]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsHorizontalTrailing]) {
                 self.status.convertedOffset = CGPointMake(resultOffset, self.status.convertedOffset.y);
             } else {
                 self.status.convertedOffset = CGPointMake(self.horizontalDragSimulator.trailingPoint, self.status.convertedOffset.y);
@@ -128,13 +128,13 @@
         [self.verticalDragSimulator updateOffset:verticalOffset];
         CGFloat resultOffset = self.verticalDragSimulator.getResultOffset;
         if (resultOffset < self.verticalDragSimulator.leadingPoint) {
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsVerticalLeading]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsVerticalLeading]) {
                 self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, resultOffset);
             } else {
                 self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, self.verticalDragSimulator.leadingPoint);
             }
         } else if (resultOffset > self.verticalDragSimulator.trailingPoint) {
-            if ([self shouldOverBounds:LNScrollViewGestureEffectBoundsVerticalTrailing]) {
+            if ([self shouldOverBounds:LNScrollViewBoundsVerticalTrailing]) {
                 self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, resultOffset);
             } else {
                 self.status.convertedOffset = CGPointMake(self.status.convertedOffset.x, self.verticalDragSimulator.trailingPoint);
