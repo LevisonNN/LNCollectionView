@@ -11,6 +11,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+typedef NS_ENUM(NSInteger, LNScrollViewGestureEffectBoundsType) {
+    LNScrollViewGestureEffectBoundsVerticalLeading = 0,
+    LNScrollViewGestureEffectBoundsHorizontalLeading = 1,
+    LNScrollViewGestureEffectBoundsVerticalTrailing = 2,
+    LNScrollViewGestureEffectBoundsHorizontalTrailing = 3,
+};
+
 /**
  看成每个子组件都可以捕获到LNScrollView状态的固有属性
  */
