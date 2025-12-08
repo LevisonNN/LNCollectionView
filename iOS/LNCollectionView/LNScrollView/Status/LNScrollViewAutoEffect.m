@@ -14,6 +14,14 @@
 
 #define LNScrollViewAutoEffectCommonTolerance 0.001f
 
+
+
+@interface LNScrollViewRestStatusComponent()
+
+@property (nonatomic, weak) LNScrollViewRestStatus *status;
+
+@end
+
 @interface LNScrollViewRestStatus()
 @property (nonatomic, assign) CGPoint leadingPoint;
 @property (nonatomic, assign) CGPoint trailingPoint;
@@ -21,9 +29,107 @@
 @property (nonatomic, assign) CGPoint offset;
 
 @property (nonatomic, assign) CGPoint startPosition;
+
+@property (nonatomic, strong) LNScrollViewRestStatusComponent *verticalComponent;
+@property (nonatomic, strong) LNScrollViewRestStatusComponent *horizontalComponent;
+
+@end
+
+@implementation LNScrollViewRestStatusComponent {
+    BOOL _isVertical;
+}
+
+- (instancetype)initWith:(LNScrollViewRestStatus *)status isVertical:(BOOL)isVertical {
+    self = [super init];
+    if (self) {
+        self.status = status;
+        _isVertical = isVertical;
+    }
+    return self;
+}
+
+- (void)setLeadingPoint:(CGFloat)leadingPoint {
+    if (_isVertical) {
+        self.status.leadingPoint = CGPointMake(self.status.leadingPoint.x, leadingPoint);
+    } else {
+        self.status.leadingPoint = CGPointMake(leadingPoint, self.status.leadingPoint.y);
+    }
+}
+
+- (CGFloat)leadingPoint {
+    if (_isVertical) {
+        return self.status.leadingPoint.y;
+    } else {
+        return self.status.leadingPoint.x;
+    }
+}
+
+- (void)setTrailingPoint:(CGFloat)trailingPoint {
+    if (_isVertical) {
+        self.status.trailingPoint = CGPointMake(self.status.trailingPoint.x, trailingPoint);
+    } else {
+        self.status.trailingPoint = CGPointMake(trailingPoint, self.status.trailingPoint.y);
+    }
+}
+
+- (CGFloat)trailingPoint {
+    if (_isVertical) {
+        return self.status.trailingPoint.y;
+    } else {
+        return self.status.trailingPoint.x;
+    }
+}
+
+- (void)setOffset:(CGFloat)offset {
+    if (_isVertical) {
+        self.status.offset = CGPointMake(self.status.offset.x, offset);
+    } else {
+        self.status.offset = CGPointMake(offset, self.status.offset.y);
+    }
+}
+
+- (CGFloat)offset {
+    if (_isVertical) {
+        return self.status.offset.y;
+    } else {
+        return self.status.offset.x;
+    }
+}
+
+- (void)setVelocity:(CGFloat)velocity {
+    if (_isVertical) {
+        self.status.velocity = CGPointMake(self.status.velocity.x, velocity);
+    } else {
+        self.status.velocity = CGPointMake(velocity, self.status.velocity.y);
+    }
+}
+
+- (CGFloat)velocity {
+    if (_isVertical) {
+        return self.status.velocity.y;
+    } else {
+        return self.status.velocity.x;
+    }
+}
+
 @end
 
 @implementation LNScrollViewRestStatus
+
+- (LNScrollViewRestStatusComponent *)verticalComponent {
+    if (!_verticalComponent) {
+        _verticalComponent = [[LNScrollViewRestStatusComponent alloc] initWith:self isVertical:YES];
+    }
+    return _verticalComponent;
+}
+
+- (LNScrollViewRestStatusComponent *)horizontalComponent {
+    if (!_horizontalComponent) {
+        _horizontalComponent = [[LNScrollViewRestStatusComponent alloc] initWith:self isVertical:NO];
+    }
+    return _horizontalComponent;
+}
+
 @end
 
 @interface LNScrollViewAutoEffect() <LNScrollViewClockProtocol>

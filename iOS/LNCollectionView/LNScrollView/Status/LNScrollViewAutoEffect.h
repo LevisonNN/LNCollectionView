@@ -16,6 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class LNScrollViewAutoEffect;
 
+@interface LNScrollViewRestStatusComponent: NSObject
+
+@property (nonatomic, assign) CGFloat leadingPoint;
+@property (nonatomic, assign) CGFloat trailingPoint;
+@property (nonatomic, assign) CGFloat velocity;
+@property (nonatomic, assign) CGFloat offset;
+
+@end
+
 @interface LNScrollViewRestStatus: NSObject
 @property (nonatomic, assign, readonly) CGPoint leadingPoint;
 @property (nonatomic, assign, readonly) CGPoint trailingPoint;
