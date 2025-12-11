@@ -10,6 +10,7 @@
 #import "LNScrollViewGestureEffect.h"
 #import "LNScrollViewClock.h"
 #import "LNScrollViewContextObject.h"
+#import "LNScrollViewDefaultEffectAxis.h"
 
 typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     LNScrollViewModeDefault = 0,
@@ -42,6 +43,9 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 @property (nonatomic, strong) LNScrollViewPulser *bottomPulser;
 @property (nonatomic, strong) LNScrollViewPulser *rightPulser;
 
+@property (nonatomic, strong) LNScrollViewDefaultEffectAxis *defaultHorizontalAxis;
+@property (nonatomic, strong) LNScrollViewDefaultEffectAxis *defaultVerticalAxis;
+
 @end
 
 @implementation LNScrollView
@@ -57,13 +61,25 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     return self;
 }
 
+- (void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated {
+    if (CGPointEqualToPoint(contentOffset, [self contentOffset])) {
+        return;
+    }
+    if (animated) {
+        [self.autoEffect scrollTo:contentOffset];
+    } else {
+        [self setContentOffset:contentOffset];
+    }
+}
+
 - (void)setContentOffset:(CGPoint)contentOffset
 {
-    if (self.bounds.origin.x != contentOffset.x || self.bounds.origin.y != contentOffset.y) {
-        self.bounds = CGRectMake(contentOffset.x, contentOffset.y, self.bounds.size.width, self.bounds.size.height);
-        if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewDidScroll:)]) {
-            [self.delegate ln_scrollViewDidScroll:self];
-        }
+    if (CGPointEqualToPoint(contentOffset, [self contentOffset])) {
+        return;
+    }
+    self.bounds = CGRectMake(contentOffset.x, contentOffset.y, self.bounds.size.width, self.bounds.size.height);
+    if (self.delegate && [self.delegate respondsToSelector:@selector(ln_scrollViewDidScroll:)]) {
+        [self.delegate ln_scrollViewDidScroll:self];
     }
 }
 
@@ -75,7 +91,6 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 - (void)setPageEnable:(BOOL)pageEnable
 {
     _pageEnable = pageEnable;
-    self.autoEffect.pageEnable = pageEnable;
 }
 
 - (UIPanGestureRecognizer *)panGesture
@@ -247,6 +262,20 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     return _rightPulser;
 }
 
+- (LNScrollViewDefaultEffectAxis *)defaultHorizontalAxis {
+    if (!_defaultHorizontalAxis) {
+        _defaultHorizontalAxis = [[LNScrollViewDefaultEffectAxis alloc] init];
+    }
+    return _defaultHorizontalAxis;
+}
+
+- (LNScrollViewDefaultEffectAxis *)defaultVerticalAxis {
+    if (!_defaultVerticalAxis) {
+        _defaultVerticalAxis = [[LNScrollViewDefaultEffectAxis alloc] init];
+    }
+    return _defaultVerticalAxis;
+}
+
 - (LNScrollViewContextObject *)context {
     if (!_context) {
         _context = [[LNScrollViewContextObject alloc] initWithDelegate:self];
@@ -292,6 +321,14 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 
 - (LNScrollViewPulseGenerator *)contextGetRightPulseGenerator {
     return self.rightPulseGenerator;
+}
+
+- (LNScrollViewEffectAxis *)contextGetHorizontalAxis {
+    return self.defaultHorizontalAxis;
+}
+
+- (LNScrollViewEffectAxis *)contextGetVerticalAxis {
+    return self.defaultVerticalAxis;
 }
 
 @end

@@ -18,16 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LNScrollViewRestStatusComponent: NSObject
 
-@property (nonatomic, assign) CGFloat leadingPoint;
-@property (nonatomic, assign) CGFloat trailingPoint;
 @property (nonatomic, assign) CGFloat velocity;
 @property (nonatomic, assign) CGFloat offset;
 
 @end
 
 @interface LNScrollViewRestStatus: NSObject
-@property (nonatomic, assign, readonly) CGPoint leadingPoint;
-@property (nonatomic, assign, readonly) CGPoint trailingPoint;
+
 @property (nonatomic, assign, readonly) CGPoint velocity;
 @property (nonatomic, assign, readonly) CGPoint offset;
 @end
@@ -41,12 +38,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithContext:(nonnull LNScrollViewContextObject *)context;
 
-@property (nonatomic, assign) BOOL pageEnable;
-@property (nonatomic, assign) CGFloat pageDamping;
-
 @property (nonatomic, weak) NSObject<LNScrollViewAutoEffectProtocol> *delegate;
 
 - (BOOL)startWithVelocity:(CGPoint)velocity;
+- (void)scrollTo:(CGPoint)offset;
 - (BOOL)isFinished;
 - (void)finishForcely;
 

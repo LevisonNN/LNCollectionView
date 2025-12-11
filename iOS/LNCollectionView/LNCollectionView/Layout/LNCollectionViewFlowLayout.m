@@ -155,6 +155,7 @@
         }
     }
     
+    
     return result.copy;
 }
 
@@ -181,18 +182,6 @@
             return mid;
         }
         if (self.scrollDirection == LNCollectionViewScrollDirectionHorizontal) {
-            if (CGRectGetMaxY(midFrame) <= CGRectGetMinY(rect)) {
-                left = mid + 1;
-            } else if (CGRectGetMinY(midFrame) >= CGRectGetMaxY(rect)) {
-                right = mid - 1;
-            } else if (CGRectGetMaxX(midFrame) <= CGRectGetMinX(rect)) {
-                left = mid + 1;
-            } else if (CGRectGetMinX(midFrame) >= CGRectGetMaxX(rect)) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        } else {
             if (CGRectGetMaxX(midFrame) <= CGRectGetMinX(rect)) {
                 left = mid + 1;
             } else if (CGRectGetMinX(midFrame) >= CGRectGetMaxX(rect)) {
@@ -202,7 +191,21 @@
             } else if (CGRectGetMinY(midFrame) >= CGRectGetMaxY(rect)) {
                 right = mid - 1;
             } else {
+                return mid;
+                //left = mid + 1;
+            }
+        } else {
+            if (CGRectGetMaxY(midFrame) <= CGRectGetMinY(rect)) {
                 left = mid + 1;
+            } else if (CGRectGetMinY(midFrame) >= CGRectGetMaxY(rect)) {
+                right = mid - 1;
+            } else if (CGRectGetMaxX(midFrame) <= CGRectGetMinX(rect)) {
+                left = mid + 1;
+            } else if (CGRectGetMinX(midFrame) >= CGRectGetMaxX(rect)) {
+                right = mid - 1;
+            } else {
+                return mid;
+                //left = mid + 1;
             }
         }
     }

@@ -42,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) CGSize contentSize;
 @property (nonatomic, assign) UIEdgeInsets contentInset;
-@property (nonatomic, assign) CGPoint contentOffset;
+@property (nonatomic, assign, readonly) CGPoint contentOffset;
+- (void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated;
 
 @property (nonatomic, assign) BOOL bounces;
 @property (nonatomic, assign) BOOL pageEnable;

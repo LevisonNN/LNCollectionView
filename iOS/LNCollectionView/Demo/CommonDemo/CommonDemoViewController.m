@@ -154,9 +154,10 @@ LNCollectionViewDelegateFlowLayout>
 
 - (void)reloadCollectionView
 {
-    self.sectionCount = random()%3 + 10;
-    self.itemCount = random()%5 + 5;
-    [self.collectionView reloadData];
+//    self.sectionCount = random()%3 + 10;
+//    self.itemCount = random()%5 + 5;
+//    [self.collectionView reloadData];
+    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + 300) animated:YES];
 }
 
 - (LNCollectionViewFlowLayout *)layout

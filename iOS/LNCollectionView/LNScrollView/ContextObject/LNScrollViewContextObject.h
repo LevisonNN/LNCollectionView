@@ -10,6 +10,8 @@
 #import "LNScrollViewDecelerateSimulator.h"
 #import "LNScrollViewPulseGenerator.h"
 
+@class LNScrollViewEffectAxis;
+
 NS_ASSUME_NONNULL_BEGIN
 
 
@@ -42,9 +44,32 @@ typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
 - (LNScrollViewPulseGenerator *)contextGetBottomPulseGenerator;
 - (LNScrollViewPulseGenerator *)contextGetRightPulseGenerator;
 
+- (LNScrollViewEffectAxis *)contextGetHorizontalAxis;
+- (LNScrollViewEffectAxis *)contextGetVerticalAxis;
+
+@end
+
+@interface LNScrollViewContextObjectComponent : NSObject
+
+- (CGFloat)contentSize;
+- (CGFloat)frameSize;
+- (CGFloat)contentOffset;
+
+- (CGFloat)leadingInset;
+- (CGFloat)trailingInset;
+
+- (BOOL)bounces;
+- (BOOL)pageEnable;
+
+- (LNScrollViewPulseGenerator *)leadingGenerator;
+- (LNScrollViewPulseGenerator *)trailingGenerator;
+
 @end
 
 @interface LNScrollViewContextObject : NSObject
+
+@property (nonatomic, strong, readonly) LNScrollViewContextObjectComponent *verticalComponent;
+@property (nonatomic, strong, readonly) LNScrollViewContextObjectComponent *horizontalComponent;
 
 - (instancetype)initWithDelegate:(nonnull NSObject<LNScrollViewContextDelegate> *)delegate;
 
@@ -59,6 +84,9 @@ typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
 - (LNScrollViewPulseGenerator *)leftPulseGenerator;
 - (LNScrollViewPulseGenerator *)bottomPulseGenerator;
 - (LNScrollViewPulseGenerator *)rightPulseGenerator;
+
+- (LNScrollViewEffectAxis *)horizontalAxis;
+- (LNScrollViewEffectAxis *)verticalAxis;
 
 @end
 NS_ASSUME_NONNULL_END

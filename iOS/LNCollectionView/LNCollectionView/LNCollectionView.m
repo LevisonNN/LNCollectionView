@@ -9,6 +9,10 @@
 #import "LNCollectionViewCell.h"
 #import "LNCollectionViewReusePool.h"
 
+@interface LNScrollView (LNCollectionPrivate)
+- (void)setContentOffset:(CGPoint)contentOffset;
+@end
+
 @interface LNCollectionViewLayout (UICollectionViewNeed)
 
 @property (nullable, nonatomic) LNCollectionView *collectionView;
