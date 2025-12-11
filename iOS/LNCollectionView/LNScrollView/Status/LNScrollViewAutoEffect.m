@@ -13,8 +13,6 @@
 #import "LNScrollViewPageSimulator.h"
 #import "LNScrollViewEffectAxis.h"
 
-#define LNScrollViewAutoEffectCommonTolerance 0.001f
-
 @interface LNScrollViewRestStatusComponent()
 
 @property (nonatomic, weak) LNScrollViewRestStatus *status;
