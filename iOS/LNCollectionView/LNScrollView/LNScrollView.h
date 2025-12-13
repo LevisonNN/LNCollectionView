@@ -48,6 +48,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL bounces;
 @property (nonatomic, assign) BOOL pageEnable;
 
+@property (nonatomic, assign) BOOL zoomingBounces;
+@property (nonatomic, assign) BOOL alwaysBouncesHorizontal;
+@property (nonatomic, assign) BOOL alwaysBouncesVertical;
+@property (nonatomic, assign) CGFloat maxZoomingScale;
+@property (nonatomic, assign) CGFloat minZoomingScale;
+
 @property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *topPulseGenerator;
 @property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *leftPulseGenerator;
 @property (nonatomic, strong, readonly) LNScrollViewPulseGenerator *bottomPulseGenerator;

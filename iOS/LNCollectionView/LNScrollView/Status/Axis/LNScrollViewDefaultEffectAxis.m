@@ -55,9 +55,9 @@
     }
 }
 
-- (void)startAutoEffectIfNeeded {
+- (void)startAutoEffectIfNeeded:(BOOL)forcelyBounces {
     [self _finish];
-    [self _createSimulatorIfNeeded];
+    [self _createSimulatorIfNeeded:forcelyBounces];
 }
 
 - (void)startScrollTo:(CGFloat)targetPosition {
@@ -88,11 +88,11 @@
     self.scrollAnimationSimulator = [[LNScrollViewScrollAnimationSimulator alloc] initWith:self.context.contentOffset endingPoint:position];
 }
 
-- (void)_createSimulatorIfNeeded
+- (void)_createSimulatorIfNeeded:(BOOL)forcelyBounces
 {
-    if (self.restStatus.offset <= [self _leadingPoint] && self.restStatus.velocity < 0) {
+    if (self.restStatus.offset <= [self _leadingPoint] && self.restStatus.velocity <= 0) {
         //超出前
-        if ([self _shouldOverBounds:NO]) {
+        if ([self _shouldOverBounds:NO] || forcelyBounces) {
             [self _createBounceSimulator:NO];
         } else {
             self.restStatus.offset = [self _leadingPoint];
@@ -113,8 +113,8 @@
             }
         }
         
-    } else if (self.restStatus.offset >= [self _trailingPoint] && self.restStatus.velocity > 0) {
-        if ([self _shouldOverBounds:YES]) {
+    } else if (self.restStatus.offset >= [self _trailingPoint] && self.restStatus.velocity >= 0) {
+        if ([self _shouldOverBounds:YES] || forcelyBounces) {
             [self _createBounceSimulator:YES];
         } else {
             self.restStatus.offset = [self _trailingPoint];
@@ -363,7 +363,7 @@
     if (self.context.bounces == NO) {
         return NO;
     }
-    if (self.context.contentSize <= self.context.frameSize) {
+    if (self.context.contentSize <= self.context.frameSize && self.context.alwaysBounces == NO) {
         return NO;
     }
     return ![self _hasFeedBack:isTrailing];

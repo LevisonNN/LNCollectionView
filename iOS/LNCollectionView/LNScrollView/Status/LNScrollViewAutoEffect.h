@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) NSObject<LNScrollViewAutoEffectProtocol> *delegate;
 
 - (BOOL)startWithVelocity:(CGPoint)velocity;
+- (BOOL)startWithVelocity:(CGPoint)velocity forcelyBounces:(BOOL)forcelyBounces;
 - (void)scrollTo:(CGPoint)offset;
 - (BOOL)isFinished;
 - (void)finishForcely;

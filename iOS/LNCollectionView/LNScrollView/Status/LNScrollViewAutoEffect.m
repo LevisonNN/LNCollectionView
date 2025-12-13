@@ -127,6 +127,10 @@
 }
 
 - (BOOL)startWithVelocity:(CGPoint)velocity {
+    return [self startWithVelocity:velocity forcelyBounces:NO];
+}
+
+- (BOOL)startWithVelocity:(CGPoint)velocity forcelyBounces:(BOOL)forcelyBounces {
     [self finish];
     [LNScrollViewClock.shareInstance addObject:self];
     CGPoint contentOffset = self.context.contentOffset;
@@ -135,8 +139,8 @@
     self.restStatus.startPosition = contentOffset;
     self.restStatus.offset = contentOffset;
 
-    [self _activeHorizontalAxisIfNeeded];
-    [self _activeVerticalAxisIfNeeded];
+    [self _activeHorizontalAxisIfNeeded:forcelyBounces];
+    [self _activeVerticalAxisIfNeeded:forcelyBounces];
     return NO;
 }
 
@@ -164,16 +168,16 @@
     [self.context.verticalAxis startScrollTo:offset];
 }
 
-- (void)_activeHorizontalAxisIfNeeded {
+- (void)_activeHorizontalAxisIfNeeded:(BOOL)forcelyBounces {
     self.context.horizontalAxis.context = self.context.horizontalComponent;
     self.context.horizontalAxis.restStatus = self.restStatus.horizontalComponent;
-    [self.context.horizontalAxis startAutoEffectIfNeeded];
+    [self.context.horizontalAxis startAutoEffectIfNeeded:forcelyBounces];
 }
 
-- (void)_activeVerticalAxisIfNeeded {
+- (void)_activeVerticalAxisIfNeeded:(BOOL)forcelyBounces {
     self.context.verticalAxis.context = self.context.verticalComponent;
     self.context.verticalAxis.restStatus = self.restStatus.verticalComponent;
-    [self.context.verticalAxis startAutoEffectIfNeeded];
+    [self.context.verticalAxis startAutoEffectIfNeeded:forcelyBounces];
 }
 
 - (void)scrollViewClockUpdateTimeInterval:(NSTimeInterval)time

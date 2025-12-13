@@ -14,6 +14,8 @@
 		A534258E2EEB0DDC001BBC4E /* LNScrollViewDefaultEffectAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = A534258D2EEB0DDC001BBC4E /* LNScrollViewDefaultEffectAxis.m */; };
 		A53425922EEB0E89001BBC4E /* LNScrollViewGestureConvertor.m in Sources */ = {isa = PBXBuildFile; fileRef = A53425912EEB0E89001BBC4E /* LNScrollViewGestureConvertor.m */; };
 		A53425952EEB0ED6001BBC4E /* LNScrollViewScrollAnimationSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = A53425942EEB0ED6001BBC4E /* LNScrollViewScrollAnimationSimulator.m */; };
+		A53425982EEC4B7A001BBC4E /* LNScrollViewZoomingEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = A53425972EEC4B7A001BBC4E /* LNScrollViewZoomingEffect.m */; };
+		A534259C2EEC4CC9001BBC4E /* ZoomingDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A534259B2EEC4CC9001BBC4E /* ZoomingDemoViewController.m */; };
 		A56DA3B82CE6049F0029386F /* LNCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3B72CE6049F0029386F /* LNCollectionViewCell.m */; };
 		A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA3BA2CE86F420029386F /* LNCollectionViewFlowLayout.m */; };
 		A56DA4032CEBB31C0029386F /* LNCollectionViewReusePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A56DA4022CEBB31C0029386F /* LNCollectionViewReusePool.m */; };
@@ -79,6 +81,10 @@
 		A53425912EEB0E89001BBC4E /* LNScrollViewGestureConvertor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewGestureConvertor.m; sourceTree = "<group>"; };
 		A53425932EEB0ED6001BBC4E /* LNScrollViewScrollAnimationSimulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewScrollAnimationSimulator.h; sourceTree = "<group>"; };
 		A53425942EEB0ED6001BBC4E /* LNScrollViewScrollAnimationSimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewScrollAnimationSimulator.m; sourceTree = "<group>"; };
+		A53425962EEC4B7A001BBC4E /* LNScrollViewZoomingEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNScrollViewZoomingEffect.h; sourceTree = "<group>"; };
+		A53425972EEC4B7A001BBC4E /* LNScrollViewZoomingEffect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNScrollViewZoomingEffect.m; sourceTree = "<group>"; };
+		A534259A2EEC4CC9001BBC4E /* ZoomingDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZoomingDemoViewController.h; sourceTree = "<group>"; };
+		A534259B2EEC4CC9001BBC4E /* ZoomingDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZoomingDemoViewController.m; sourceTree = "<group>"; };
 		A56DA3B62CE6049F0029386F /* LNCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewCell.h; sourceTree = "<group>"; };
 		A56DA3B72CE6049F0029386F /* LNCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNCollectionViewCell.m; sourceTree = "<group>"; };
 		A56DA3B92CE86F420029386F /* LNCollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNCollectionViewFlowLayout.h; sourceTree = "<group>"; };
@@ -219,6 +225,15 @@
 			path = GestureConvertor;
 			sourceTree = "<group>";
 		};
+		A53425992EEC4CB1001BBC4E /* ZoomingDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A534259A2EEC4CC9001BBC4E /* ZoomingDemoViewController.h */,
+				A534259B2EEC4CC9001BBC4E /* ZoomingDemoViewController.m */,
+			);
+			path = ZoomingDemo;
+			sourceTree = "<group>";
+		};
 		A56DA3B52CE6048A0029386F /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +272,7 @@
 		A56DA4092CF6D81B0029386F /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				A53425992EEC4CB1001BBC4E /* ZoomingDemo */,
 				A56DA42A2CF9CBF10029386F /* VerticalPulseDemo */,
 				A56DA4262CF8E3440029386F /* PulseDemo */,
 				A56DA4152CF745680029386F /* PowerLawDemo */,
@@ -432,6 +448,8 @@
 				A58BE4912CDF83F1005A24C4 /* LNScrollViewGestureEffect.m */,
 				A58BE4932CDF8460005A24C4 /* LNScrollViewAutoEffect.h */,
 				A58BE4942CDF8460005A24C4 /* LNScrollViewAutoEffect.m */,
+				A53425962EEC4B7A001BBC4E /* LNScrollViewZoomingEffect.h */,
+				A53425972EEC4B7A001BBC4E /* LNScrollViewZoomingEffect.m */,
 			);
 			path = Status;
 			sourceTree = "<group>";
@@ -575,6 +593,7 @@
 				A56DA3BB2CE86F420029386F /* LNCollectionViewFlowLayout.m in Sources */,
 				A53425782EE42F65001BBC4E /* LNScrollViewContextObject.m in Sources */,
 				A58BE4752CDCBD18005A24C4 /* LNScrollViewClock.m in Sources */,
+				A534259C2EEC4CC9001BBC4E /* ZoomingDemoViewController.m in Sources */,
 				A56DA42D2CF9CC0E0029386F /* VerticalPulseDemoViewController.m in Sources */,
 				A53076242CE4F1BC00C37840 /* LNCollectionView.m in Sources */,
 				A58BE4782CDCBD27005A24C4 /* LNScrollViewClockProxy.m in Sources */,
@@ -597,6 +616,7 @@
 				A534258B2EEB0DB5001BBC4E /* LNScrollViewEffectAxis.m in Sources */,
 				A57F69BA2CE52ECC008974E0 /* LNCollectionViewLayoutAttributes.m in Sources */,
 				A53425922EEB0E89001BBC4E /* LNScrollViewGestureConvertor.m in Sources */,
+				A53425982EEC4B7A001BBC4E /* LNScrollViewZoomingEffect.m in Sources */,
 				A56DA4292CF8E35E0029386F /* PulseDemoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -778,6 +798,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -805,6 +826,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

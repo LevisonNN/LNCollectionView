@@ -35,7 +35,16 @@ typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
 - (UIEdgeInsets)contextGetContentInset;
 
 - (BOOL)contextGetBounces;
+- (BOOL)contextGetAlwaysBouncesHorizontal;
+- (BOOL)contextGetAlwaysBouncesVertical;
 - (BOOL)contextGetPageEnable;
+
+- (BOOL)contextGetZoomingBounces;
+- (CGFloat)contextGetZoomingScale;
+- (CGFloat)contextGetMaxZoomingScale;
+- (CGFloat)contextGetMinZoomingScale;
+- (CGSize)contextGetZoomingViewBoundSize;
+- (CGPoint)contextGetZoomingViewCenterPoint;
 
 @optional
 
@@ -59,6 +68,7 @@ typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
 - (CGFloat)trailingInset;
 
 - (BOOL)bounces;
+- (BOOL)alwaysBounces;
 - (BOOL)pageEnable;
 
 - (LNScrollViewPulseGenerator *)leadingGenerator;
@@ -78,6 +88,8 @@ typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
 - (CGPoint)contentOffset;
 - (UIEdgeInsets)contentInset;
 - (BOOL)bounces;
+- (BOOL)alwaysBouncesHorizontal;
+- (BOOL)alwaysBouncesVertical;
 - (BOOL)pageEnable;
 
 - (LNScrollViewPulseGenerator *)topPulseGenerator;
@@ -87,6 +99,14 @@ typedef NS_ENUM(NSInteger, LNScrollViewBoundsType) {
 
 - (LNScrollViewEffectAxis *)horizontalAxis;
 - (LNScrollViewEffectAxis *)verticalAxis;
+
+//zooming
+- (BOOL)zoomingBounces;
+- (CGFloat)maxZoomingScale;
+- (CGFloat)minZoomingScale;
+- (CGFloat)zoomingScale;
+- (CGSize)zoomingViewBoundSize;
+- (CGPoint)zoomingViewCenterPoint;
 
 @end
 NS_ASSUME_NONNULL_END

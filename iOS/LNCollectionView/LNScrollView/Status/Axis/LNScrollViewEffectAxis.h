@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
                    gestureStartOffset:(CGFloat)gestureStartOffset;
 
 //开启自动响应
-- (void)startAutoEffectIfNeeded;
+- (void)startAutoEffectIfNeeded:(BOOL)forcelyBounces;
 //滚到某个位置
 - (void)startScrollTo:(CGFloat)targetPosition;
 //你一定需要一个累积时间的方法从而让你的响应不断进行下去直到结束

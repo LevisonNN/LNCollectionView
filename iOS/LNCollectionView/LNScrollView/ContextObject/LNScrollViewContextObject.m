@@ -69,6 +69,14 @@
     return self.context.bounces;
 }
 
+- (BOOL)alwaysBounces {
+    if (self.isVertical) {
+        return self.context.alwaysBouncesVertical;
+    } else {
+        return self.context.alwaysBouncesHorizontal;
+    }
+}
+
 - (BOOL)pageEnable {
     return self.context.pageEnable;
 }
@@ -130,8 +138,40 @@
     return self.delegate.contextGetBounces;
 }
 
+- (BOOL)alwaysBouncesVertical {
+    return self.delegate.contextGetAlwaysBouncesVertical;
+}
+
+- (BOOL)alwaysBouncesHorizontal {
+    return self.delegate.contextGetAlwaysBouncesHorizontal;
+}
+
 - (BOOL)pageEnable {
     return self.delegate.contextGetPageEnable;
+}
+
+- (BOOL)zoomingBounces {
+    return self.delegate.contextGetZoomingBounces;
+}
+
+- (CGPoint)zoomingViewCenterPoint {
+    return self.delegate.contextGetZoomingViewCenterPoint;
+}
+
+- (CGSize)zoomingViewBoundSize {
+    return self.delegate.contextGetZoomingViewBoundSize;
+}
+
+- (CGFloat)zoomingScale {
+    return self.delegate.contextGetZoomingScale;
+}
+
+- (CGFloat)maxZoomingScale {
+    return MAX(self.delegate.contextGetMinZoomingScale, self.delegate.contextGetMaxZoomingScale);
+}
+
+- (CGFloat)minZoomingScale {
+    return MAX(0, self.delegate.contextGetMinZoomingScale);
 }
 
 - (LNScrollViewPulseGenerator *)topPulseGenerator {

@@ -8,6 +8,7 @@
 #import "LNScrollView.h"
 #import "LNScrollViewAutoEffect.h"
 #import "LNScrollViewGestureEffect.h"
+#import "LNScrollViewZoomingEffect.h"
 #import "LNScrollViewClock.h"
 #import "LNScrollViewContextObject.h"
 #import "LNScrollViewDefaultEffectAxis.h"
@@ -23,14 +24,16 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 - (void)pulser:(LNScrollViewPulser *)pulser updateVelocity:(CGFloat)velocity;
 @end
 
-@interface LNScrollView () <LNScrollViewAutoEffectProtocol, LNScrollViewGestureEffectProtocol, LNScrollViewContextDelegate>
+@interface LNScrollView () <LNScrollViewAutoEffectProtocol, LNScrollViewGestureEffectProtocol, LNScrollViewContextDelegate, UIGestureRecognizerDelegate, LNScrollViewZoomingEffectDelegate>
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
 
 @property (nonatomic, assign) LNScrollViewMode mode;
 
 @property (nonatomic, strong) LNScrollViewGestureEffect *gestureEffect;
 @property (nonatomic, strong) LNScrollViewAutoEffect *autoEffect;
+@property (nonatomic, strong) LNScrollViewZoomingEffect *zoomingEffect;
 
 @property (nonatomic, strong) LNScrollViewContextObject *context;
 
@@ -55,10 +58,31 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     self = [super initWithFrame:frame];
     if (self) {
         self.bounces = YES;
+        self.zoomingBounces = YES;
+        self.maxZoomingScale = 1;
+        self.minZoomingScale = 1;
         self.contentInset = UIEdgeInsetsZero;
         [self addGestureRecognizer:self.panGesture];
+        [self addGestureRecognizer:self.pinchGesture];
     }
     return self;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer == self.pinchGesture) {
+        if ([self _getCurrentZoomingView] && (self.mode == LNScrollViewModeDefault || self.mode == LNScrollViewModeAuto)) {
+            return YES;
+        } else {
+            return NO;
+        }
+    } else if (gestureRecognizer == self.panGesture) {
+        if (self.mode == LNScrollViewModeAuto || self.mode == LNScrollViewModeDefault) {
+            return YES;
+        } else {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated {
@@ -91,6 +115,28 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 - (void)setPageEnable:(BOOL)pageEnable
 {
     _pageEnable = pageEnable;
+}
+
+- (CGFloat)zoomingScale {
+    return [self _currentZoomingScale];
+}
+
+- (CGFloat)_currentZoomingScale {
+    UIView *zoominView = [self _getCurrentZoomingView];
+    if (zoominView) {
+        return zoominView.transform.a;
+    }
+    return 1;
+}
+
+- (nullable UIView *)_getCurrentZoomingView{
+    if ([self.delegate respondsToSelector:@selector(ln_viewForZoomingInScrollView:)]) {
+        UIView *zoomingView = [self.delegate ln_viewForZoomingInScrollView:self];
+        if (zoomingView) {
+            return zoomingView;
+        }
+    }
+    return nil;
 }
 
 - (UIPanGestureRecognizer *)panGesture
@@ -146,6 +192,96 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     }
 }
 
+- (UIPinchGestureRecognizer *)pinchGesture {
+    if (!_pinchGesture) {
+        _pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(dealWithPinchGesture:)];
+        _pinchGesture.delegate = self;
+    }
+    return _pinchGesture;
+}
+
+- (void)dealWithPinchGesture:(UIPinchGestureRecognizer *)pinchGesture {
+    UIView *targetView = [self _getCurrentZoomingView];
+    if (targetView == nil) {
+        //强制结束
+        [self.panGesture setEnabled:YES];
+        [self.zoomingEffect finish];
+        self.mode = LNScrollViewModeDefault;
+        return;
+    }
+    switch (pinchGesture.state) {
+        case UIGestureRecognizerStateBegan: {
+            //此时个数必为2
+            [self.panGesture setEnabled:NO];
+            [self.autoEffect finishForcely];
+            self.mode = LNScrollViewModeTracking;
+            CGPoint pinchCenter = [pinchGesture locationInView:self];
+            CGPoint realLocationForDoubleTouch = [self realLocationForPinch:pinchGesture];
+            [self.zoomingEffect startWithPinchCenter:pinchCenter
+                                 realLocationForPinch:realLocationForDoubleTouch
+                                           pinchScale:pinchGesture.scale];
+        } break;
+        case UIGestureRecognizerStateChanged: {
+            //此时个数为1或者2
+            self.mode = LNScrollViewModeTracking;
+            CGPoint pinchCenter = [pinchGesture locationInView:self];
+            CGPoint realLocationForPinchTouch = [self realLocationForPinch:pinchGesture];
+            [self.zoomingEffect updateForPinch:pinchCenter
+                          realLocationForPinch:realLocationForPinchTouch
+                                    pinchScale:pinchGesture.scale
+                                 numberOfPoint:pinchGesture.numberOfTouches];
+        } break;
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+        case UIGestureRecognizerStatePossible: {
+            //此时个数大概率为1，小概率为2
+            CGPoint pinchCenter = [pinchGesture locationInView:self];
+            CGPoint realLocationForPinchTouch = [self realLocationForPinch:pinchGesture];
+            [self.zoomingEffect updateForPinch:pinchCenter
+                          realLocationForPinch:realLocationForPinchTouch
+                                    pinchScale:pinchGesture.scale numberOfPoint:pinchGesture.numberOfTouches];
+            if (targetView.transform.a < self.minZoomingScale) {
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self.zoomingEffect updateForFinishAnimation:self.minZoomingScale];
+                } completion:^(BOOL finished) {
+                    [self.zoomingEffect finish];
+                    self.mode = LNScrollViewModeDefault;
+                }];
+                //这里有个轻微震动
+                UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+                [generator prepare];
+                [generator impactOccurred];
+            } else if (targetView.transform.a > self.maxZoomingScale) {
+                [UIView animateWithDuration:0.3 animations:^{
+                    [self.zoomingEffect updateForFinishAnimation:self.maxZoomingScale];
+                } completion:^(BOOL finished) {
+                    [self.zoomingEffect finish];
+                    self.mode = LNScrollViewModeDefault;
+                }];
+                UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleLight];
+                [generator prepare];
+                [generator impactOccurred];
+            } else {
+                [self.zoomingEffect updateForAutoEffect:targetView.transform.a];
+                if ([self.autoEffect startWithVelocity:CGPointZero forcelyBounces:YES]) {
+                    self.mode = LNScrollViewModeAuto;
+                } else {
+                    self.mode = LNScrollViewModeDefault;
+                }
+            }
+            [self.panGesture setEnabled:YES];
+        } break;
+    }
+}
+
+- (CGPoint)realLocationForPinch:(UIPinchGestureRecognizer *)pinch {
+    CGPoint location = [pinch locationInView:self];
+    CGPoint realLocation = CGPointMake(location.x - self.bounds.origin.x,
+                                       location.y - self.bounds.origin.y);
+    return realLocation;
+}
+
 - (LNScrollViewGestureEffect *)gestureEffect
 {
     if (!_gestureEffect) {
@@ -158,6 +294,30 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 - (void)gestureEffectStatusDidChange:(LNScrollViewGestureStatus *)status
 {
     self.contentOffset = status.convertedOffset;
+}
+
+- (LNScrollViewZoomingEffect *)zoomingEffect {
+    if (!_zoomingEffect) {
+        _zoomingEffect = [[LNScrollViewZoomingEffect alloc] initWithContext:self.context];
+        _zoomingEffect.delegate = self;
+    }
+    return _zoomingEffect;
+}
+
+- (void)pinchEffectNeedSyncTransform {
+    [self _getCurrentZoomingView].transform = self.zoomingEffect.getStatus.outputTransform;
+}
+
+- (void)pinchEffectNeedSyncContentSize {
+    self.contentSize = self.zoomingEffect.getStatus.outputContentSize;
+}
+
+- (void)pinchEffectNeedSyncTargetCenter {
+    [self _getCurrentZoomingView].center = self.zoomingEffect.getStatus.outputCenter;
+}
+
+- (void)pinchEffectNeedSyncContentOffset {
+    self.contentOffset = self.zoomingEffect.getStatus.outputContentOffset;
 }
 
 - (LNScrollViewAutoEffect *)autoEffect
@@ -299,12 +459,44 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     return self.contentInset;
 }
 
+- (BOOL)contextGetZoomingBounces {
+    return self.zoomingBounces;
+}
+
 - (BOOL)contextGetBounces {
     return self.bounces;
 }
 
+- (BOOL)contextGetAlwaysBouncesVertical {
+    return self.alwaysBouncesVertical;
+}
+
+- (BOOL)contextGetAlwaysBouncesHorizontal {
+    return self.alwaysBouncesHorizontal;
+}
+
 - (BOOL)contextGetPageEnable {
     return self.pageEnable;
+}
+
+- (CGFloat)contextGetZoomingScale {
+    return [self _currentZoomingScale];
+}
+
+- (CGFloat)contextGetMinZoomingScale {
+    return self.minZoomingScale;
+}
+
+- (CGFloat)contextGetMaxZoomingScale {
+    return self.maxZoomingScale;
+}
+
+- (CGSize)contextGetZoomingViewBoundSize {
+    return [self _getCurrentZoomingView].bounds.size;
+}
+
+- (CGPoint)contextGetZoomingViewCenterPoint {
+    return [self _getCurrentZoomingView].center;
 }
 
 - (LNScrollViewPulseGenerator *)contextGetTopPulseGenerator {

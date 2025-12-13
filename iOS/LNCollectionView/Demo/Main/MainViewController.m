@@ -11,6 +11,7 @@
 #import "PowerLawDemoViewController.h"
 #import "PulseDemoViewController.h"
 #import "VerticalPulseDemoViewController.h"
+#import "ZoomingDemoViewController.h"
 
 @interface DemoObject : NSObject
 
@@ -72,6 +73,11 @@ UICollectionViewDelegateFlowLayout
     verticalPulseObj.title = @"verticalPulse";
     verticalPulseObj.vcClass = VerticalPulseDemoViewController.class;
     [mArr addObject:verticalPulseObj];
+    
+    DemoObject *zoomingObj = [[DemoObject alloc] init];
+    zoomingObj.title = @"Zooming";
+    zoomingObj.vcClass = ZoomingDemoViewController.class;
+    [mArr addObject:zoomingObj];
     
     self.modelList = [NSArray arrayWithArray:mArr];
 }
