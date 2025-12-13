@@ -85,6 +85,15 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
     return YES;
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (gestureRecognizer == self.panGesture && otherGestureRecognizer == self.pinchGesture) {
+        return NO;
+    } else if (gestureRecognizer == self.pinchGesture && otherGestureRecognizer == self.panGesture) {
+        return NO;
+    }
+    return YES;
+}
+
 - (void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated {
     if (CGPointEqualToPoint(contentOffset, [self contentOffset])) {
         return;
@@ -143,6 +152,9 @@ typedef NS_ENUM(NSInteger, LNScrollViewMode) {
 {
     if (!_panGesture) {
         _panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dealWithPanGesture:)];
+        _panGesture.maximumNumberOfTouches = 1;
+        _panGesture.minimumNumberOfTouches = 1;
+        _panGesture.delegate = self;
     }
     return _panGesture;
 }
